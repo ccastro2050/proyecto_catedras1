@@ -1,6 +1,6 @@
 # Historias de usuario — Cátedras Abiertas
 
-**Versión 1.0**
+**Versión 1.1**
 
 Universidad de San Buenaventura, Medellín
 
@@ -11,6 +11,7 @@ Universidad de San Buenaventura, Medellín
 | Fecha | Versión | Descripción | Autor | Revisor |
 |---|---|---|---|---|
 | 03/09/2026 | 1.0 | Primera versión de las historias de usuario del sistema de cátedras abiertas, derivadas del modelo entregado y del ejemplo de referencia de la versión 1 | Equipo del proyecto de aula | Carlos Arturo Castro Castro |
+| 03/09/2026 | 1.1 | Se alinea la columna de iteración con el mapa de versiones y con las cuatro versiones que evalúa el curso: la v2 pasa a ser TODAS las tablas restantes, no solo cátedra y sesión. Se deja explícito que el proyecto versiona back y front en paralelo | Equipo del proyecto de aula | Carlos Arturo Castro Castro |
 
 ---
 
@@ -28,12 +29,22 @@ Los criterios están escritos **en el lenguaje del usuario, no del programador**
 
 La columna **Iteración asignada** dice en qué versión entra cada historia. No es un orden arbitrario: sigue el mapa de versiones del proyecto, donde cada versión es una rebanada completa que se puede mostrar y usar.
 
-| Versión | Historias | Qué queda funcionando |
+| Versión | Historias | Qué queda funcionando — **API y pantallas** |
 |---|---|---|
-| **v1** | 1, 2, 3, 4 | El catálogo de sedes, completo: consultarlo, agregar, corregir y retirar |
-| **v2** | 5 | Las cátedras y sus sesiones, con las listas desplegables cargadas del sistema |
+| **v1** | 1, 2, 3, 4 | Las tablas sin llave foránea, con sus pantallas. *Este ejemplo construye una: el catálogo de sedes, completo* |
+| **v2** | 5 | Todas las demás tablas —cátedras, sesiones y catálogos— con las listas desplegables cargadas del sistema |
 | **v3** | 8 | El ingreso con usuario y el control de acceso por rol |
-| **v4** | 6, 7 | El registro de asistencia y los informes de acreditación |
+| **v4** | 6, 7 | El registro de asistencia, las consultas de acreditación y el tablero |
+
+**Este proyecto versiona back y front EN PARALELO.** Cada versión entrega su
+parte de la API *y* sus pantallas: no hay una versión "de back" y otra "de
+front". La razón, con sus costos, está en el
+[mapa de versiones](docs/spec_kit/versiones/0_mapa_versiones.md).
+
+Lo que eso significa para estas historias: **una historia no está cumplida si
+el dato se puede consultar por la API pero no se ve en una pantalla.** Sus
+criterios de aceptación están escritos así a propósito — hablan de lo que ve
+quien usa el sistema, no de lo que responde un endpoint.
 
 > **La versión 1 está construida** y se puede ejecutar: es el ejemplo de referencia de este repositorio. Las historias 1 a 4 tienen sus criterios verificados contra el sistema corriendo, y el detalle técnico está en [`docs/spec_kit/`](docs/spec_kit/versiones/v1_sede/2_spec.md).
 

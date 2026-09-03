@@ -156,6 +156,7 @@ es una regla: **es qué se envía**.
 | Artículo | ¿Se respeta? | Cómo |
 |---|---|---|
 | 1 — Por versiones, la spec manda | ✅ | Solo `sede`; las otras 36 tablas no se nombran en el código |
+| **1.1 — Una versión incluye su front** | ✅ | La v1 trae la API de `sede` **y sus cuatro pantallas**. Los criterios 3, 4, 5 y 7 se verifican desde el navegador |
 | 2 — C#, PostgreSQL y el SQL a la vista | ✅ | Dapper con `@parametro`, sin ORM |
 | 3 — Tres capas con interfaces | ✅ | **Y se comprueba**: `pruebas/` no referencia Npgsql |
 | 4 — Un solo comando, tres procesos | ✅ | Y el front es de otro lenguaje, a propósito |

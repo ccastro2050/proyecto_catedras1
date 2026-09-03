@@ -4,7 +4,8 @@
 > necesita cambiar una de estas reglas, eso no es una tarea — es una enmienda,
 > y se discute aparte (Artículo 11).
 >
-> **Versión de esta constitución: 1.0.0**
+> **Versión de esta constitución: 1.1.0** — el Artículo 1.1 se agregó al
+> adoptar el versionado en paralelo de back y front.
 
 ---
 
@@ -20,6 +21,31 @@ de más no es prever: es adivinar, y lo que se adivina hay que mantenerlo.
 Y al revés: **el código no decide, la especificación decide**. Si al programar
 aparece una duda que la spec no resuelve, se para, se resuelve en la spec y se
 sigue. Resolverla en el código deja el documento mintiendo.
+
+## Artículo 1.1 — Una versión incluye SU FRONT
+
+**Este proyecto versiona back y front en paralelo.** Cada versión entrega su
+parte de la API *y* sus pantallas. No hay una versión "de back" y otra "de
+front".
+
+**La regla operativa:** una versión **no está cerrada** si la API responde y la
+pantalla no. Media versión no es una versión.
+
+Y desde la v2, la regresión de las versiones anteriores incluye **sus
+pantallas**, no solo sus endpoints.
+
+**Por qué:** uno descubre que el JSON es incómodo cuando le toca pintarlo. Si
+el front llega tres versiones después, el contrato lleva tres versiones
+equivocado. Y porque lo terminado se le puede mostrar a quien lo pidió, no solo
+a un Postman.
+
+**Qué cuesta:** cada versión es más grande. Se compensa **recortando el
+alcance**, no el rigor — por eso la v1 toma **una** tabla de las once, y no las
+once a medias.
+
+> Las razones completas, con sus costos, están en el
+> [mapa de versiones](versiones/0_mapa_versiones.md). Este proyecto es el
+> **piloto** de esa estrategia en el curso.
 
 ## Artículo 2 — Stack: C# y ASP.NET Core sobre PostgreSQL, con el SQL a la vista
 
