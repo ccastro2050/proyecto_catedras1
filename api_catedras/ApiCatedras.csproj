@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Los paquetes permitidos por el Artículo 2. Ninguno está por costumbre. -->
+
+    <!-- Npgsql: el proveedor ADO.NET de PostgreSQL. Aquí está la diferencia
+         con los otros ejemplos del curso, que hablan con SQL Server y usan
+         Microsoft.Data.SqlClient: el motor cambia, el paquete cambia, y NADA
+         MÁS cambia — porque solo el repositorio lo conoce. -->
+    <PackageReference Include="Npgsql" Version="8.0.3" />
+
+    <!-- Dapper: ejecuta el SQL que escribimos a mano y mapea fila a objeto.
+         NO genera SQL por nosotros: eso sería un ORM, y el punto del curso es
+         ver la consulta. -->
+    <PackageReference Include="Dapper" Version="2.1.35" />
+
+    <!-- Swashbuckle: la documentación interactiva en /swagger. -->
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- La carpeta pruebas/ tiene SU PROPIO proyecto (la prueba de capas): se
+         excluye de la compilación de la API para que no se mezclen los dos
+         programas ni el repositorio de mentiras termine publicado con el
+         sistema real. -->
+    <Compile Remove="pruebas/**" />
+    <Content Remove="pruebas/**" />
+    <None Remove="pruebas/**" />
+  </ItemGroup>
+
+</Project>

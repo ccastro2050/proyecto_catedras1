@@ -1,0 +1,94 @@
+/* estilos.css — la presentación, escrita a mano y sin framework.
+
+   Son 50 líneas de CSS: así no hay una dependencia que explicar antes de
+   explicar lo que importa, que es la separación entre el front y la API. */
+
+:root {
+  --tinta: #1c2430;
+  --suave: #5d6b7a;
+  --borde: #d8dee6;
+  --fondo: #f5f7fa;
+  --acento: #1f5f8b;
+  --error: #a4262c;
+  --exito: #1d6f42;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--tinta);
+  background: var(--fondo);
+}
+
+.contenedor { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+header { background: var(--tinta); color: #fff; }
+.barra { display: flex; align-items: baseline; gap: 16px; padding: 14px 20px;
+         flex-wrap: wrap; }
+.marca { color: #fff; font-weight: 700; font-size: 1.15rem; text-decoration: none; }
+.version { color: #9fb0c0; font-size: .85rem; }
+
+main { padding: 28px 20px 40px; }
+
+.encabezado { display: flex; justify-content: space-between; align-items: center;
+              gap: 16px; flex-wrap: wrap; }
+h1 { font-size: 1.5rem; margin: 0 0 4px; }
+
+/* --- Avisos: lo que la API respondió, en palabras --- */
+.aviso { padding: 10px 14px; border-radius: 6px; border-left: 4px solid;
+         margin: 0 0 10px; }
+.aviso.error { background: #fdf2f2; border-color: var(--error); color: var(--error); }
+.aviso.exito { background: #f1f8f4; border-color: var(--exito); color: var(--exito); }
+
+/* --- Tabla --- */
+.tabla-scroll { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 18px;
+        border: 1px solid var(--borde); border-radius: 8px; overflow: hidden; }
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--borde); }
+th { background: #eef2f6; font-size: .85rem; text-transform: uppercase;
+     letter-spacing: .03em; }
+tr:last-child td { border-bottom: none; }
+code { background: #eef2f6; padding: 1px 6px; border-radius: 4px; }
+
+.etiqueta { display: inline-block; padding: 2px 9px; border-radius: 999px;
+            font-size: .78rem; }
+.etiqueta.virtual { background: #e8eef7; color: var(--acento); }
+.etiqueta.fisica  { background: #eef2f6; color: var(--suave); }
+
+.acciones { display: flex; gap: 8px; align-items: center; }
+.acciones form { margin: 0; }
+
+/* --- Botones --- */
+.boton { display: inline-block; padding: 7px 14px; border-radius: 6px; cursor: pointer;
+         border: 1px solid var(--borde); background: #fff; color: var(--tinta);
+         font: inherit; font-size: .9rem; text-decoration: none; }
+.boton:hover { background: #eef2f6; }
+.boton.primario { background: var(--acento); border-color: var(--acento); color: #fff; }
+.boton.primario:hover { filter: brightness(1.1); }
+.boton.peligro { color: var(--error); border-color: #e8c3c5; }
+.boton.peligro:hover { background: #fdf2f2; }
+
+/* --- Formulario --- */
+form { background: #fff; border: 1px solid var(--borde); border-radius: 8px;
+       padding: 20px; margin-top: 18px; max-width: 560px; }
+label { display: block; margin-bottom: 16px; font-weight: 600; font-size: .9rem; }
+input[type=text], input:not([type]) { display: block; width: 100%; margin-top: 5px;
+        padding: 8px 10px; font: inherit; font-weight: 400;
+        border: 1px solid var(--borde); border-radius: 6px; }
+input:focus { outline: 2px solid var(--acento); outline-offset: 1px; }
+input[readonly] { background: #eef2f6; color: var(--suave); }
+.casilla { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+.casilla input { margin: 0; }
+.pareja { display: flex; gap: 10px; flex-wrap: wrap; }
+
+.ayuda { display: block; margin-top: 4px; font-weight: 400; font-size: .82rem;
+         color: var(--suave); }
+.opcional { font-weight: 400; color: var(--suave); font-size: .85rem; }
+.nota, .vacio { color: var(--suave); font-size: .9rem; }
+.vacio { background: #fff; border: 1px dashed var(--borde); border-radius: 8px;
+         padding: 24px; text-align: center; margin-top: 18px; }
+
+footer { border-top: 1px solid var(--borde); padding: 16px 20px 30px; }
+footer p { color: var(--suave); font-size: .85rem; margin: 0; }

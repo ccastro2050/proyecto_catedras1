@@ -1,0 +1,50 @@
+---
+title: Bloque D — Acceso y registro · el núcleo del modelo (notación de Chen)
+---
+flowchart TB
+    SES["SESION"]
+    ENL["ENLACE_REGISTRO"]
+    CLA["CLAVE_ACCESO"]
+    ASI["ASISTENTE"]
+    REG["REGISTRO_ASISTENCIA"]
+    PRO["PROGRAMA_ACADEMICO"]
+    TVI["TIPO_VINCULACION"]
+
+    e1(["token (único)"]) --- ENL
+    e2(["ventana<br/>rango de tiempo"]) --- ENL
+    e3(["canal QR / ENLACE"]) --- ENL
+
+    k1(["clave_hash"]) --- CLA
+    k2(["enviado_a"]) --- CLA
+    k3(["es_correo_institucional<br/>(derivado)"]) -.- CLA
+    k4(["expira_en"]) --- CLA
+    k5(["usado_en"]) --- CLA
+
+    SES --- R18{"se difunde mediante"} --- ENL
+    ENL --- R20{"ampara"} --- CLA
+    ASI --- R19{"solicita"} --- CLA
+    CLA --- R22{"habilita"} --- REG
+    ASI --- R21{"se registra en"} --- REG
+    REG --- R21b{" "} --- SES
+
+    REG --- R23{"conserva instantánea de"} --- PRO
+    REG --- R23b{"conserva instantánea de"} --- TVI
+
+    r1(["registrado_en"]) --- REG
+    r2(["origen"]) --- REG
+    r3(["ip"]) --- REG
+
+    R22 -.- n1["1:1 · (0,1) / (1,1)<br/><b>sin clave usada no hay registro</b>"]
+    R21 -.- n2["N:M · (0,N) / (0,N)<br/>único (sesion, asistente)"]
+    R23 -.- n3["instantánea, NO referencia viva"]
+
+    classDef ent fill:#2d5a8c,stroke:#1a3a5c,color:#fff,font-weight:bold
+    classDef nucleo fill:#8c2d3f,stroke:#5c1a28,color:#fff,font-weight:bold
+    classDef rel fill:#c9a227,stroke:#8a6d1a,color:#000
+    classDef att fill:#e8eef5,stroke:#7a94ad,color:#000
+    classDef card fill:none,stroke:none,color:#888,font-size:11px
+    class SES,ENL,CLA,ASI,PRO,TVI ent
+    class REG nucleo
+    class R18,R19,R20,R21,R21b,R22,R23,R23b rel
+    class e1,e2,e3,k1,k2,k3,k4,k5,r1,r2,r3 att
+    class n1,n2,n3 card

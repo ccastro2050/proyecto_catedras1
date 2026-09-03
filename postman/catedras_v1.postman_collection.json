@@ -1,0 +1,443 @@
+{
+  "info": {
+    "name": "Cátedras Abiertas — v1 (sede)",
+    "description": "Los endpoints de la v1, en el orden del smoke test de 7_quickstart.md. La tabla arranca con 3 sedes del script dado, una de ellas SIN dirección.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8037"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Diagnóstico",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            ""
+          ]
+        },
+        "description": "Responde 200 con version v1, SIN tocar la base."
+      }
+    },
+    {
+      "name": "2. Listar",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede"
+          ]
+        },
+        "description": "Responde 200 con total 3. Fíjese en la sede VIRTUAL: su direccion vuelve como null, no como cadena vacía."
+      }
+    },
+    {
+      "name": "3. Listar con límite",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede?limite=2",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede"
+          ],
+          "query": [
+            {
+              "key": "limite",
+              "value": "2"
+            }
+          ]
+        },
+        "description": "limite=0 o negativo responde 400: la forma es válida, la regla no."
+      }
+    },
+    {
+      "name": "4. Obtener la sede VIRTUAL",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede/VIRTUAL",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede",
+            "VIRTUAL"
+          ]
+        },
+        "description": "La que viene sin dirección desde el script dado."
+      }
+    },
+    {
+      "name": "5. Crear",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede"
+          ]
+        },
+        "description": "Responde 200.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idSede\": \"ITAGUI\",\n  \"nombre\": \"Campus Itagui\",\n  \"direccion\": \"Calle 50 51-20\",\n  \"esVirtual\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "6. Reemplazar (PUT)",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede/ITAGUI",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede",
+            "ITAGUI"
+          ]
+        },
+        "description": "Reemplazar es poner TODO de nuevo: nombre y esVirtual siguen siendo obligatorios.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Campus Itagui - sur\",\n  \"direccion\": \"Calle 50 51-20\",\n  \"esVirtual\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "7. PUT sin nombre → 422",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede/ITAGUI",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede",
+            "ITAGUI"
+          ]
+        },
+        "description": "LA LECCIÓN: este MISMO cuerpo responde 200 en la petición 8. Y OJO: el 422 no sale solo — hay que reemplazar la fábrica de respuestas.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"direccion\": \"Calle 50 51-20\",\n  \"esVirtual\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "8. PATCH mismo cuerpo → 200",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede/ITAGUI",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede",
+            "ITAGUI"
+          ]
+        },
+        "description": "Lo decide el tipo de la clase de petición, no un if en el servicio.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"direccion\": \"Calle 50 51-20\",\n  \"esVirtual\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "9. PATCH un solo campo",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede/ITAGUI",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede",
+            "ITAGUI"
+          ]
+        },
+        "description": "Solo se escribe lo que llegó.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombre\": \"Campus Itagui\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "10. PATCH vacío → 400",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede/ITAGUI",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede",
+            "ITAGUI"
+          ]
+        },
+        "description": "Sin campos no hay nada que actualizar: 400, no 404.",
+        "body": {
+          "mode": "raw",
+          "raw": "{}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "11. 500 — el CÓDIGO ya existe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede"
+          ]
+        },
+        "description": "La llave primaria la defiende la base (pk_sede), no la API.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idSede\": \"ITAGUI\",\n  \"nombre\": \"Otro nombre\",\n  \"direccion\": \"Calle 50 51-20\",\n  \"esVirtual\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "12. 500 — el NOMBRE ya existe",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede"
+          ]
+        },
+        "description": "Otra restricción, otro 500: uq_sede_nombre. Comprobarlo en la API no funcionaría — entre la consulta y el INSERT cabe otra petición.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idSede\": \"OTRO\",\n  \"nombre\": \"Campus San Benito\",\n  \"esVirtual\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "13. 422 — esVirtual no es booleano",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede"
+          ]
+        },
+        "description": "El tipo también es regla.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idSede\": \"X9\",\n  \"nombre\": \"Prueba de tipo\",\n  \"esVirtual\": \"quizas\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "14. 404 — no existe",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede/NADA",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede",
+            "NADA"
+          ]
+        },
+        "description": ""
+      }
+    },
+    {
+      "name": "15. Eliminar (LÓGICO)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede/ITAGUI",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede",
+            "ITAGUI"
+          ]
+        },
+        "description": "La fila NO se borra: queda con activo = FALSE y sale del listado."
+      }
+    },
+    {
+      "name": "16. Eliminar otra vez → 404",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/sede/ITAGUI",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "sede",
+            "ITAGUI"
+          ]
+        },
+        "description": "Ya está inactiva: para la API no existe."
+      }
+    }
+  ]
+}

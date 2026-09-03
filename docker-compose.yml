@@ -1,0 +1,87 @@
+# ==============================================================
+# CÁTEDRAS ABIERTAS — versión 1
+#
+#   FRONT (Flask, :8038) → API CÁTEDRAS (C#/.NET, :8037) → PostgreSQL (:15461)
+#
+# Fíjese en la primera línea: el front es de Python y la API es de C#.
+# No es una inconsistencia — es el punto del proyecto. Son tres procesos
+# distintos, y lo único que une a los dos primeros es un contrato HTTP.
+#
+# El front NO tiene línea hacia PostgreSQL, y no la va a tener nunca.
+#
+# TODO el sistema está declarado aquí. Un solo comando lo levanta:
+#
+#     docker compose up -d --build
+#
+# No hay que instalar .NET, ni Python, ni PostgreSQL: solo Docker.
+# ==============================================================
+
+services:
+
+  # --- La base de datos ---------------------------------------------
+  postgres:
+    image: postgres:16
+    container_name: catedras-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: catedras
+      POSTGRES_PASSWORD: Catedras123!
+      POSTGRES_DB: catedras
+    ports:
+      - "15461:5432"          # para DBeaver o pgAdmin, opcional
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      # PostgreSQL ejecuta SOLO lo que encuentre aquí, y SOLO la primera vez
+      # (cuando el volumen está vacío). Por eso el script no crea la base:
+      # la crea el motor con POSTGRES_DB, antes de leer este archivo.
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      # La API arranca cuando la base RESPONDE, no cuando el contenedor existe.
+      # OJO: este script tarda —37 tablas, 22 rutinas, 7 disparadores y sus
+      # verificaciones—, así que se le dan reintentos de sobra.
+      test: ["CMD-SHELL", "pg_isready -U catedras -d catedras"]
+      interval: 5s
+      timeout: 5s
+      retries: 40
+
+  # --- La API: C# / ASP.NET Core -------------------------------------
+  api-catedras:
+    build: ./api_catedras
+    container_name: catedras-api
+    restart: unless-stopped
+    ports:
+      - "8037:8037"           # el MISMO número adentro y afuera
+    volumes:
+      - ./api_catedras:/app   # el código montado: guardar un .cs recompila solo
+      - /app/bin              # bin y obj quedan DENTRO del contenedor (Linux),
+      - /app/obj              #   sin mezclarse con los compilados de Windows
+    environment:
+      # El host es el NOMBRE del servicio. El doble guion bajo hace que
+      # ASP.NET lea esto como ConnectionStrings:PostgreSql.
+      - ConnectionStrings__PostgreSql=Host=postgres;Port=5432;Database=catedras;Username=catedras;Password=Catedras123!
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # --- El FRONT: Flask -----------------------------------------------
+  front-flask:
+    build: ./front_flask
+    container_name: catedras-front
+    restart: unless-stopped
+    ports:
+      - "8038:8038"           # http://localhost:8038
+    volumes:
+      - ./front_flask:/app    # el código montado: guardar un .py recarga solo
+    environment:
+      # El NOMBRE del servicio, no localhost: dentro del contenedor del front,
+      # localhost sería el front mismo.
+      API_CATEDRAS_URL: http://api-catedras:8037
+      CLAVE_SESION: Catedras123!Sesion
+    depends_on:
+      - api-catedras
+      # NO depende de postgres, y eso no es un olvido: el front no tiene nada
+      # que hacer con la base. Si algún día necesitara esa dependencia, sería
+      # la señal de que alguien rompió la arquitectura.
+
+volumes:
+  pgdata:                     # la "memoria" de la base entre reinicios

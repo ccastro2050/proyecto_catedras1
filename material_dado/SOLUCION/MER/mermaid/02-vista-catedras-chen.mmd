@@ -1,0 +1,44 @@
+---
+title: Bloque C — Cátedras, sesiones y sedes (notación de Chen)
+---
+flowchart LR
+    CAT["CATEDRA"]
+    SES["SESION<br/><i>entidad débil</i>"]
+    SED["SEDE"]
+    MOD["MODALIDAD"]
+    TEV["TIPO_EVENTO"]
+    DEP["DEPENDENCIA"]
+    PER["PERIODO_ACADEMICO"]
+
+    c1(["<u>id_catedra</u>"]) --- CAT
+    c2(["id_evento_asis char(9)"]) --- CAT
+    c3(["nombre"]) --- CAT
+    c4(["nombre_asis (derivado)"]) -.- CAT
+
+    s1(["<u>id_sesion</u>"]) --- SES
+    s2(["numero_reunion (derivado)"]) -.- SES
+    s3(["inicio"]) --- SES
+    s4(["fin"]) --- SES
+    s5(["cupo"]) --- SES
+
+    m1(["canal_difusion<br/>QR / ENLACE"]) --- MOD
+
+    CAT === R10{{"se dicta en"}} === SES
+    CAT --- R11{"se clasifica como"} --- TEV
+    DEP --- R12{"organiza"} --- CAT
+    SED --- R14{"aloja"} --- SES
+    SES --- R15{"se dicta en modalidad"} --- MOD
+    SES --- R17{"ocurre en"} --- PER
+    DEP --- R13{"depende de"} --- DEP
+
+    R10 -.- k1["1:N · (0,N) / (1,1)<br/>identificadora"]
+    R14 -.- k2["1:N · (0,N) / (1,1)"]
+
+    classDef ent fill:#2d5a8c,stroke:#1a3a5c,color:#fff,font-weight:bold
+    classDef rel fill:#c9a227,stroke:#8a6d1a,color:#000
+    classDef att fill:#e8eef5,stroke:#7a94ad,color:#000
+    classDef card fill:none,stroke:none,color:#888,font-size:11px
+    class CAT,SES,SED,MOD,TEV,DEP,PER ent
+    class R10,R11,R12,R13,R14,R15,R17 rel
+    class c1,c2,c3,c4,s1,s2,s3,s4,s5,m1 att
+    class k1,k2 card

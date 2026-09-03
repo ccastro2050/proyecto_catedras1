@@ -1,0 +1,22 @@
+# .NET
+bin/
+obj/
+*.user
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Secretos
+*.env
+
+# ==============================================================
+# DATOS PERSONALES — Artículo 8 de la constitución
+#
+# Los CSV del material original traían 14.808 personas identificadas y
+# 15.517 números de documento. NO entran a este repositorio, ni por
+# accidente. Esta regla es la última red: la primera es no copiarlos.
+# ==============================================================
+material_dado/SOLUCION/fisico_postgres/datos/
+*.csv

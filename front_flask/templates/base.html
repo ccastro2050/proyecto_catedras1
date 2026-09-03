@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Cátedras Abiertas{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
+</head>
+<body>
+
+  <header>
+    <div class="contenedor barra">
+      <a class="marca" href="{{ url_for('listar') }}">Cátedras Abiertas</a>
+      <span class="version">front Flask &rarr; API C# &rarr; PostgreSQL</span>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+    {# Los avisos que app.py dejó con flash(). Un párrafo por mensaje: cuando
+       la API devuelve tres errores de validación, se ven los tres. #}
+    {% with avisos = get_flashed_messages(with_categories=true) %}
+      {% for categoria, mensaje in avisos %}
+        <p class="aviso {{ categoria }}">{{ mensaje }}</p>
+      {% endfor %}
+    {% endwith %}
+
+    {% block contenido %}{% endblock %}
+
+  </main>
+
+  <footer class="contenedor">
+    <p>
+      Este front est&aacute; escrito en <strong>Python</strong> y la API en
+      <strong>C#</strong>. No es un descuido: lo &uacute;nico que los une es un
+      contrato HTTP, y ninguno de los dos sabe en qu&eacute; lenguaje
+      est&aacute; el otro.
+      <br>
+      El front <strong>no toca la base de datos</strong>: si la API est&aacute;
+      ca&iacute;da, aqu&iacute; no hay datos &mdash; y esa es la prueba de que
+      la separaci&oacute;n es real.
+    </p>
+  </footer>
+
+</body>
+</html>

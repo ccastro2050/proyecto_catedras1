@@ -1,0 +1,39 @@
+---
+title: Bloque E — Encuesta parametrizable (notación de Chen)
+---
+flowchart LR
+    ENC["ENCUESTA"]
+    PRE["PREGUNTA"]
+    TPR["TIPO_PREGUNTA"]
+    OPC["OPCION_PREGUNTA"]
+    RES["RESPUESTA_ENCUESTA"]
+    ITE["RESPUESTA_ITEM<br/><i>entidad débil</i>"]
+    REG["REGISTRO_ASISTENCIA"]
+
+    p1(["enunciado"]) --- PRE
+    p2(["orden"]) --- PRE
+    p3(["obligatoria"]) --- PRE
+
+    i1(["valor_numerico"]) --- ITE
+    i2(["valor_texto"]) --- ITE
+    i3(["fk_opcion"]) --- ITE
+
+    ENC --- R24{"se compone de"} --- PRE
+    PRE --- R25{"se responde según"} --- TPR
+    PRE --- R26{"ofrece"} --- OPC
+    REG --- R28{"es evaluado en"} --- RES
+    RES === R29{{"detalla"}} === ITE
+    ITE --- R29b{"responde a"} --- PRE
+
+    R24 -.- q1["1:N · (1,N) / (1,1)"]
+    R29 -.- q2["1:N · <b>(1,N)</b> / (1,1)<br/><b>NO declarativa</b>"]
+    i1 -.- q3["exactamente uno lleno<br/>según el tipo de pregunta"]
+
+    classDef ent fill:#2d5a8c,stroke:#1a3a5c,color:#fff,font-weight:bold
+    classDef rel fill:#c9a227,stroke:#8a6d1a,color:#000
+    classDef att fill:#e8eef5,stroke:#7a94ad,color:#000
+    classDef card fill:none,stroke:none,color:#888,font-size:11px
+    class ENC,PRE,TPR,OPC,RES,ITE,REG ent
+    class R24,R25,R26,R28,R29,R29b rel
+    class p1,p2,p3,i1,i2,i3 att
+    class q1,q2,q3 card

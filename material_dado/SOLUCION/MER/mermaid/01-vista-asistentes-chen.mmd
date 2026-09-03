@@ -1,0 +1,44 @@
+---
+title: Bloque A — Asistentes e identidad (notación de Chen)
+---
+flowchart LR
+    ASI["ASISTENTE"]
+    DOC["DOCUMENTO_ASISTENTE"]
+    TDO["TIPO_DOCUMENTO"]
+    TVI["TIPO_VINCULACION"]
+    CON["CONSENTIMIENTO_DATOS"]
+
+    a1(["<u>id_asistente</u>"]) --- ASI
+    a2(["id_asis (único)"]) --- ASI
+    a3(["nombres"]) --- ASI
+    a4(["apellidos"]) --- ASI
+    a5(["correo_institucional"]) --- ASI
+    a6(["correo_personal"]) --- ASI
+    a7(["es_externo"]) --- ASI
+
+    d1(["<u>id_documento</u>"]) --- DOC
+    d2(["numero"]) --- DOC
+    d3(["vigente"]) --- DOC
+
+    v1(["es_interno"]) --- TVI
+    v2(["exige_programa"]) --- TVI
+
+    ASI --- R1{"se identifica con"} --- DOC
+    DOC --- R2{"es de clase"} --- TDO
+    ASI --- R3{"se vincula como"} --- TVI
+    ASI --- R4{"autoriza"} --- CON
+
+    f1(["<u>fecha_ini</u>"]) -.-> R3
+    f2(["fecha_fin"]) -.-> R3
+
+    R1 -.- c1["1:N · (0,N) / (1,1)"]
+    R3 -.- c3["N:M · (1,N) / (0,N)"]
+
+    classDef ent fill:#2d5a8c,stroke:#1a3a5c,color:#fff,font-weight:bold
+    classDef rel fill:#c9a227,stroke:#8a6d1a,color:#000
+    classDef att fill:#e8eef5,stroke:#7a94ad,color:#000
+    classDef card fill:none,stroke:none,color:#888,font-size:11px
+    class ASI,DOC,TDO,TVI,CON ent
+    class R1,R2,R3,R4 rel
+    class a1,a2,a3,a4,a5,a6,a7,d1,d2,d3,v1,v2,f1,f2 att
+    class c1,c3 card

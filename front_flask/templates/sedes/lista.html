@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block titulo %}Sedes{% endblock %}
+
+{% block contenido %}
+
+  <div class="encabezado">
+    <h1>Sedes</h1>
+    <a class="boton primario" href="{{ url_for('crear') }}">Nueva sede</a>
+  </div>
+
+  {% if sedes %}
+
+    <div class="tabla-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Dirección</th>
+            <th>¿Virtual?</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for sede in sedes %}
+            <tr>
+              <td><code>{{ sede.idSede }}</code></td>
+              <td>{{ sede.nombre }}</td>
+              {# La sede virtual no tiene dirección: se muestra una raya, no
+                 una celda vacía que parezca un error. #}
+              <td>{{ sede.direccion if sede.direccion else '—' }}</td>
+              <td>
+                {% if sede.esVirtual %}
+                  <span class="etiqueta virtual">virtual</span>
+                {% else %}
+                  <span class="etiqueta fisica">presencial</span>
+                {% endif %}
+              </td>
+              <td class="acciones">
+                <a class="boton" href="{{ url_for('editar', codigo=sede.idSede) }}">Editar</a>
+                {# Eliminar va por POST, no por enlace: un GET que borra lo
+                   puede disparar el navegador solo al precargar la página. #}
+                <form method="post"
+                      action="{{ url_for('eliminar', codigo=sede.idSede) }}"
+                      onsubmit="return confirm('¿Eliminar la sede {{ sede.idSede }}?')">
+                  <button class="boton peligro" type="submit">Eliminar</button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <p class="nota">{{ sedes|length }} sede(s) activa(s).</p>
+
+  {% else %}
+
+    {# La API respondió 204: no hay sedes activas. No es un error, y por eso
+       este mensaje es gris y no rojo. #}
+    <p class="vacio">
+      No hay sedes activas. La API respondió <strong>204</strong>, que
+      significa &laquo;funcionó, y no hay nada que devolver&raquo;.
+    </p>
+
+  {% endif %}
+
+{% endblock %}

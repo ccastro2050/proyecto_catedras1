@@ -1,0 +1,46 @@
+---
+title: Bloque F — Integración con el ASIS (notación de Chen)
+---
+flowchart LR
+    LCA["LOTE_CARGA_ASISTENTE"]
+    NOV["NOVEDAD_CARGA"]
+    ASI["ASISTENTE"]
+    ALI["ALIAS_PROGRAMA"]
+    PRO["PROGRAMA_ACADEMICO"]
+    SES["SESION"]
+    LMI["LOTE_MIGRACION"]
+    DMI["DETALLE_MIGRACION"]
+    REG["REGISTRO_ASISTENCIA"]
+    EST["ESTADO_PROCESO"]
+
+    n1(["numero_fila"]) --- NOV
+    n2(["contenido_crudo"]) --- NOV
+    n3(["motivo"]) --- NOV
+
+    l1(["nombre_proceso<br/>ME_MIGRACION_CATEDRA"]) --- LMI
+    l2(["instancia_proceso_asis"]) --- LMI
+
+    d1(["id_asis_enviado"]) --- DMI
+    d2(["programa_enviado"]) --- DMI
+    d3(["reunion_enviada"]) --- DMI
+    d4(["resultado"]) --- DMI
+
+    LCA --- R30{"rechaza"} --- NOV
+    LCA --- R30b{"carga"} --- ASI
+    ALI --- R31{"resuelve a"} --- PRO
+    SES --- R32{"se migra en"} --- LMI
+    LMI === R33{{"migra"}} === DMI
+    DMI --- R33b{"corresponde a"} --- REG
+    LMI --- R34{"termina en"} --- EST
+
+    d1 -.- z1["copia literal de lo enviado<br/>no se deriva al consultar"]
+    EST -.- z2["En cola · En curso · Error<br/>Correcto · Incorrecto"]
+
+    classDef ent fill:#2d5a8c,stroke:#1a3a5c,color:#fff,font-weight:bold
+    classDef rel fill:#c9a227,stroke:#8a6d1a,color:#000
+    classDef att fill:#e8eef5,stroke:#7a94ad,color:#000
+    classDef card fill:none,stroke:none,color:#888,font-size:11px
+    class LCA,NOV,ASI,ALI,PRO,SES,LMI,DMI,REG,EST ent
+    class R30,R30b,R31,R32,R33,R33b,R34 rel
+    class n1,n2,n3,l1,l2,d1,d2,d3,d4 att
+    class z1,z2 card

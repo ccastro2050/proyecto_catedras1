@@ -1,0 +1,50 @@
+---
+title: Cátedras Abiertas — vista general (31 entidades)
+---
+erDiagram
+    ASISTENTE ||--o{ DOCUMENTO_ASISTENTE : "se identifica con"
+    TIPO_DOCUMENTO ||--o{ DOCUMENTO_ASISTENTE : "clasifica"
+    ASISTENTE }o--o{ TIPO_VINCULACION : "se vincula como"
+    ASISTENTE ||--o{ CONSENTIMIENTO_DATOS : "autoriza"
+    ASISTENTE |o--|| USUARIO : "opera como"
+
+    FACULTAD ||--o{ PROGRAMA_ACADEMICO : "agrupa"
+    FACULTAD |o--o{ FACULTAD : "depende de"
+    ASISTENTE }o--o{ PROGRAMA_ACADEMICO : "cursa"
+    PERIODO_ACADEMICO ||--o{ SESION : "enmarca"
+
+    CATEDRA ||--o{ SESION : "se dicta en"
+    TIPO_EVENTO ||--o{ CATEDRA : "clasifica"
+    DEPENDENCIA |o--o{ CATEDRA : "organiza"
+    DEPENDENCIA |o--o{ DEPENDENCIA : "depende de"
+    SEDE ||--o{ SESION : "aloja"
+    MODALIDAD ||--o{ SESION : "define canal de"
+    ASISTENTE }o--o{ SESION : "expone en"
+
+    SESION ||--o{ ENLACE_REGISTRO : "se difunde mediante"
+    ENLACE_REGISTRO ||--o{ CLAVE_ACCESO : "ampara"
+    ASISTENTE ||--o{ CLAVE_ACCESO : "solicita"
+    CLAVE_ACCESO |o--|| REGISTRO_ASISTENCIA : "habilita"
+    SESION ||--o{ REGISTRO_ASISTENCIA : "recibe"
+    ASISTENTE ||--o{ REGISTRO_ASISTENCIA : "se registra en"
+    PROGRAMA_ACADEMICO |o--o{ REGISTRO_ASISTENCIA : "instantánea de"
+
+    ENCUESTA ||--|{ PREGUNTA : "se compone de"
+    TIPO_PREGUNTA ||--o{ PREGUNTA : "tipifica"
+    PREGUNTA ||--o{ OPCION_PREGUNTA : "ofrece"
+    ENCUESTA |o--o{ SESION : "evalúa"
+    REGISTRO_ASISTENCIA |o--|| RESPUESTA_ENCUESTA : "es evaluado en"
+    RESPUESTA_ENCUESTA ||--|{ RESPUESTA_ITEM : "detalla"
+
+    LOTE_CARGA_ASISTENTE ||--o{ NOVEDAD_CARGA : "rechaza"
+    LOTE_CARGA_ASISTENTE ||--o{ ASISTENTE : "carga"
+    ALIAS_PROGRAMA }o--|| PROGRAMA_ACADEMICO : "resuelve a"
+    SESION ||--o{ LOTE_MIGRACION : "se migra en"
+    ESTADO_PROCESO ||--o{ LOTE_MIGRACION : "estado de"
+    LOTE_MIGRACION ||--|{ DETALLE_MIGRACION : "migra"
+    REGISTRO_ASISTENCIA ||--o{ DETALLE_MIGRACION : "se envía en"
+
+    USUARIO }o--o{ ROL : "desempeña"
+    USUARIO ||--o{ BITACORA : "produce"
+    USUARIO ||--o{ PARAMETRO : "configura"
+    USUARIO ||--o{ ENLACE_REGISTRO : "emite"
