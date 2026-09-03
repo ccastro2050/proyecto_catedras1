@@ -16,7 +16,7 @@
 > | [GUIA_IA1.md](GUIA_IA1.md) | Construirla con ayuda de una IA |
 >
 > Las **historias de usuario** que originan estos requisitos están en
-> [`HISTORIAS_DE_USUARIO.md`](../../../../HISTORIAS_DE_USUARIO.md).
+> [`HISTORIAS_DE_USUARIO.md`](../../0_historias_de_usuario.md).
 
 ---
 
@@ -73,42 +73,139 @@ flowchart LR
 
 ## 3. Requisitos funcionales
 
-### RF1 — Listar sedes
-`GET /api/sede` → 200 con el sobre `{tabla, limite, total, datos:[…]}`.
-- Devuelve **solo las activas**.
-- `limite` opcional (entero > 0; por defecto 1000).
+> **Cómo están organizados, y por qué importa.** Cada requisito es una
+> **capacidad completa**: lo que hace la API *y* lo que ve quien la usa. No hay
+> «los requisitos del back» y luego «el requisito de las pantallas».
+>
+> Es el Artículo 1.1 aplicado a la estructura del documento y no solo
+> declarado: si el front fuera un requisito aparte, se podría cerrar la
+> versión sin él — y este proyecto dice que eso no es una versión.
+>
+> Cada requisito lleva por tanto **dos bloques**: `En la API` y
+> `En la pantalla`. Un requisito con uno de los dos vacío está incompleto, y
+> hay exactamente **una excepción**, que está dicha en su sitio (RF7).
+
+---
+
+### RF1 — Consultar el catálogo de sedes
+
+**Historia [1](../../0_historias_de_usuario.md)** · Ana Gómez necesita
+saber dónde se puede programar una sesión.
+
+**En la API** — `GET /api/sede[?limite=N]`
+- 200 con el sobre `{tabla, limite, total, datos:[…]}`.
+- Devuelve **solo las activas**; el campo `activo` **no viaja** en la respuesta.
+- `limite` opcional (entero > 0; por defecto 1000). Si es ≤ 0 → **400**.
 - Sin filas activas → **204** sin cuerpo.
 
-### RF2 — Obtener por código
-`GET /api/sede/{idSede}` → 200. Inexistente **o inactiva** → 404.
+**En la pantalla** — `/sedes`
+- La tabla con código, nombre, dirección y si es virtual.
+- La dirección nula se muestra como **raya (—)**, no como celda vacía.
+- «Virtual» y «presencial» como **etiqueta legible**, no como `1`/`0`.
+- Con **204**, un mensaje neutro en gris: *no hay sedes activas*.
+- Si la API **no responde**, la página **carga igual** con el aviso rojo.
 
-### RF3 — Crear
-`POST /api/sede` con `{idSede, nombre, esVirtual}` obligatorios y `direccion`
-opcional.
+---
+
+### RF2 — Ver los datos de una sede
+
+**Historia [3](../../0_historias_de_usuario.md)** · es el paso previo a
+corregirla.
+
+**En la API** — `GET /api/sede/{idSede}`
+- 200 con la sede. Inexistente **o inactiva** → **404**.
+
+**En la pantalla** — el formulario de edición
+- Al abrirlo, trae los datos ya puestos.
+- Si la sede no existe, **no muestra un formulario vacío**: avisa y vuelve al
+  listado. Un formulario en blanco haría creer que se está creando.
+
+---
+
+### RF3 — Registrar una sede nueva
+
+**Historia [2](../../0_historias_de_usuario.md)** · un campus que la
+Universidad acaba de habilitar.
+
+**En la API** — `POST /api/sede`
+- `{idSede, nombre, esVirtual}` obligatorios; `direccion` opcional.
 - Nace con `activo = TRUE`.
-- **Dos** motivos distintos de 500, los dos de la base: código repetido
+- Falta un obligatorio, o `esVirtual` no es booleano → **422**.
+- **Dos** motivos distintos de **500**, los dos de la base: código repetido
   (`pk_sede`) y **nombre repetido** (`uq_sede_nombre`).
 
-### RF4 — Reemplazar (PUT)
-`PUT /api/sede/{idSede}` con `nombre` y `esVirtual` obligatorios.
-- Falta uno → 422. Devuelve `filasAfectadas`; inexistente → 404.
+**En la pantalla** — `/sedes/nueva`
+- El código **se digita** (lo define quien registra, no se genera).
+- La dirección en blanco se envía **nula**, no como cadena vacía.
+- Un 422 devuelve el formulario **conservando lo digitado**.
+- La casilla *es virtual* llega marcada o no llega: nunca «indefinida».
 
-### RF5 — Actualizar parcialmente (PATCH)
-Solo se modifican los campos enviados. Cuerpo vacío → 400.
+---
 
-### RF6 — Eliminar (borrado lógico)
-`DELETE /api/sede/{idSede}` marca `activo = FALSE`. Inexistente o ya inactiva
-→ 404. **La fila no desaparece.**
+### RF4 — Reemplazar los datos de una sede
+
+**Historia [3](../../0_historias_de_usuario.md)** · rehacer la ficha
+completa.
+
+**En la API** — `PUT /api/sede/{idSede}`
+- `nombre` y `esVirtual` obligatorios. Falta uno → **422**.
+- Devuelve `filasAfectadas`. Inexistente → **404**.
+
+**En la pantalla** — el botón **«Reemplazar (PUT)»**
+- Envía todos los campos, **vacíos incluidos**: por eso un nombre en blanco
+  responde 422.
+- El código se muestra pero **no se puede cambiar**: identifica la fila.
+
+---
+
+### RF5 — Corregir un solo dato de una sede
+
+**Historia [3](../../0_historias_de_usuario.md)** · arreglar la dirección
+sin rehacer la ficha.
+
+**En la API** — `PATCH /api/sede/{idSede}`
+- Solo se modifican los campos enviados. Cuerpo vacío → **400**.
+
+**En la pantalla** — el botón **«Actualizar lo diligenciado (PATCH)»**
+- **Es el mismo formulario que RF4**, con el otro botón.
+- Envía solo lo que tiene contenido.
+- **Y aquí está la lección de la versión:** el mismo formulario a medio llenar
+  que el botón de RF4 rechaza con 422, este lo guarda con 200. La diferencia
+  **no la decide un `if`**: la decide el tipo de la clase de petición.
+
+---
+
+### RF6 — Retirar una sede del catálogo
+
+**Historia [4](../../0_historias_de_usuario.md)** · la de riesgo alto: un
+borrado de verdad rompería las asistencias históricas.
+
+**En la API** — `DELETE /api/sede/{idSede}`
+- Marca `activo = FALSE`. **La fila no desaparece.**
+- Inexistente o ya inactiva → **404**.
+
+**En la pantalla** — el botón **«Eliminar»**
+- Va por **POST**, nunca por un enlace: un GET que borra lo puede disparar el
+  navegador solo al precargar la página.
+- Pide **confirmación** antes de ejecutarse.
+- La sede sale del listado, y el aviso lo dice.
+
+---
 
 ### RF7 — Diagnóstico
-`GET /` → JSON con mensaje, versión (`"v1"`) y la ruta de los contratos.
 
-### RF8 — Las pantallas
-`/sedes` (listar), `/sedes/nueva`, `/sedes/<codigo>/editar` con **los dos
-botones**, y `/sedes/<codigo>/eliminar` por POST.
-- El **opcional en blanco no se envía como cadena vacía**: se envía nulo.
-- Un 422 devuelve el formulario **conservando lo digitado**.
-- Con la API caída, la página **carga** y lo dice — sin datos.
+**En la API** — `GET /`
+- JSON con mensaje, versión (`"v1"`) y la ruta de los contratos.
+- Sin desenlaces de error: no recibe parámetros ni consulta la base.
+
+**En la pantalla** — *ninguna, y es la única excepción del documento.*
+
+> Este requisito **no tiene pantalla a propósito**, y decirlo es parte de la
+> regla: un requisito sin front es sospechoso, así que cuando de verdad no la
+> lleva hay que justificarlo. Aquí no la lleva porque **no es una capacidad
+> del usuario**: es la pregunta *«¿está viva la API?»*, y quien la hace es
+> quien opera el sistema, con `curl`. Ponerle una pantalla sería inventarle un
+> usuario que no existe.
 
 ## 4. Requisitos no funcionales
 
@@ -119,30 +216,36 @@ botones**, y `/sedes/<codigo>/eliminar` por POST.
 
 ## 5. Criterios de aceptación
 
-1. **Un solo comando.** `docker compose up -d --build` deja corriendo los tres
-   servicios. `GET http://localhost:8037/` responde `"version":"v1"`, y
-   `http://localhost:8038/sedes` responde 200.
-2. **El catálogo dado se ve.** La API devuelve las **3 sedes** del script, y
-   las tres aparecen en la pantalla. La virtual se muestra **sin dirección**.
-3. **Crear desde el formulario.** Una sede creada en el front aparece en
-   `GET /api/sede/{codigo}`.
-4. **El opcional en blanco queda nulo**, no en cadena vacía — comprobable en
-   la base.
-5. **La pareja PUT/PATCH.** Con el nombre borrado: el botón PUT deja la
-   pantalla con un **422**; el botón PATCH, sobre **el mismo formulario**,
-   guarda.
-6. **Los desenlaces de error.** `PATCH {}` → 400 · `?limite=0` → 400 ·
-   inexistente → 404 · **código repetido → 500** · **nombre repetido → 500**,
-   y el detalle nombra `uq_sede_nombre`.
-7. **El borrado es lógico, y se verifica.** Tras el `DELETE` la sede sale del
-   listado, un segundo `DELETE` responde 404, **y la fila sigue en la base**
-   con `activo = FALSE`.
-8. **La prueba del proyecto.** Con `docker compose stop api-catedras`, la
-   pantalla `/sedes` **sigue cargando** y muestra *"El servicio no está
-   disponible"* — **sin datos**.
-9. **Prueba de capas.** El proyecto `pruebas/` ejecuta el servicio con un
-   repositorio de mentiras y **sin referenciar Npgsql ni Dapper**, y pasa con
-   la base apagada.
+> **Cada criterio se verifica DESDE LA PANTALLA cuando la capacidad tiene
+> pantalla**, y con `curl` o mirando la base solo cuando comprobar el efecto
+> lo exige. No al revés.
+>
+> La razón es la del Artículo 1.1: si los criterios se verificaran solo contra
+> la API, se podría cerrar la versión con el front roto. Un criterio que pasa
+> en Postman y falla en el navegador **no pasa**.
+
+| # | Criterio | Cubre | Cómo se verifica |
+|---|---|---|---|
+| **1** | **Un solo comando.** `docker compose up -d --build` deja corriendo los tres servicios: `GET /` responde `"version":"v1"` y `/sedes` responde 200 | — | Las dos direcciones, en el navegador |
+| **2** | **El catálogo dado se ve.** Las **3 sedes** del script aparecen en la pantalla, y la Virtual **sin dirección** (una raya, no una celda vacía) | RF1 | **En el navegador**, y `GET /api/sede` confirma que son 3 |
+| **3** | **Registrar funciona de punta a punta.** Una sede creada **en el formulario** aparece en el listado *y* la devuelve `GET /api/sede/{codigo}` | RF3 | El formulario, y después `curl` |
+| **4** | **El opcional en blanco queda NULO.** Crear una sede virtual **sin dirección** deja `NULL` en la base, no cadena vacía | RF3 | El formulario, y después **mirando la base** |
+| **5** | **La pareja PUT/PATCH.** Con el nombre borrado: el botón *Reemplazar* deja la pantalla con un **422**; el botón *Actualizar*, sobre **el mismo formulario**, guarda | RF4 · RF5 | **Los dos botones, en el navegador** |
+| **6** | **Los desenlaces de error.** `PATCH {}` → 400 · `?limite=0` → 400 · inexistente → 404 · **código repetido → 500** · **nombre repetido → 500**, y el detalle nombra `uq_sede_nombre` | RF1 · RF3 · RF5 | `curl`: son casos que el formulario no deja construir |
+| **7** | **El retiro es lógico, y se verifica.** Tras el botón *Eliminar* la sede sale del listado, un segundo `DELETE` responde 404, **y la fila sigue en la base** con `activo = FALSE` | RF6 | El botón, `curl`, y **la base** |
+| **8** | **La prueba del proyecto.** Con `docker compose stop api-catedras`, la pantalla `/sedes` **sigue cargando** y muestra *«el servicio no está disponible»* — **sin datos** | RF1 | **En el navegador**, con la API apagada |
+| **9** | **Prueba de capas.** El proyecto `pruebas/` ejecuta el servicio con un repositorio de mentiras y **sin referenciar Npgsql ni Dapper**, y pasa con la base apagada | — | `dotnet run --project pruebas` |
+
+**Cobertura:** los criterios 2 a 8 cubren RF1 a RF6. **RF2 y RF7 no tienen
+criterio propio**, y las dos ausencias tienen razón:
+
+- **RF2** (ver una sede) se ejercita dentro de los criterios 3 y 5: el
+  formulario de edición no puede abrirse sin él.
+- **RF7** (diagnóstico) está dentro del criterio 1.
+
+> Se deja escrito porque **un requisito sin criterio suele ser un requisito
+> que nadie va a comprobar**. Cuando de verdad está cubierto por otro, hay que
+> decir por cuál.
 
 ## 6. Clarificaciones
 

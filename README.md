@@ -168,7 +168,7 @@ exige.
 
 | Documento | Contenido |
 |---|---|
-| [HISTORIAS_DE_USUARIO.md](HISTORIAS_DE_USUARIO.md) | **Las ocho historias de usuario** del sistema, con sus criterios de aceptación. También en [.docx](HISTORIAS_DE_USUARIO.docx) |
+| [0_historias_de_usuario.md](docs/spec_kit/0_historias_de_usuario.md) | **Las ocho historias de usuario** del sistema, con sus criterios de aceptación. También en [.docx](HISTORIAS_DE_USUARIO.docx) |
 | [Manual-de-Marca.pdf](Manual-de-Marca.pdf) | El Manual de Identidad Visual Corporativa (Resolución 404 de 2024). Sus valores están aplicados en [`marca.css`](front_flask/static/marca.css) |
 | [PLAN_V1.md](PLAN_V1.md) | **El plan con el que se construyó esta versión**: los hallazgos, las decisiones y los pasos |
 | [1_constitution.md](docs/spec_kit/1_constitution.md) | Las 12 reglas permanentes — **incluido el Artículo 8, sobre datos personales** |

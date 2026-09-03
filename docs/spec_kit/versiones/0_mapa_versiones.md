@@ -46,15 +46,15 @@ entrega y sustenta.
 
 | Versión | Carpeta | Qué EXISTE al terminarla — **API y front** | Historias | Qué concepto nuevo enseña |
 |---|---|---|---|---|
-| **v1** | [v1_sede/](v1_sede/2_spec.md) — **Cerrada** (tag `v1`) | El CRUD de las tablas **sin clave foránea**, con sus pantallas. *Este ejemplo construye una: `sede`* | [1, 2, 3, 4](../../../HISTORIAS_DE_USUARIO.md) | Tres capas con interfaces · y que **el front y la API pueden estar en lenguajes distintos** porque solo los une el contrato |
-| **v2** | v2_todas_las_tablas/ | **Todas** las demás tablas: los catálogos, `catedra`, `sesion` y las puente — con las **listas desplegables cargadas de la API** y sus pantallas | [5](../../../HISTORIAS_DE_USUARIO.md) | Integridad referencial **en pantalla**: las llaves foráneas se **eligen**, no se digitan · y cuándo conviene **generalizar** el patrón en vez de copiarlo |
-| **v3** | v3_acceso/ | `usuario`, `rol` y `rol_por_usuario`: ingreso, contraseñas cifradas y **control de acceso por rol**, en la API y en el front | [8](../../../HISTORIAS_DE_USUARIO.md) | Dónde vive la autenticación · y que **esconder un menú NO protege nada**: mientras el control no esté en el servicio, quien escriba la URL entra igual |
-| **v4** | v4_aplicativo/ | El **registro de asistencia** completo (clave de acceso, enlace, QR), las **consultas multitabla**, el **dashboard**, la **imagen corporativa completa** —el manual de marca ya está aplicado desde la v1, y aquí se evalúa— y la **publicación** | [6, 7](../../../HISTORIAS_DE_USUARIO.md) | Las **rutinas de la base** como parte del contrato · y las reglas de negocio que **no viven en la API** |
+| **v1** | [v1_sede/](v1_sede/2_spec.md) — **Cerrada** (tag `v1`) | El CRUD de las tablas **sin clave foránea**, con sus pantallas. *Este ejemplo construye una: `sede`* | [1, 2, 3, 4](../0_historias_de_usuario.md) | Tres capas con interfaces · y que **el front y la API pueden estar en lenguajes distintos** porque solo los une el contrato |
+| **v2** | v2_todas_las_tablas/ | **Todas** las demás tablas: los catálogos, `catedra`, `sesion` y las puente — con las **listas desplegables cargadas de la API** y sus pantallas | [5](../0_historias_de_usuario.md) | Integridad referencial **en pantalla**: las llaves foráneas se **eligen**, no se digitan · y cuándo conviene **generalizar** el patrón en vez de copiarlo |
+| **v3** | v3_acceso/ | `usuario`, `rol` y `rol_por_usuario`: ingreso, contraseñas cifradas y **control de acceso por rol**, en la API y en el front | [8](../0_historias_de_usuario.md) | Dónde vive la autenticación · y que **esconder un menú NO protege nada**: mientras el control no esté en el servicio, quien escriba la URL entra igual |
+| **v4** | v4_aplicativo/ | El **registro de asistencia** completo (clave de acceso, enlace, QR), las **consultas multitabla**, el **dashboard**, la **imagen corporativa completa** —el manual de marca ya está aplicado desde la v1, y aquí se evalúa— y la **publicación** | [6, 7](../0_historias_de_usuario.md) | Las **rutinas de la base** como parte del contrato · y las reglas de negocio que **no viven en la API** |
 
 **La trazabilidad va en los dos sentidos:** de la versión a sus historias
 —columna de arriba— y de la historia a su versión, en la columna *Iteración
 asignada* de
-[`HISTORIAS_DE_USUARIO.md`](../../../HISTORIAS_DE_USUARIO.md).
+[`0_historias_de_usuario.md`](../0_historias_de_usuario.md).
 
 > **Un desajuste que hubo que corregir, y que vale como advertencia.** La
 > primera versión de este mapa asignaba a la v2 «los demás catálogos», a la v3

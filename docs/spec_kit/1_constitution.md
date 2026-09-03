@@ -4,8 +4,24 @@
 > necesita cambiar una de estas reglas, eso no es una tarea — es una enmienda,
 > y se discute aparte (Artículo 11).
 >
-> **Versión de esta constitución: 1.1.0** — el Artículo 1.1 se agregó al
-> adoptar el versionado en paralelo de back y front.
+> **Todo lo que rige este proyecto está en el spec kit.** Si algo no está
+> aquí ni en un documento de versión, **no está especificado** — y eso incluye
+> las cosas que "todo el mundo sabe".
+>
+> | Documento | Qué contiene |
+> |---|---|
+> | [`0_historias_de_usuario.md`](0_historias_de_usuario.md) | Las necesidades: quién, qué y para qué |
+> | **`1_constitution.md`** (este) | Las reglas permanentes — **incluidos el stack, los datos personales y la identidad visual** |
+> | [`versiones/0_mapa_versiones.md`](versiones/0_mapa_versiones.md) | La ruta v1 → v4, y la estrategia de back y front en paralelo |
+> | [`versiones/v1_sede/`](versiones/v1_sede/2_spec.md) | Los ocho documentos de la versión 1 |
+>
+> **Versión de esta constitución: 1.2.0**
+>
+> | Versión | Qué cambió |
+> |---|---|
+> | 1.0.0 | Los doce artículos originales |
+> | 1.1.0 | **Artículo 1.1** — una versión incluye su front (versionado en paralelo) |
+> | 1.2.0 | **Artículo 9.1** — la identidad visual, que antes solo estaba en el README |
 
 ---
 
@@ -159,6 +175,47 @@ español. La única excepción son las palabras del lenguaje y de los paquetes.
 
 Y los comentarios **explican por qué**, no qué. `// suma uno a i` no aporta;
 `// se compone la consulta porque el PATCH escribe solo lo que llegó` sí.
+
+## Artículo 9.1 — La identidad visual es una RESTRICCIÓN, no una preferencia
+
+Los colores y las fuentes del sistema **no los elige quien programa**. Salen
+del **Manual de Identidad Visual Corporativa** de la Universidad de San
+Buenaventura (Resolución de Rectoría General N.º 404 del 14 de mayo de 2024),
+que está en la raíz del repositorio como `Manual-de-Marca.pdf`.
+
+| Qué | Valor | Manual |
+|---|---|---|
+| Naranja institucional | `#EF7D00` | p. 5 |
+| Negro institucional | `#1D1D1B` | p. 5 |
+| Fuentes secundarias autorizadas | **Montserrat** y **Raleway** | p. 6 |
+| Versión a una tinta | El **negro al 30 %**, no el naranja en gris | p. 6 |
+| Tamaño mínimo del logo en pantalla | 93,2 × 28,3 px (horizontal) | p. 7 |
+| Área de reserva | La altura del texto del propio logosímbolo | p. 7 |
+| Marca de agua (blasón) | Opacidad entre 10 % y 30 % | p. 5 |
+
+El manual es explícito, y hay que leerlo como lo que es:
+
+> «Por ningún motivo se deben cambiar los colores corporativos.»
+
+**Dónde viven esos valores.** En `front_flask/static/marca.css`, en un archivo
+**aparte** de `estilos.css`. La separación no es de orden: ahí van **los
+valores que fija el manual** y allá va cómo se usan. El día que la Universidad
+actualice su manual, se cambia un archivo y nada más.
+
+**El archivo del logosímbolo NO está en el repositorio, y es una decisión.**
+En el manual es un dibujo vectorial: dentro del PDF no existe como imagen, y
+lo único extraíble son fotos de campus. Rasterizar un recorte de la página
+daría un logo con proporciones aproximadas y márgenes arbitrarios — que es
+exactamente lo que la sección de **usos incorrectos** del propio manual
+prohíbe. Mientras el archivo oficial llegue de Comunicaciones, la cabecera
+**reserva su sitio** respetando el tamaño mínimo y el área de reserva.
+
+**En qué versión se evalúa.** El manual se aplica **desde la v1** —era una
+mejora, y las mejoras no esperan— pero *«la imagen corporativa completa»* es
+criterio de la **v4**, porque ahí la pone el curso
+(`ProyectosDeAula` → `0_METODOLOGIA.md` §2), junto con el tablero y la
+publicación. Ver la nota de
+[`versiones/v1_sede/2_spec.md` §6.1](versiones/v1_sede/2_spec.md).
 
 ## Artículo 10 — Contratos exactos
 

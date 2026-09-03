@@ -98,6 +98,49 @@
 - [ ] Alguien **buscó en el repositorio** —no solo en la base— que no queden
       archivos con datos reales.
 
+## H. Propia de este proyecto: back y front EN PARALELO
+
+> Esta sección existe porque este repositorio es el **piloto** de esa
+> estrategia ([Artículo 1.1](../../1_constitution.md)), y una estrategia que
+> solo está declarada no cambia nada.
+
+- [ ] **Cada requisito funcional tiene sus dos bloques**, `En la API` y
+      `En la pantalla`. Si alguno tiene uno vacío, está justificado en su sitio.
+- [ ] **Cada fase de [8_tasks](8_tasks.md) que tenga pantalla se verifica en
+      el navegador**, y su verificación lo dice.
+- [ ] Los criterios de aceptación indican **por qué vía** se comprueba cada
+      uno, y los que tienen pantalla no se comprueban solo con `curl`.
+- [ ] Está dicho, en algún documento, que **una versión no está cerrada si la
+      API responde y la pantalla no**.
+
+## I. Propia de este proyecto: la identidad visual
+
+- [ ] Los valores del manual están en un archivo **aparte** de los estilos
+      propios, para que sean una restricción y no una preferencia.
+- [ ] Está dicho **por qué no hay archivo de logosímbolo** en el repositorio.
+- [ ] Está dicho **en qué versión se evalúa** la imagen corporativa completa,
+      y por qué no es esta.
+
+---
+
+## Todo lo que rige el proyecto está en el spec kit
+
+> La última comprobación, y la que resume el método: **si una regla no está en
+> un documento del spec kit, no está especificada** — por más que "todo el
+> mundo la sepa".
+
+- [ ] Las **historias de usuario** están en el spec kit
+      ([`0_historias_de_usuario.md`](../../0_historias_de_usuario.md)), no
+      sueltas en la raíz.
+- [ ] La **identidad visual** está en la constitución (Artículo 9.1), no solo
+      en el README ni solo en un `.css`.
+- [ ] La regla de los **datos personales** está en la constitución
+      (Artículo 8), no solo en la cabecera de un `.sql`.
+- [ ] La **estrategia de versionado** está en la constitución (Artículo 1.1) y
+      razonada en el [mapa](../0_mapa_versiones.md).
+- [ ] Cada requisito **cita la historia** de la que sale, y cada historia dice
+      **en qué versión** entra: la trazabilidad va en los dos sentidos.
+
 ---
 
 ## Firma

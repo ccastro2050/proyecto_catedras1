@@ -165,6 +165,7 @@ es una regla: **es qué se envía**.
 | 7 — Secretos | ⚠️ **Con la excepción declarada** | A la vista en el compose, y dicho en el artículo |
 | 8 — Sin datos personales | ✅ | El bloque de la carga real se quitó (C1) |
 | 9 — Todo en español | ✅ | Incluidos los comentarios, que explican **por qué** |
+| **9.1 — La identidad visual** | ✅ | Los valores del manual están en `front_flask/static/marca.css`, **aparte** de `estilos.css`. El sitio del logo respeta su tamaño mínimo y su área de reserva. *«La imagen corporativa completa» se evalúa en la v4, donde la pone el curso* |
 | 10 — Contratos exactos | ✅ | [6_contracts](6_contracts.md) escrito contra lo que responde |
 | 11 — Convenciones fijas | ✅ | camelCase, `/api/sede`, prefijo `catedras-` |
 

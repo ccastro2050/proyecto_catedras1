@@ -4,6 +4,20 @@
 
 Universidad de San Buenaventura, Medellín
 
+> **Este documento es el `0` del spec kit**, y el número no es decorativo: las
+> **necesidades van antes que las reglas**. La constitución dice cómo se
+> construye; esto dice para quién y para qué.
+>
+> | Vecino | Qué contiene |
+> |---|---|
+> | [`1_constitution.md`](1_constitution.md) | Las reglas permanentes — incluida la identidad visual |
+> | [`versiones/0_mapa_versiones.md`](versiones/0_mapa_versiones.md) | En qué versión entra cada historia |
+> | [`versiones/v1_sede/2_spec.md`](versiones/v1_sede/2_spec.md) | Los requisitos que salen de las historias 1 a 4 |
+>
+> La versión en Word, que es la que se entrega, está en la raíz del
+> repositorio: `HISTORIAS_DE_USUARIO.docx`. **Se genera desde este archivo**,
+> no al contrario: si los dos difieren, manda este.
+
 ---
 
 ## Historial de Revisiones
@@ -39,14 +53,14 @@ La columna **Iteración asignada** dice en qué versión entra cada historia. No
 **Este proyecto versiona back y front EN PARALELO.** Cada versión entrega su
 parte de la API *y* sus pantallas: no hay una versión "de back" y otra "de
 front". La razón, con sus costos, está en el
-[mapa de versiones](docs/spec_kit/versiones/0_mapa_versiones.md).
+[mapa de versiones](versiones/0_mapa_versiones.md).
 
 Lo que eso significa para estas historias: **una historia no está cumplida si
 el dato se puede consultar por la API pero no se ve en una pantalla.** Sus
 criterios de aceptación están escritos así a propósito — hablan de lo que ve
 quien usa el sistema, no de lo que responde un endpoint.
 
-> **La versión 1 está construida** y se puede ejecutar: es el ejemplo de referencia de este repositorio. Las historias 1 a 4 tienen sus criterios verificados contra el sistema corriendo, y el detalle técnico está en [`docs/spec_kit/`](docs/spec_kit/versiones/v1_sede/2_spec.md).
+> **La versión 1 está construida** y se puede ejecutar: es el ejemplo de referencia de este repositorio. Las historias 1 a 4 tienen sus criterios verificados contra el sistema corriendo, y el detalle técnico está en [`versiones/v1_sede/`](versiones/v1_sede/2_spec.md).
 
 ### Nota sobre la imagen corporativa
 

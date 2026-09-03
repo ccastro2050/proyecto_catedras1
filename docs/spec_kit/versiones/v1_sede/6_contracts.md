@@ -187,6 +187,24 @@ base la conserva — es el criterio 7.
 | `/sedes/<cod>/editar` | GET · POST | Formulario · reemplazar **o** actualizar | `PUT` **o** `PATCH` |
 | `/sedes/<cod>/eliminar` | POST | Elimina | `DELETE` |
 
+### B.0 Lo que TODA pantalla cumple
+
+Antes de cada pantalla, lo que vale para todas:
+
+| Qué | Valor | De dónde sale |
+|---|---|---|
+| Naranja | `#EF7D00` | [Artículo 9.1](../../1_constitution.md) · manual p. 5 |
+| Negro | `#1D1D1B` | Artículo 9.1 · manual p. 5 |
+| Fuentes | **Montserrat** (títulos) y **Raleway** (texto) | Artículo 9.1 · manual p. 6 |
+| El sitio del logo | Mínimo 93,2 × 28,3 px, con su área de reserva | Artículo 9.1 · manual p. 7 |
+| Los avisos | Rojo para error, verde para éxito — **no son colores de marca**: son señales, y el manual no legisla sobre ellas | — |
+
+Están en [`front_flask/static/marca.css`](../../../../front_flask/static/marca.css),
+**aparte** de `estilos.css`: ahí van los valores que fija el manual, y allá
+cómo se usan.
+
+**Comprobable:** `curl http://localhost:8038/static/marca.css` los muestra.
+
 ### B.1 `/sedes` — el listado
 
 | La API responde | La pantalla muestra |
