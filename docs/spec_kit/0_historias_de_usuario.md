@@ -1,6 +1,6 @@
 # Historias de usuario — Cátedras Abiertas
 
-**Versión 1.1**
+**Versión 2.0**
 
 Universidad de San Buenaventura, Medellín
 
@@ -25,13 +25,54 @@ Universidad de San Buenaventura, Medellín
 | Fecha | Versión | Descripción | Autor | Revisor |
 |---|---|---|---|---|
 | 03/09/2026 | 1.0 | Primera versión de las historias de usuario del sistema de cátedras abiertas, derivadas del modelo entregado y del ejemplo de referencia de la versión 1 | Equipo del proyecto de aula | Carlos Arturo Castro Castro |
-| 03/09/2026 | 1.1 | Se alinea la columna de iteración con el mapa de versiones y con las cuatro versiones que evalúa el curso: la v2 pasa a ser TODAS las tablas restantes, no solo cátedra y sesión. Se deja explícito que el proyecto versiona back y front en paralelo | Equipo del proyecto de aula | Carlos Arturo Castro Castro |
+| 03/09/2026 | 1.1 | Se alinea la columna de iteración con el mapa de versiones y con las cuatro versiones que evalúa el curso. Se deja explícito que el proyecto versiona back y front en paralelo | Equipo del proyecto de aula | Carlos Arturo Castro Castro |
+| 03/09/2026 | 2.0 | **Reescritura desde la fuente primaria.** Las historias pasan a estar enunciadas por el profesor Hugo Nelson Castañeda, director del CIDEH, con sus citas literales y el minuto de la reunión. Se retiran los usuarios que se habían supuesto. Entran dos historias que estaban en la fuente y faltaban: el archivo plano del ASIS y la excepción de Rutas de Paz | Carlos Arturo Castro Castro | Hugo Nelson Castañeda |
 
 ---
 
 ## Introducción
 
 Este documento sirve como una guía integral para identificar y definir las historias de usuario esenciales que contribuirán al éxito del proyecto de **Cátedras Abiertas**. A través de esta guía se busca proporcionar una comprensión clara y detallada de las necesidades y expectativas de los usuarios, lo que permitirá a los equipos de desarrollo y gestión alinear sus esfuerzos de manera efectiva. Al seguir las recomendaciones y procesos descritos en este documento, se facilitará la creación de un producto final que cumpla con los objetivos.
+
+### De dónde salen estas historias
+
+**Las enunció el profesor Hugo Nelson Castañeda**, en las reuniones de
+levantamiento del proyecto, como usuario experto del proceso.
+
+Tiene **dos papeles a la vez**, y por eso sus historias cubren tanto:
+
+| Como… | Pide… |
+|---|---|
+| **Director del CIDEH** | Que el proceso funcione: programar cátedras, saber quién asistió, sustentar el alcance ante la Universidad — historias 1 a 5, 8 y 9 |
+| **Administrador del sistema** | Que la herramienta se pueda operar: cargar el catálogo, generar el archivo del ASIS, controlar quién entra — historias 2, 7 y 10 |
+
+Que las dos cosas recaigan en la misma persona explica por qué varias
+historias mezclan la necesidad del proceso con la del operador: **no son dos
+usuarios distintos que hubiera que conciliar, es uno con dos
+responsabilidades**.
+No son suposiciones de quien programa: son lo que él pidió, y en varios casos
+están **citadas textualmente con el minuto de la grabación**.
+
+Esa trazabilidad importa, y conviene decir por qué:
+
+| | |
+|---|---|
+| **Se puede discutir con la fuente** | Si un criterio parece raro, se va a la cita y se resuelve preguntándole a él — no debatiendo qué habrá querido decir |
+| **Se sabe qué es requisito y qué es interpretación** | Lo que está entre comillas lo dijo él. Lo que está en «Observaciones» lo entendimos nosotros, y puede estar mal |
+| **Aparece de dónde viene cada tabla** | La sede, el periodo académico y el correo personal **no salieron del modelo**: salieron de tres frases suyas. Están señaladas en cada historia |
+
+Las referencias `[D1]` a `[D17]` remiten a la tabla de decisiones de
+[`material_dado/PLAN-BD-CATEDRAS-ABIERTAS.md`](../../material_dado/PLAN-BD-CATEDRAS-ABIERTAS.md),
+donde cada una tiene su cita, su minuto y su consecuencia en el modelo.
+
+> **Una sola historia tiene otro usuario, y se dice por qué:** la 6 (el
+> registro de la propia asistencia) **la enunció él**, pero el usuario es
+> **quien asiste**. Una historia se escribe desde quien la vive, aunque la
+> haya pedido otro.
+>
+> Las **nueve restantes son suyas**, y eso incluye la 10 (el control de
+> acceso): **él es el administrador del sistema**, así que cuando pide que
+> cada rol vea solo lo suyo, lo pide como quien va a operarlo.
 
 ### Cómo se lee una historia
 
@@ -46,9 +87,9 @@ La columna **Iteración asignada** dice en qué versión entra cada historia. No
 | Versión | Historias | Qué queda funcionando — **API y pantallas** |
 |---|---|---|
 | **v1** | 1, 2, 3, 4 | Las tablas sin llave foránea, con sus pantallas. *Este ejemplo construye una: el catálogo de sedes, completo* |
-| **v2** | 5 | Todas las demás tablas —cátedras, sesiones y catálogos— con las listas desplegables cargadas del sistema |
-| **v3** | 8 | El ingreso con usuario y el control de acceso por rol |
-| **v4** | 6, 7 | El registro de asistencia, las consultas de acreditación y el tablero |
+| **v2** | 5, 9 | Todas las demás tablas —cátedras, sesiones y catálogos— con las listas desplegables, y la excepción de Rutas de Paz |
+| **v3** | 10 | El ingreso con usuario y el control de acceso por rol |
+| **v4** | 6, 7, 8 | El registro de asistencia, **el archivo plano del ASIS** y el informe de externos |
 
 **Este proyecto versiona back y front EN PARALELO.** Cada versión entrega su
 parte de la API *y* sus pantallas: no hay una versión "de back" y otra "de
@@ -86,29 +127,34 @@ El manual es explícito: **«por ningún motivo se deben cambiar los colores cor
 
 | | |
 |---|---|
-| **Número:** 1 | **Usuario:** Ana Gómez · Coordinadora de Bienestar Institucional |
+| **Número:** 1 | **Usuario:** profesor Hugo Nelson Castañeda · Administrador del sistema y director del CIDEH |
 | **Nombre historia:** Consulta del catálogo de sedes ||
-| **Diseñada por:** Carlos Arturo Castro Castro ||
+| **Diseñada por:** Enunciadas por el profesor Hugo Nelson Castañeda (usuario experto) · Redactadas por Carlos Arturo Castro Castro ||
 | **Prioridad:** Alta | **Riesgo en desarrollo:** Bajo |
 | **Puntos estimados:** 1 · **Horas estimadas:** 6 | **Iteración asignada:** v1 |
 | **Programador responsable:** Equipo del proyecto de aula ||
 
 **Descripción:**
 
-Yo Ana Gómez, como coordinadora de Bienestar Institucional, quiero ver en una pantalla la lista de las sedes donde se dictan las cátedras abiertas, con su nombre, su dirección y si son virtuales, para saber dónde se puede programar una sesión sin tener que preguntarle a nadie ni abrir la base de datos.
+Yo, Hugo Nelson Castañeda, como administrador del sistema y director del CIDEH, quiero ver en una pantalla las sedes donde se puede dictar una cátedra abierta —con su nombre, su dirección y si es virtual— para poder programar dos o tres cátedras el mismo día en sitios distintos sin equivocarme de campus.
+
+La necesidad está dicha textualmente en la reunión, y de ella nace esta tabla:
+
+> *«El mismo día sí, a la misma hora no… sí es posible: una cátedra en San Benito, otra virtual y otra en Bello.»* — `1:03:33` **[D14]**
 
 **Observaciones:**
 
-- La sede virtual no tiene dirección física, y eso NO es un dato faltante: es su naturaleza. La pantalla debe distinguir «no tiene dirección» de «nadie escribió la dirección».
+- **Esta historia es el origen de la primera versión del sistema.** Antes de esa frase el modelo no tenía sede: las cátedras se programaban «en la universidad», y bastaba. Cuando el director dice que puede haber tres cátedras el mismo día en tres sitios, la sede deja de ser un dato de adorno y se vuelve necesaria para no cruzarlas.
+- La sede virtual **no tiene dirección física**, y eso no es un dato que falte: es lo que la distingue.
 
 **Criterios de aceptación:**
 
-- Que la pantalla liste únicamente las sedes activas: una sede eliminada no aparece.
+- Que la pantalla liste únicamente las sedes activas.
 - Que la sede virtual se muestre con una raya (—) en la columna de dirección, y no con una celda vacía que parezca un error.
 - Que cada sede indique si es presencial o virtual con una etiqueta legible, no con un 1 o un 0.
-- Que cuando no haya ninguna sede activa la pantalla lo diga con un mensaje neutro, y no con un aviso de error: una lista vacía no es una falla.
-- Que la distribución de colores, tipos de letra y logotipos esté de acuerdo con el Manual de Identidad Visual Corporativa vigente (Resolución de Rectoría General N.º 404 de 2024): naranja #EF7D00, negro #1D1D1B, y Montserrat o Raleway como fuentes.
-- Que la pantalla siga cargando y explique el problema si el servicio de datos no responde, en vez de mostrar una pantalla de error del servidor.
+- Que cuando no haya sedes activas la pantalla lo diga con un mensaje neutro: una lista vacía no es una falla.
+- Que los colores, los tipos de letra y los logotipos cumplan el Manual de Identidad Visual Corporativa vigente (Resolución de Rectoría General N.º 404 de 2024).
+- Que la pantalla siga cargando y explique el problema si el servicio de datos no responde.
 
 ---
 
@@ -116,29 +162,29 @@ Yo Ana Gómez, como coordinadora de Bienestar Institucional, quiero ver en una p
 
 | | |
 |---|---|
-| **Número:** 2 | **Usuario:** Ana Gómez · Coordinadora de Bienestar Institucional |
+| **Número:** 2 | **Usuario:** profesor Hugo Nelson Castañeda · Administrador del sistema y director del CIDEH |
 | **Nombre historia:** Registro de una sede nueva ||
-| **Diseñada por:** Carlos Arturo Castro Castro ||
+| **Diseñada por:** Enunciadas por el profesor Hugo Nelson Castañeda (usuario experto) · Redactadas por Carlos Arturo Castro Castro ||
 | **Prioridad:** Alta | **Riesgo en desarrollo:** Bajo |
 | **Puntos estimados:** 1 · **Horas estimadas:** 6 | **Iteración asignada:** v1 |
 | **Programador responsable:** Equipo del proyecto de aula ||
 
 **Descripción:**
 
-Yo Ana Gómez, como coordinadora de Bienestar Institucional, quiero registrar una sede nueva desde un formulario, indicando su código, su nombre, su dirección si la tiene y si es virtual, para poder programar cátedras en un campus que la Universidad acaba de habilitar sin depender de que alguien escriba una instrucción en la base de datos.
+Yo, Hugo Nelson Castañeda, como administrador del sistema y director del CIDEH, quiero registrar una sede nueva desde un formulario —su código, su nombre, su dirección si la tiene y si es virtual— para poder programar cátedras en un campus recién habilitado sin depender de que alguien escriba una instrucción en la base de datos.
 
 **Observaciones:**
 
-- El código de la sede lo define quien la registra —es un identificador como SAN_BENITO, no un número consecutivo—, así que se digita y no se genera.
+- El código de la sede lo define quien la registra: es un identificador como `SAN_BENITO`, no un número consecutivo. Por eso se digita y no se genera.
 
 **Criterios de aceptación:**
 
 - Que el código y el nombre sean obligatorios, y que la dirección pueda quedar vacía cuando la sede es virtual.
-- Que si la dirección se deja vacía quede registrada como «sin dirección» y NO como un texto en blanco: son cosas distintas.
-- Que el sistema rechace el registro y diga cuál campo falta, sin perder lo que ya se había escrito en el formulario.
-- Que el sistema NO permita dos sedes con el mismo código.
-- Que el sistema NO permita dos sedes con el mismo nombre, aunque tengan códigos distintos: dos «Campus Bello» en la lista no le sirven a nadie.
-- Que las dos comprobaciones anteriores las garantice la base de datos y no solo la pantalla, para que se cumplan también si alguien escribe por otro camino.
+- Que la dirección vacía quede registrada como «sin dirección» y NO como un texto en blanco: son cosas distintas.
+- Que el sistema rechace el registro y diga cuál campo falta, sin perder lo que ya se había escrito.
+- Que NO permita dos sedes con el mismo código.
+- Que NO permita dos sedes con el mismo nombre, aunque tengan códigos distintos: dos «Campus Bello» en la lista no le sirven a nadie.
+- Que esas dos comprobaciones las garantice la base de datos y no solo la pantalla, para que se cumplan también si alguien escribe por otro camino.
 
 ---
 
@@ -146,26 +192,26 @@ Yo Ana Gómez, como coordinadora de Bienestar Institucional, quiero registrar un
 
 | | |
 |---|---|
-| **Número:** 3 | **Usuario:** Ana Gómez · Coordinadora de Bienestar Institucional |
+| **Número:** 3 | **Usuario:** profesor Hugo Nelson Castañeda · Administrador del sistema y director del CIDEH |
 | **Nombre historia:** Corrección de los datos de una sede ||
-| **Diseñada por:** Carlos Arturo Castro Castro ||
+| **Diseñada por:** Enunciadas por el profesor Hugo Nelson Castañeda (usuario experto) · Redactadas por Carlos Arturo Castro Castro ||
 | **Prioridad:** Media | **Riesgo en desarrollo:** Medio |
 | **Puntos estimados:** 2 · **Horas estimadas:** 8 | **Iteración asignada:** v1 |
 | **Programador responsable:** Equipo del proyecto de aula ||
 
 **Descripción:**
 
-Yo Ana Gómez, como coordinadora de Bienestar Institucional, quiero corregir los datos de una sede ya registrada, para arreglar un nombre mal escrito o actualizar una dirección que cambió, sin tener que borrarla y volver a crearla —porque borrarla arrastraría las sesiones que ya están programadas allí.
+Yo, Hugo Nelson Castañeda, como administrador del sistema y director del CIDEH, quiero corregir los datos de una sede ya registrada —un nombre mal escrito, una dirección que cambió— sin tener que borrarla y volver a crearla, porque borrarla arrastraría las sesiones que ya están programadas allí.
 
 **Observaciones:**
 
-- Esta historia tiene DOS formas de guardar, y la diferencia importa: reemplazar todos los datos de la sede, o cambiar solamente los que se diligenciaron. Se pidieron las dos porque en la práctica se usan las dos: una para rehacer la ficha completa y otra para corregir un solo dato.
+- Esta historia tiene **dos formas de guardar**, y las dos se pidieron porque las dos se usan: rehacer la ficha completa, o corregir un solo dato.
 
 **Criterios de aceptación:**
 
-- Que el código de la sede se muestre pero no se pueda cambiar: identifica la fila, y cambiarlo sería crear otra sede.
-- Que al REEMPLAZAR la ficha completa el sistema exija todos los campos obligatorios, y rechace la operación si falta uno.
-- Que al ACTUALIZAR solo lo diligenciado el sistema escriba únicamente esos campos y deje los demás como estaban.
+- Que el código se muestre pero no se pueda cambiar: identifica la fila.
+- Que al REEMPLAZAR la ficha el sistema exija todos los campos obligatorios, y rechace la operación si falta uno.
+- Que al ACTUALIZAR solo lo diligenciado escriba únicamente esos campos y deje los demás como estaban.
 - Que el mismo formulario a medio llenar sea rechazado al reemplazar y aceptado al actualizar: la diferencia debe ser visible para quien lo usa.
 - Que si no se diligencia ningún campo el sistema avise y no haga nada.
 - Que corregir una sede que no existe responda «no encontrada» y no cree una nueva.
@@ -176,153 +222,242 @@ Yo Ana Gómez, como coordinadora de Bienestar Institucional, quiero corregir los
 
 | | |
 |---|---|
-| **Número:** 4 | **Usuario:** Ana Gómez · Coordinadora de Bienestar Institucional |
+| **Número:** 4 | **Usuario:** profesor Hugo Nelson Castañeda · Administrador del sistema y director del CIDEH |
 | **Nombre historia:** Retiro de una sede del catálogo ||
-| **Diseñada por:** Carlos Arturo Castro Castro ||
+| **Diseñada por:** Enunciadas por el profesor Hugo Nelson Castañeda (usuario experto) · Redactadas por Carlos Arturo Castro Castro ||
 | **Prioridad:** Media | **Riesgo en desarrollo:** Alto |
 | **Puntos estimados:** 2 · **Horas estimadas:** 6 | **Iteración asignada:** v1 |
 | **Programador responsable:** Equipo del proyecto de aula ||
 
 **Descripción:**
 
-Yo Ana Gómez, como coordinadora de Bienestar Institucional, quiero retirar del catálogo una sede que la Universidad dejó de usar, para que nadie programe cátedras allí por equivocación, pero SIN que desaparezcan las sesiones y las asistencias que ya se registraron en ella.
+Yo, Hugo Nelson Castañeda, como administrador del sistema y director del CIDEH, quiero retirar del catálogo una sede que la Universidad dejó de usar, para que nadie programe cátedras allí por equivocación, pero **sin que desaparezcan** las sesiones y las asistencias que ya se registraron en ella.
 
 **Observaciones:**
 
-- Este es el riesgo alto del grupo: un borrado de verdad rompería los registros históricos de asistencia, que son la razón de existir del sistema. Por eso se pide que la sede se marque como retirada y no que se elimine.
+- **Este es el riesgo alto del grupo.** Un borrado de verdad rompería los registros históricos de asistencia, que son la razón de existir del sistema: lo que se le reporta a Registro Académico y lo que sustenta la acreditación.
 
 **Criterios de aceptación:**
 
 - Que la sede retirada desaparezca del catálogo que se usa para programar.
-- Que la fila SIGA EXISTIENDO en la base de datos, de modo que las sesiones y las asistencias históricas conserven a qué sede pertenecen.
+- Que la fila SIGA EXISTIENDO en la base, de modo que las sesiones y las asistencias históricas conserven a qué sede pertenecen.
 - Que retirar dos veces la misma sede responda «no encontrada» la segunda vez, y no un éxito silencioso.
-- Que consultar una sede ya retirada responda «no encontrada»: si no está en el catálogo, para el sistema no existe.
+- Que consultar una sede ya retirada responda «no encontrada».
 - Que el retiro pida confirmación antes de ejecutarse.
 - Que el retiro no pueda dispararse por el solo hecho de abrir o precargar una dirección web.
 
 ---
 
-### Historia de Usuario 5 — Programación de una cátedra y sus sesiones
+### Historia de Usuario 5 — Programación de la cátedra y sus sesiones
 
 | | |
 |---|---|
-| **Número:** 5 | **Usuario:** Luis Restrepo · Auxiliar administrativo de Bienestar |
-| **Nombre historia:** Programación de una cátedra y sus sesiones ||
-| **Diseñada por:** Carlos Arturo Castro Castro ||
+| **Número:** 5 | **Usuario:** profesor Hugo Nelson Castañeda · Administrador del sistema y director del CIDEH |
+| **Nombre historia:** Programación de la cátedra y sus sesiones ||
+| **Diseñada por:** Enunciadas por el profesor Hugo Nelson Castañeda (usuario experto) · Redactadas por Carlos Arturo Castro Castro ||
 | **Prioridad:** Alta | **Riesgo en desarrollo:** Medio |
 | **Puntos estimados:** 3 · **Horas estimadas:** 16 | **Iteración asignada:** v2 |
 | **Programador responsable:** Equipo del proyecto de aula ||
 
 **Descripción:**
 
-Yo Luis Restrepo, como auxiliar administrativo de Bienestar, quiero registrar una cátedra abierta y programar sus sesiones indicando fecha, hora, modalidad, sede y periodo académico, para que el sistema sepa qué eventos existen y cuándo, y pueda controlar la asistencia a cada uno.
+Yo, Hugo Nelson Castañeda, como administrador del sistema y director del CIDEH, quiero registrar una cátedra y programar sus sesiones indicando el número de reunión, la fecha, la hora, la modalidad, la sede y el periodo, para poder generar después el enlace o el código de cada una.
+
+> *«Necesitamos el número de reunión, que eso lo podríamos hacer previo.»* — `1:03:50` **[D16]**
+
+> *«Cuando es virtual enviamos el enlace; si es presencial, el QR.»* — `1:06:53` **[D15]**
 
 **Observaciones:**
 
-- La sede, la modalidad y el periodo NO se digitan: se eligen de los catálogos que ya existen. Digitarlos permitiría escribir una sede que no existe.
+- La modalidad **no es un dato descriptivo: decide el canal de entrega**. Virtual manda enlace; presencial proyecta un código. Por eso no puede quedar vacía.
+- El número de reunión puede venir del ASIS o calcularse, pero **existe antes** de la sesión: es lo que después viaja en el archivo plano.
 
 **Criterios de aceptación:**
 
 - Que la sede, la modalidad, el tipo de evento y el periodo se seleccionen de una lista cargada del sistema, no se escriban a mano.
-- Que el sistema no permita una sesión cuya hora de fin sea anterior o igual a la de inicio.
-- Que el identificador de la cátedra en el sistema institucional (ASIS) se valide con el formato que ese sistema exige, y se rechace si no lo cumple.
+- Que no permita una sesión cuya hora de fin sea anterior o igual a la de inicio.
+- Que el identificador de la cátedra en el ASIS se valide con el formato que ese sistema exige, y se rechace si no lo cumple.
 - Que dos sesiones de la misma cátedra no puedan tener el mismo número de reunión.
-- Que una cátedra retirada no aparezca en la lista para programar sesiones nuevas.
+- Que una sede retirada no aparezca en la lista para programar sesiones nuevas.
 
 ---
 
-### Historia de Usuario 6 — Registro de la propia asistencia a una sesión
+### Historia de Usuario 6 — Registro de la propia asistencia
 
 | | |
 |---|---|
-| **Número:** 6 | **Usuario:** Camila Herrera · Estudiante de Ingeniería de Sistemas |
-| **Nombre historia:** Registro de la propia asistencia a una sesión ||
-| **Diseñada por:** Carlos Arturo Castro Castro ||
+| **Número:** 6 | **Usuario:** El asistente a la cátedra (estudiante, docente, egresado o externo) |
+| **Nombre historia:** Registro de la propia asistencia ||
+| **Diseñada por:** Enunciadas por el profesor Hugo Nelson Castañeda (usuario experto) · Redactadas por Carlos Arturo Castro Castro ||
 | **Prioridad:** Alta | **Riesgo en desarrollo:** Alto |
 | **Puntos estimados:** 5 · **Horas estimadas:** 24 | **Iteración asignada:** v4 |
 | **Programador responsable:** Equipo del proyecto de aula ||
 
 **Descripción:**
 
-Yo Camila Herrera, como estudiante de la Universidad, quiero registrar mi asistencia a una sesión de cátedra abierta escaneando un código o abriendo un enlace, y confirmando con una clave que el sistema me envíe, para que mi asistencia quede certificada sin tener que firmar una planilla en papel que después alguien transcribe a mano.
+Yo, como persona que asiste a una cátedra abierta, quiero registrar mi asistencia escaneando el código o abriendo el enlace, identificándome con **mi código, mi cédula o mi correo** —el que recuerde— y confirmando con una clave que me llegue al correo, para que mi asistencia quede certificada sin firmar una planilla que después alguien transcribe.
+
+La razón de la clave la dio el director, y no es la que uno supondría:
+
+> *«Yo me puedo registrar por cualquier persona, por eso tiene que ser con el correo… si no, yo te registro a vos y vos me registrás a mí.»* — `1:04:51`
+
+> *«A veces los estudiantes, como no se saben el ID, colocan la cédula; toca buscar en ASIS con la cédula para obtener el ID.»* — `42:01` **[D11]**
 
 **Observaciones:**
 
-- Hoy la asistencia se recoge en un formulario anónimo y se migra a mano al sistema institucional. Esta historia es la razón de existir del proyecto: eliminar esa transcripción y con ella los errores que introduce.
-- El riesgo es alto porque toca datos personales: quién asistió, cuándo y desde dónde.
+- **Esta historia la enunció el director, pero el usuario no es él:** es quien asiste. Se deja así porque una historia se escribe desde quien la vive, aunque la haya pedido otro.
+- **La clave al correo NO es autenticación: es prevención de suplantación.** Su límite se reconoció en la misma reunión —se puede pedir el código por teléfono— y el riesgo residual se aceptó a cambio de seriedad. Conviene que quede escrito, para que nadie la presente como algo que no es.
+- Aceptar los **tres identificadores** es lo que elimina el trabajo manual de buscar el ID en el ASIS a partir de la cédula.
 
 **Criterios de aceptación:**
 
-- Que solo pueda registrarse quien tenga una vinculación vigente con la Universidad —estudiante, docente, administrativo, egresado— o esté autorizado como externo.
-- Que una misma persona no pueda quedar registrada dos veces en la misma sesión.
-- Que la clave de acceso se envíe a un correo de la persona y tenga una vigencia limitada.
-- Que las claves NO se guarden en texto legible en la base de datos.
-- Que el registro guarde de dónde vino (código QR, enlace o registro manual) para poder auditarlo después.
-- Que la pantalla del estudiante funcione en el teléfono, porque es donde se va a usar de verdad: en la puerta del auditorio.
-- Que la imagen de la pantalla cumpla el Manual de Identidad Visual Corporativa vigente, porque es la cara del sistema ante los estudiantes.
+- Que se pueda entrar con el código del ASIS, la cédula o el correo: cualquiera de los tres.
+- Que solo pueda registrarse quien esté en la tabla cargada del ASIS — «solo los que estén en esa tabla pueden ingresar» (`55:52`).
+- Que una misma persona no quede registrada dos veces en la misma sesión.
+- Que la clave se envíe al correo de la persona y tenga vigencia limitada.
+- Que las claves NO se guarden en texto legible.
+- Que quede registrado a qué correo se envió, cuándo, y cuándo se usó: no basta con saber que alguien se registró.
+- Que el formulario llegue **ya diligenciado**: la persona no digita sus datos otra vez (`1:50:43`).
+- Que funcione en el teléfono, porque es donde se va a usar: en la puerta del auditorio.
+- Que la pantalla cumpla el Manual de Identidad Visual Corporativa: es la cara del sistema ante los estudiantes (`59:10`).
 
 ---
 
-### Historia de Usuario 7 — Informe de asistencia por cátedra y periodo
+### Historia de Usuario 7 — Generación del archivo plano para el ASIS
 
 | | |
 |---|---|
-| **Número:** 7 | **Usuario:** Diana Osorio · Vicerrectoría Académica |
-| **Nombre historia:** Informe de asistencia por cátedra y periodo ||
-| **Diseñada por:** Carlos Arturo Castro Castro ||
-| **Prioridad:** Media | **Riesgo en desarrollo:** Medio |
-| **Puntos estimados:** 3 · **Horas estimadas:** 12 | **Iteración asignada:** v4 |
+| **Número:** 7 | **Usuario:** profesor Hugo Nelson Castañeda · Administrador del sistema y director del CIDEH |
+| **Nombre historia:** Generación del archivo plano para el ASIS ||
+| **Diseñada por:** Enunciadas por el profesor Hugo Nelson Castañeda (usuario experto) · Redactadas por Carlos Arturo Castro Castro ||
+| **Prioridad:** Alta | **Riesgo en desarrollo:** Alto |
+| **Puntos estimados:** 5 · **Horas estimadas:** 20 | **Iteración asignada:** v4 |
 | **Programador responsable:** Equipo del proyecto de aula ||
 
 **Descripción:**
 
-Yo Diana Osorio, de la Vicerrectoría Académica, quiero consultar cuántas personas asistieron a cada cátedra en un periodo, discriminadas por programa académico y por tipo de vinculación, para sustentar ante los entes de acreditación el alcance real de las cátedras abiertas.
+Yo, Hugo Nelson Castañeda, como administrador del sistema y director del CIDEH, quiero que el sistema me genere, al terminar una sesión, el archivo plano listo para subir al ASIS, para no volver a transcribir a mano lo que ya está registrado.
+
+> *«Que la persona se registre y de una vez nos genere el archivo plano para pasarlo.»* — `1:04:38`
+
+Y la forma del archivo está cerrada:
+
+> *«El archivo plano son tres: la reunión consecutivo, el ID y el código del programa.»* — `32:34` **[D9]**
 
 **Observaciones:**
 
-- Este es el informe que hoy se arma a mano cruzando archivos, y por eso tarda semanas y nadie está seguro de sus cifras.
+- **Esta es la razón de existir del proyecto.** Hoy la asistencia se recoge en un formulario anónimo y alguien la transcribe al ASIS a mano; eliminar esa transcripción es lo que se está comprando.
+- **Tres columnas, ni una más.** La cédula y los nombres están en el modelo, pero **no viajan**: *«en el ASIS está el número de identificación, la cédula… pero no es la información que se monta como archivo plano»* (`44:01`, **[D10]**).
+- Los **externos se cuentan pero no viajan**: *«si son externos… eso lo podemos depurar antes de pasarlo»* (`43:37`, **[D5]**).
 
 **Criterios de aceptación:**
 
-- Que el informe se pueda filtrar por periodo académico y por cátedra.
+- Que el archivo tenga exactamente tres columnas: número de reunión, ID del ASIS y código de programa.
+- Que NO incluya cédula, nombres ni correos, aunque el sistema los tenga.
+- Que los asistentes externos **queden excluidos** del archivo, sin dejar de estar registrados en el sistema.
+- Que el programa que viaja sea el que imputa la asistencia — *«después le da información a Registro de qué programas hizo el estudiante»* (`50:14`, **[D12]**).
+- Que el archivo se pueda descargar por sesión.
+- Que si una asistencia no tiene ID del ASIS, el sistema lo señale **antes** de generar el archivo, y no produzca una línea inválida.
+
+---
+
+### Historia de Usuario 8 — Informe de externos por periodo
+
+| | |
+|---|---|
+| **Número:** 8 | **Usuario:** profesor Hugo Nelson Castañeda · Administrador del sistema y director del CIDEH |
+| **Nombre historia:** Informe de externos por periodo ||
+| **Diseñada por:** Enunciadas por el profesor Hugo Nelson Castañeda (usuario experto) · Redactadas por Carlos Arturo Castro Castro ||
+| **Prioridad:** Media | **Riesgo en desarrollo:** Bajo |
+| **Puntos estimados:** 2 · **Horas estimadas:** 10 | **Iteración asignada:** v4 |
+| **Programador responsable:** Equipo del proyecto de aula ||
+
+**Descripción:**
+
+Yo, Hugo Nelson Castañeda, como administrador del sistema y director del CIDEH, quiero poder descargar cuántas personas externas asistieron a las cátedras en un periodo, para sustentar el alcance de las cátedras abiertas fuera de la Universidad — aunque esas personas no vayan en el archivo del ASIS.
+
+> *«Que nos genere un registro de externos, pero que no nos lo arroje en el archivo plano; que sí podamos descargar cuántos externos han ingresado en 2026-2.»* — `56:16` **[D6]**
+
+**Observaciones:**
+
+- **Esta frase es la justificación del periodo académico en el modelo.** Sin ella, «2026-2» sería un texto suelto; con ella, es la unidad en la que se cuenta.
+- Es la otra cara de la historia 7: el externo **se captura y se cuenta**, pero **se filtra** del archivo. Las dos reglas salen de la misma conversación y hay que leerlas juntas.
+
+**Criterios de aceptación:**
+
+- Que el informe se pueda filtrar por periodo académico.
+- Que cuente a los externos **por separado** de los internos.
 - Que las cifras salgan de los registros de asistencia y no de un archivo aparte que alguien mantenga en paralelo.
-- Que el informe distinguya entre asistentes internos y externos.
-- Que el informe se pueda exportar para adjuntarlo a un documento de acreditación.
+- Que se pueda descargar.
 - Que las sesiones de sedes retiradas sigan contando en los periodos en que se dictaron: retirar una sede no reescribe la historia.
 
 ---
 
-### Historia de Usuario 8 — Control de acceso por rol
+### Historia de Usuario 9 — La excepción de Rutas de Paz
 
 | | |
 |---|---|
-| **Número:** 8 | **Usuario:** Jorge Marín · Administrador del sistema |
+| **Número:** 9 | **Usuario:** profesor Hugo Nelson Castañeda · Administrador del sistema y director del CIDEH |
+| **Nombre historia:** La excepción de Rutas de Paz ||
+| **Diseñada por:** Enunciadas por el profesor Hugo Nelson Castañeda (usuario experto) · Redactadas por Carlos Arturo Castro Castro ||
+| **Prioridad:** Media | **Riesgo en desarrollo:** Medio |
+| **Puntos estimados:** 3 · **Horas estimadas:** 10 | **Iteración asignada:** v2 |
+| **Programador responsable:** Equipo del proyecto de aula ||
+
+**Descripción:**
+
+Yo, Hugo Nelson Castañeda, como administrador del sistema y director del CIDEH, quiero que las personas del programa Rutas de Paz puedan registrar su asistencia **sin programa académico y con un correo personal**, porque no tienen ni lo uno ni lo otro, pero sí asisten a las cátedras.
+
+> *«Para el tema de Rutas de Paz sí sería una excepción: ellos entrarían sin programa, pero solo ellos.»* — `41:16` **[D7]**
+
+> *«Los que están en Rutas de Paz no tienen correo institucional.»* — `53:42` **[D8]**
+
+**Observaciones:**
+
+- **«Pero solo ellos»** es la parte que hay que respetar: la excepción es de un tipo de vinculación, no una puerta abierta para todos.
+- El correo personal **no es un caso raro**: para esta población es la única vía de contacto, y sin ella no hay cómo enviarle la clave. Por eso el modelo exige *al menos un* correo, no el institucional.
+- Cuando aparece una excepción así, la pregunta correcta no es «¿cómo la salto?» sino **«¿qué dice el nulo?»**. Aquí el programa vacío significa algo concreto: *esta persona entra por Rutas de Paz*.
+
+**Criterios de aceptación:**
+
+- Que el programa académico pueda quedar vacío **solo** para los tipos de vinculación que lo permitan.
+- Que para los demás tipos el programa siga siendo obligatorio.
+- Que una persona sin correo institucional pueda registrarse con su correo personal.
+- Que ninguna persona quede sin al menos una vía de contacto: sin correo no hay cómo enviarle la clave.
+- Que el informe de la historia 8 pueda distinguir a esta población.
+
+---
+
+### Historia de Usuario 10 — Control de acceso por rol
+
+| | |
+|---|---|
+| **Número:** 10 | **Usuario:** profesor Hugo Nelson Castañeda · Administrador del sistema y director del CIDEH |
 | **Nombre historia:** Control de acceso por rol ||
-| **Diseñada por:** Carlos Arturo Castro Castro ||
+| **Diseñada por:** Enunciadas por el profesor Hugo Nelson Castañeda (usuario experto) · Redactadas por Carlos Arturo Castro Castro ||
 | **Prioridad:** Alta | **Riesgo en desarrollo:** Alto |
 | **Puntos estimados:** 5 · **Horas estimadas:** 20 | **Iteración asignada:** v3 |
 | **Programador responsable:** Equipo del proyecto de aula ||
 
 **Descripción:**
 
-Yo Jorge Marín, como administrador del sistema, quiero que cada persona entre con su usuario y vea únicamente lo que le corresponde según su rol, para que un estudiante no pueda modificar el catálogo de sedes ni consultar la asistencia de sus compañeros.
+Yo, Hugo Nelson Castañeda, como administrador del sistema y director del CIDEH, quiero que cada persona entre con su usuario y vea únicamente lo que le corresponde según su rol, para que un asistente no pueda modificar el catálogo de sedes ni consultar la asistencia de los demás.
 
 **Observaciones:**
 
-- Ojo con una confusión frecuente: esconder una opción del menú NO es controlar el acceso. Mientras el control no esté en el servicio que entrega los datos, cualquiera que escriba la dirección web llega igual.
-- Por eso esta historia NO se considera cumplida con un menú filtrado.
+- **Ojo con una confusión frecuente: esconder una opción del menú NO es controlar el acceso.** Mientras el control no esté en el servicio que entrega los datos, cualquiera que escriba la dirección web llega igual. Por eso esta historia **no se considera cumplida con un menú filtrado**.
+- Un sistema que aparenta seguridad es peor que uno que no la tiene, porque el segundo al menos no engaña a quien lo opera.
 
 **Criterios de aceptación:**
 
 - Que el sistema pida usuario y contraseña, y que toda pantalla distinta del ingreso exija haber entrado.
-- Que las contraseñas se guarden cifradas y nunca se devuelvan, ni en claro ni cifradas.
+- Que las contraseñas se guarden cifradas y nunca se devuelvan.
 - Que el mensaje de error al fallar el ingreso sea el mismo si el usuario no existe y si la contraseña está mal: decir cuál de los dos falló revela qué usuarios existen.
 - Que el menú muestre solo lo que el rol puede usar.
-- Que el control se aplique TAMBIÉN cuando alguien escribe la dirección a mano: el menú solo dibuja, no protege.
-- Que las contraseñas solo puedan ser inicializadas por el administrador y deban ser cambiadas por la persona en su primer ingreso.
+- Que el control se aplique **también** cuando alguien escribe la dirección a mano.
+- Que las contraseñas solo puedan ser inicializadas por el administrador y deban cambiarse en el primer ingreso.
 
 ---
-
 ## Anexo: qué NO es una historia de usuario
 
 Se deja anotado porque al escribir este documento aparecieron tres candidatas que se descartaron, y saber por qué ahorra discusiones:
@@ -332,5 +467,6 @@ Se deja anotado porque al escribir este documento aparecieron tres candidatas qu
 | «Crear la tabla `sede` en PostgreSQL» | Es una tarea técnica, no una necesidad de alguien. Ningún usuario quiere una tabla: quiere consultar sedes |
 | «Migrar los datos del sistema institucional» | Es un trabajo real, pero no tiene un usuario que lo pida para algo suyo. Va como tarea del plan, no como historia |
 | «Que el sistema sea rápido» | No es verificable como está escrito. Convertida en criterio de una historia concreta —*que el catálogo cargue en menos de un segundo con 50 sedes*— sí sirve |
+| «Que la clave al correo autentique al usuario» | **La fuente dice lo contrario.** En la reunión se reconoció que se puede pedir el código por teléfono: *«esa trampa se puede hacer»* (`1:05:18`). Escribirla como autenticación sería prometer algo que el sistema no da. Va como lo que es: prevención de suplantación, con su límite dicho |
 
 > La prueba para saber si algo es una historia: **¿se puede nombrar a la persona que la necesita, y decir qué gana cuando esté lista?** Si no, es una tarea — y las tareas van en el plan.
