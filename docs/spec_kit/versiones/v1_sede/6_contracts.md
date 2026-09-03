@@ -221,19 +221,32 @@ cómo se usan.
 
 ### B.3 `/sedes/<codigo>/editar` — LA PANTALLA DE LA VERSIÓN
 
-Un formulario, **dos botones**:
+Un formulario, **dos botones**. Y fíjese en cómo se llaman:
 
 ```html
-<button type="submit" name="verbo" value="put">Reemplazar (PUT)</button>
-<button type="submit" name="verbo" value="patch">Actualizar lo diligenciado (PATCH)</button>
+<button type="submit" name="verbo" value="put">Guardar la ficha completa</button>
+<button type="submit" name="verbo" value="patch">Guardar solo lo que cambie</button>
 ```
+
+**Los botones NO se llaman como el verbo HTTP**, y eso es una decisión
+([D-v1-9](4_research.md)): quien usa la pantalla es el director del CIDEH, que
+no sabe qué es un PUT. El atributo `value` sí lleva `put` y `patch` porque
+**eso lo lee el programa**, no la persona.
 
 Con **el mismo formulario**, el nombre borrado:
 
-| Botón | Qué viaja | La API responde | La pantalla |
+| El usuario oprime | Qué viaja | La API responde | Qué ve el usuario |
 |---|---|---|---|
-| **Reemplazar (PUT)** | nombre, dirección y la casilla — el nombre vacío incluido | **422** `El campo nombre es obligatorio.` | vuelve al formulario con el aviso |
-| **Actualizar (PATCH)** | solo lo que tiene contenido | **200** | **302** al listado, guardado |
+| **«Guardar la ficha completa»** | nombre, dirección y la casilla — el nombre vacío incluido | `PUT` → **422** | vuelve al formulario: *«El campo nombre es obligatorio»* |
+| **«Guardar solo lo que cambié»** | solo lo que tiene contenido | `PATCH` → **200** | vuelve al listado, guardado |
+
+**Las dos columnas de la derecha son el mismo hecho contado a dos públicos.**
+La tercera es para quien construye; la cuarta, para quien usa. Que se puedan
+poner una al lado de la otra —y que la cuarta no mencione ni un código— es lo
+que dice que el contrato está bien puesto.
+
+Con todos los campos vacíos, «Guardar solo lo que cambié» **no llama a la
+API**: avisa y se queda.
 
 ### B.4 `/sedes/<codigo>/eliminar` — POST, nunca GET
 

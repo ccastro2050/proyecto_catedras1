@@ -151,7 +151,7 @@ completa.
 - `nombre` y `esVirtual` obligatorios. Falta uno → **422**.
 - Devuelve `filasAfectadas`. Inexistente → **404**.
 
-**En la pantalla** — el botón **«Reemplazar (PUT)»**
+**En la pantalla** — el botón **«Guardar la ficha completa»**
 - Envía todos los campos, **vacíos incluidos**: por eso un nombre en blanco
   responde 422.
 - El código se muestra pero **no se puede cambiar**: identifica la fila.
@@ -166,8 +166,8 @@ sin rehacer la ficha.
 **En la API** — `PATCH /api/sede/{idSede}`
 - Solo se modifican los campos enviados. Cuerpo vacío → **400**.
 
-**En la pantalla** — el botón **«Actualizar lo diligenciado (PATCH)»**
-- **Es el mismo formulario que RF4**, con el otro botón.
+**En la pantalla** — el botón **«Guardar solo lo que cambié»**
+- **Es el mismo formulario que RF4**, con el otro botón. Y los botones **no se llaman como el verbo**, a propósito: ver [D-v1-9](4_research.md).
 - Envía solo lo que tiene contenido.
 - **Y aquí está la lección de la versión:** el mismo formulario a medio llenar
   que el botón de RF4 rechaza con 422, este lo guarda con 200. La diferencia
@@ -230,7 +230,7 @@ borrado de verdad rompería las asistencias históricas.
 | **2** | **El catálogo dado se ve.** Las **3 sedes** del script aparecen en la pantalla, y la Virtual **sin dirección** (una raya, no una celda vacía) | RF1 | **En el navegador**, y `GET /api/sede` confirma que son 3 |
 | **3** | **Registrar funciona de punta a punta.** Una sede creada **en el formulario** aparece en el listado *y* la devuelve `GET /api/sede/{codigo}` | RF3 | El formulario, y después `curl` |
 | **4** | **El opcional en blanco queda NULO.** Crear una sede virtual **sin dirección** deja `NULL` en la base, no cadena vacía | RF3 | El formulario, y después **mirando la base** |
-| **5** | **La pareja PUT/PATCH.** Con el nombre borrado: el botón *Reemplazar* deja la pantalla con un **422**; el botón *Actualizar*, sobre **el mismo formulario**, guarda | RF4 · RF5 | **Los dos botones, en el navegador** |
+| **5** | **La pareja PUT/PATCH.** Con el nombre borrado: **«Guardar la ficha completa»** deja la pantalla con el aviso de que falta el nombre; **«Guardar solo lo que cambié»**, sobre **el mismo formulario**, guarda | RF4 · RF5 | **Los dos botones, en el navegador** |
 | **6** | **Los desenlaces de error.** `PATCH {}` → 400 · `?limite=0` → 400 · inexistente → 404 · **código repetido → 500** · **nombre repetido → 500**, y el detalle nombra `uq_sede_nombre` | RF1 · RF3 · RF5 | `curl`: son casos que el formulario no deja construir |
 | **7** | **El retiro es lógico, y se verifica.** Tras el botón *Eliminar* la sede sale del listado, un segundo `DELETE` responde 404, **y la fila sigue en la base** con `activo = FALSE` | RF6 | El botón, `curl`, y **la base** |
 | **8** | **La prueba del proyecto.** Con `docker compose stop api-catedras`, la pantalla `/sedes` **sigue cargando** y muestra *«el servicio no está disponible»* — **sin datos** | RF1 | **En el navegador**, con la API apagada |

@@ -1,7 +1,16 @@
 {% extends "base.html" %}
 
 {# Una sola plantilla sirve para crear y para editar. Lo que las distingue es
-   si llegó una sede con código. #}
+   si llegó una sede con código.
+
+   OJO CON EL LENGUAJE DE ESTA PANTALLA. Quien la usa es el director del CIDEH,
+   no un programador: aquí NO se nombran verbos HTTP ni códigos de estado. Los
+   botones dicen qué hace el sistema, no cómo lo hace.
+
+   La lección de la versión —que el mismo formulario se comporte distinto según
+   el botón— se ve igual: lo que cambia es que se ve en el COMPORTAMIENTO y no
+   en una etiqueta. El mecanismo está explicado en 6_contracts.md, que es donde
+   lo lee quien estudia el ejemplo. Ver la decisión D-v1-9. #}
 {% set editando = sede and sede.idSede %}
 
 {% block titulo %}{{ 'Editar' if editando else 'Nueva' }} sede{% endblock %}
@@ -23,16 +32,23 @@
       <input name="idSede" maxlength="15"
              value="{{ sede.idSede if sede else '' }}"
              {{ 'readonly' if editando else 'required' }}>
-      <span class="ayuda">Hasta 15 caracteres. Es la llave.</span>
+      <span class="ayuda">
+        {% if editando %}
+          El código identifica la sede y no se puede cambiar. Si necesita otro
+          código, registre una sede nueva.
+        {% else %}
+          Un identificador corto, hasta 15 caracteres. Por ejemplo:
+          <code>SAN_BENITO</code>.
+        {% endif %}
+      </span>
     </label>
 
     <label>
       Nombre
       <input name="nombre" maxlength="80" value="{{ sede.nombre if sede else '' }}">
       <span class="ayuda">
-        La base exige que sea <strong>único</strong>: si repite el nombre de
-        otra sede, la respuesta es 500 — y esa defensa es de la base, no de
-        esta pantalla.
+        No puede repetirse: si ya existe otra sede con este nombre, el sistema
+        no lo guarda y se lo avisa.
       </span>
     </label>
 
@@ -53,24 +69,25 @@
 
       <div class="pareja">
         <button class="boton primario" type="submit" name="verbo" value="put">
-          Reemplazar (PUT)
+          Guardar la ficha completa
         </button>
         <button class="boton" type="submit" name="verbo" value="patch">
-          Actualizar lo diligenciado (PATCH)
+          Guardar solo lo que cambié
         </button>
       </div>
 
       <p class="nota">
-        <strong>Los dos botones envían este mismo formulario.</strong>
+        <strong>Los dos botones guardan, pero no lo mismo.</strong>
         <br>
-        <em>Reemplazar (PUT)</em> manda el nombre aunque esté vacío, y por eso
-        un nombre en blanco responde <strong>422</strong>: reemplazar es poner
-        todo de nuevo.
+        <em>Guardar la ficha completa</em> deja la sede tal como está en este
+        formulario: si dejó un campo vacío, el sistema no guarda y le dice qué
+        falta.
         <br>
-        <em>Actualizar (PATCH)</em> manda solo lo que usted diligenció, así que
-        el mismo formulario a medio llenar responde <strong>200</strong>.
+        <em>Guardar solo lo que cambié</em> toca únicamente los campos que
+        usted diligenció, y deja los demás como estaban. Sirve para corregir un
+        dato sin volver a escribir el resto.
         <br>
-        Bórrele el nombre y oprima cada botón: la diferencia se ve de una.
+        Si no diligencia ningún campo, el sistema le avisa y no cambia nada.
       </p>
 
     {% else %}
@@ -78,10 +95,8 @@
       <button class="boton primario" type="submit">Crear</button>
 
       <p class="nota">
-        El código y el nombre son obligatorios. Si deja uno vacío, la API
-        responde <strong>422</strong> y el aviso aparece arriba:
-        <strong>este front no valida nada por su cuenta</strong>, para que la
-        regla tenga un solo dueño.
+        El código y el nombre son obligatorios. Si falta alguno, el sistema no
+        crea la sede y le dice cuál es —sin borrar lo que ya escribió.
       </p>
 
     {% endif %}

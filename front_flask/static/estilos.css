@@ -37,15 +37,19 @@ h1, h2, h3, th, .boton, .marca { font-family: var(--usb-fuente-titulos); }
 
 .contenedor { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
-/* La cabecera va en el negro institucional, con el naranja como filete
-   inferior: es el uso del acento que el manual permite sin tocar el logo. */
-header { background: var(--usb-negro); color: #fff;
+/* La barra de la aplicación va en el negro institucional, con el naranja como
+   filete inferior: es el uso del acento que el manual permite sin tocar el
+   logo. Encima de ella va la banda blanca con el logosímbolo (ver marca.css),
+   porque el logo del manual es la versión positiva. */
+.barra { background: var(--usb-negro); color: #fff;
          border-bottom: 3px solid var(--usb-naranja); }
-.barra { display: flex; align-items: baseline; gap: 16px; padding: 14px 20px;
-         flex-wrap: wrap; }
+.barra-interna { display: flex; align-items: center; gap: 16px;
+                 padding: 12px 20px; flex-wrap: wrap; }
+.dependencia { color: var(--usb-naranja); font-size: .8rem; font-weight: 600;
+               letter-spacing: .12em; margin-left: auto; }
 .marca { color: #fff; font-weight: 700; font-size: 1.1rem;
          letter-spacing: .01em; text-decoration: none; }
-.version { color: #b9b9b4; font-size: .82rem; }
+
 
 main { padding: 28px 20px 40px; }
 

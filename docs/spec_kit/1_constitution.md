@@ -15,13 +15,14 @@
 > | [`versiones/0_mapa_versiones.md`](versiones/0_mapa_versiones.md) | La ruta v1 → v4, y la estrategia de back y front en paralelo |
 > | [`versiones/v1_sede/`](versiones/v1_sede/2_spec.md) | Los ocho documentos de la versión 1 |
 >
-> **Versión de esta constitución: 1.2.0**
+> **Versión de esta constitución: 1.2.1**
 >
 > | Versión | Qué cambió |
 > |---|---|
 > | 1.0.0 | Los doce artículos originales |
 > | 1.1.0 | **Artículo 1.1** — una versión incluye su front (versionado en paralelo) |
 > | 1.2.0 | **Artículo 9.1** — la identidad visual, que antes solo estaba en el README |
+> | 1.2.1 | Se corrige el Artículo 9.1: **sí hay archivo de logosímbolo**, y es el oficial del sitio de la Universidad |
 
 ---
 
@@ -202,13 +203,23 @@ El manual es explícito, y hay que leerlo como lo que es:
 valores que fija el manual** y allá va cómo se usan. El día que la Universidad
 actualice su manual, se cambia un archivo y nada más.
 
-**El archivo del logosímbolo NO está en el repositorio, y es una decisión.**
-En el manual es un dibujo vectorial: dentro del PDF no existe como imagen, y
-lo único extraíble son fotos de campus. Rasterizar un recorte de la página
-daría un logo con proporciones aproximadas y márgenes arbitrarios — que es
-exactamente lo que la sección de **usos incorrectos** del propio manual
-prohíbe. Mientras el archivo oficial llegue de Comunicaciones, la cabecera
-**reserva su sitio** respetando el tamaño mínimo y el área de reserva.
+**El logosímbolo es el archivo OFICIAL**, tomado de
+[usbmed.edu.co](https://usbmed.edu.co/): 400 × 100 px con transparencia, con
+el logosímbolo horizontal y el sello de Acreditación Institucional. Está en
+`front_flask/static/logo-usb.png`.
+
+**Va sobre blanco, y eso no es estético: es la norma.** El logosímbolo del
+manual es la versión **positiva** —logotipo en tinta oscura—, así que sobre la
+barra negra de la aplicación desaparecería. Por eso la cabecera lleva una
+**banda blanca** encima. El manual tiene versión negativa (p. 6), pero no la
+tenemos como archivo: usar la positiva sobre su fondo correcto es **cumplir la
+norma, no rodearla**.
+
+> **Y queda dicho que la primera versión de este artículo se equivocó:** decía
+> que no había archivo de logo porque solo se podían extraer fotos de campus.
+> Era falso — el logosímbolo estaba en el PDF, y hay una versión mejor en el
+> sitio oficial. Ver [`D-v1-7`](versiones/v1_sede/4_research.md), donde el
+> error está documentado con lo que enseña.
 
 **En qué versión se evalúa.** El manual se aplica **desde la v1** —era una
 mejora, y las mejoras no esperan— pero *«la imagen corporativa completa»* es

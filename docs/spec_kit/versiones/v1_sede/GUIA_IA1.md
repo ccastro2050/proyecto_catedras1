@@ -112,13 +112,16 @@ Y a las fuentes ponles una pila de respaldo del sistema: el contenedor puede
 no tener internet, y es más importante que la aplicación siga usable que que
 se vea exacta.
 
-NO INVENTES UN LOGO, y no lo saques del PDF. En el manual es un dibujo
-vectorial: las imágenes que trae son fotos de campus, y recortar un render de
-la página daría un logo con proporciones aproximadas y márgenes arbitrarios,
-que es lo que la sección de usos incorrectos del propio manual prohíbe.
-Reserva su sitio respetando el tamaño mínimo en pantalla (93,2 x 28,3 px) y el
-área de reserva, y deja dicho que el archivo oficial lo entrega
-Comunicaciones.
+NO INVENTES UN LOGO, y no lo dibujes con CSS ni con texto. El archivo oficial
+ya está en static/logo-usb.png, tomado del sitio de la Universidad
+(usbmed.edu.co): 400 x 100 con transparencia. Úsalo tal cual.
+Y OJO CON DÓNDE LO PONES: es la versión POSITIVA del manual, con el logotipo
+en tinta oscura, así que sobre un fondo oscuro desaparece. Va sobre blanco. Si
+tu diseño tiene una cabecera oscura, pon una banda blanca encima para el logo
+— eso es cumplir la norma, no rodearla.
+Respeta el tamaño mínimo en pantalla (93,2 x 28,3 px para el horizontal) y el
+área de reserva, que es la altura del texto del propio logosímbolo. Los dos
+valores están como variables en marca.css: úsalas, no pongas números sueltos.
 
 CRITERIO QUE DEBE PODER CUMPLIRSE: al apagar la API con
 `docker compose stop api-catedras`, la pantalla /sedes debe seguir CARGANDO
@@ -150,7 +153,8 @@ verificarla. No pases a la siguiente sin que yo confirme.
 | **¿Cargó los CSV del material original?** | **Datos personales: el Artículo 8** |
 | ¿Eligió colores por su cuenta? | La marca no es una preferencia: es una restricción (Artículo 9.1) |
 | ¿Puso los colores de marca dentro de `estilos.css`? | Mezclados parecen preferencia. Van aparte, en `marca.css` |
-| ¿Se inventó un logo, o lo recortó del PDF? | Los dos casos incumplen los *usos incorrectos* del manual |
+| ¿Se inventó un logo, o lo dibujó con CSS? | El archivo oficial ya está: úselo |
+| ¿Puso el logo sobre fondo oscuro? | Es la versión positiva: **desaparece**. Va sobre blanco |
 
 ## 4. Los tres destinos de un error
 

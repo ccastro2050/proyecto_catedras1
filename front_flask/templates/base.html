@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block titulo %}Cátedras Abiertas{% endblock %}</title>
+
   {# Las fuentes que autoriza el manual (Montserrat y Raleway). Si no hay
      internet no pasa nada: marca.css declara una pila de respaldo del
      sistema, y la aplicación sigue siendo usable. #}
@@ -19,20 +20,46 @@
 </head>
 <body>
 
-  <header>
-    <div class="contenedor barra">
-      {# EL LOGOSÍMBOLO va aquí. Hoy es un marcador que respeta el tamaño
-         mínimo y el área de reserva del manual (ver marca.css): el archivo
-         oficial lo entrega Comunicaciones. Cuando llegue, se cambia el
-         `background` de .usb-logo y este bloque no se toca. #}
-      <a class="usb-logo" href="{{ url_for('listar') }}">
-        <span>Universidad de<br>San Buenaventura</span>
-        <span class="usb-seccional">Medellín</span>
-      </a>
+  {# ==================================================================
+     LO QUE ESTA PANTALLA NO DICE, Y POR QUÉ
 
-      <a class="marca" href="{{ url_for('listar') }}">Cátedras Abiertas</a>
-      <span class="version">front Flask &rarr; API C# &rarr; PostgreSQL</span>
+     Aquí NO se nombra el stack —ni Flask, ni C#, ni PostgreSQL— y el pie
+     NO explica la arquitectura. Quien usa esto es el director del CIDEH
+     para registrar sedes, y esa información no le sirve para nada: es
+     ruido entre él y su tarea.
+
+     Todo eso está donde le corresponde, para quien SÍ lo necesita:
+       · README.md §2            — para quien estudia el ejemplo
+       · 1_constitution.md Art.4 — la regla de los tres procesos
+       · 6_contracts.md          — el contrato entre los dos
+
+     Es la decisión D-v1-9: la pantalla habla el lenguaje del usuario, no
+     el del protocolo ni el del programador.
+     ================================================================== #}
+
+  <header>
+
+    {# LA BANDA INSTITUCIONAL. El logosímbolo del manual es la versión
+       POSITIVA —logotipo en tinta oscura—, así que va sobre blanco: sobre la
+       barra negra desaparecería. El manual tiene una versión negativa (p. 6),
+       pero no la tenemos como archivo, y usar la positiva sobre su fondo
+       correcto es cumplir la norma, no rodearla. #}
+    <div class="banda-usb">
+      <div class="contenedor">
+        <a href="https://usbmed.edu.co/" target="_blank" rel="noopener">
+          <img class="usb-logo" src="{{ url_for('static', filename='logo-usb.png') }}"
+               alt="Universidad de San Buenaventura, Medellín">
+        </a>
+      </div>
     </div>
+
+    <div class="barra">
+      <div class="contenedor barra-interna">
+        <a class="marca" href="{{ url_for('listar') }}">Cátedras Abiertas</a>
+        <span class="dependencia">CIDEH</span>
+      </div>
+    </div>
+
   </header>
 
   <main class="contenedor">
@@ -51,14 +78,12 @@
 
   <footer class="contenedor">
     <p>
-      Este front est&aacute; escrito en <strong>Python</strong> y la API en
-      <strong>C#</strong>. No es un descuido: lo &uacute;nico que los une es un
-      contrato HTTP, y ninguno de los dos sabe en qu&eacute; lenguaje
-      est&aacute; el otro.
+      {# El nombre completo de la sigla está verificado en el sitio de la
+         Universidad (usbmed.edu.co, Vicerrectoría para la Identidad y el
+         Bienestar Institucional), no supuesto. #}
+      Centro Interdisciplinario de Estudios Human&iacute;sticos &mdash; CIDEH
       <br>
-      El front <strong>no toca la base de datos</strong>: si la API est&aacute;
-      ca&iacute;da, aqu&iacute; no hay datos &mdash; y esa es la prueba de que
-      la separaci&oacute;n es real.
+      Universidad de San Buenaventura, Medell&iacute;n
     </p>
   </footer>
 

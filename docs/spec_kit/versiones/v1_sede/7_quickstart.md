@@ -92,10 +92,15 @@ docker compose exec postgres psql -U catedras -d catedras `
 
 En **Editar** de `ITAGUI`, **borre el nombre** y:
 
-1. Oprima **Reemplazar (PUT)** → aviso rojo:
-   `El campo nombre es obligatorio.`
-2. Sin tocar nada más, oprima **Actualizar lo diligenciado (PATCH)** → guarda
-   y vuelve al listado.
+1. Oprima **«Guardar la ficha completa»** → aviso rojo:
+   *«El campo nombre es obligatorio.»*
+2. Sin tocar nada más, oprima **«Guardar solo lo que cambié»** → guarda y
+   vuelve al listado.
+
+> Los botones **no dicen PUT ni PATCH**, a propósito
+> ([D-v1-9](4_research.md)). Quien los oprime no necesita saberlo — y que la
+> diferencia se vea igual es la prueba de que la lección estaba en el
+> comportamiento, no en la etiqueta.
 
 **El mismo formulario, dos respuestas.**
 
@@ -180,10 +185,14 @@ curl http://localhost:8038/static/marca.css | Select-String "usb-naranja|usb-neg
 #  → #EF7D00, #1D1D1B, Montserrat, Raleway
 ```
 
-En el navegador se ve en la cabecera: **negro institucional con el filete
-naranja abajo**. Y lo que **no** se ve es el logosímbolo: su sitio está
-reservado con el texto de la Universidad, porque el archivo oficial lo entrega
-Comunicaciones ([D-v1-7](4_research.md)).
+En el navegador se ve en dos partes: la **banda blanca** con el logosímbolo
+oficial arriba, y debajo la barra en **negro institucional con el filete
+naranja**. El logo va sobre blanco porque es la versión positiva del manual
+([D-v1-7](4_research.md)).
+
+```powershell
+curl -I http://localhost:8038/static/logo-usb.png    # → 200
+```
 
 ## 3. Regresión
 

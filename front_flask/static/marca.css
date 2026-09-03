@@ -76,51 +76,40 @@
 /* --------------------------------------------------------------------------
    EL LOGOSÍMBOLO
 
-   Aquí NO hay un archivo de imagen, y es una decisión, no un olvido.
+   `logo-usb.png` es el archivo OFICIAL, tomado de https://usbmed.edu.co/
+   (400 x 100 px, con transparencia). Trae el logosímbolo horizontal y el
+   sello de Acreditación Institucional, tal como la Universidad los publica
+   juntos.
 
-   El logosímbolo del manual es VECTORIAL: dentro del PDF no existe como
-   imagen que se pueda extraer, solo como dibujo. Se podría rasterizar un
-   recorte de la página, y sería exactamente lo que el propio manual prohíbe
-   en su sección de USOS INCORRECTOS: un logo con proporciones aproximadas,
-   márgenes arbitrarios y calidad indeterminada.
+   Se usa ese y no el que trae el PDF del manual —que también está ahí, en
+   279 x 91 y con fondo blanco— porque este tiene transparencia y mayor
+   resolución. Los dos son el mismo logosímbolo.
 
-   Así que este bloque reserva el sitio del logo RESPETANDO sus reglas —el
-   tamaño mínimo y el área de reserva— y deja dicho qué falta:
+   Las dos reglas del manual que hay que respetar al ponerlo:
 
-       el archivo oficial (SVG o PNG con transparencia) lo entrega
-       Comunicaciones de la Universidad.
+     · TAMAÑO MÍNIMO en pantalla: 93,2 x 28,3 px (horizontal). El archivo es
+       cuatro veces más grande, así que se limita por altura y nunca baja del
+       mínimo.
+     · ÁREA DE RESERVA: la distancia a cualquier otro elemento debe ser la
+       altura del texto del propio logosímbolo. De ahí el margen de abajo.
 
-   Cuando llegue, se guarda en static/ y se cambia el `background` de abajo.
-   Nada más hay que tocar.
+   Y una tercera que decide dónde va: es la versión POSITIVA (logotipo en
+   tinta oscura), así que va sobre BLANCO. Sobre la barra negra desaparecería.
+   El manual tiene versión negativa (p. 6) pero no la tenemos como archivo:
+   usar la positiva sobre su fondo correcto es cumplir la norma, no rodearla.
    -------------------------------------------------------------------------- */
 
-.usb-logo {
-  display: inline-flex;
-  align-items: center;
-  min-width: var(--usb-logo-min-ancho);
-  min-height: var(--usb-logo-min-alto);
-  margin: var(--usb-area-reserva);
-  font-family: var(--usb-fuente-titulos);
-  font-weight: 700;
-  font-size: .8rem;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: #fff;
-  text-decoration: none;
-  /* El acento naranja del manual, como filete: NO pretende ser el logo. */
-  border-left: 3px solid var(--usb-naranja);
-  padding-left: 10px;
-  line-height: 1.15;
+.banda-usb {
+  background: #ffffff;
+  border-bottom: 1px solid var(--borde, #dcdcd8);
+  padding: 12px 0;
 }
 
-.usb-logo span { display: block; }
-
-/* La seccional, que el manual llama IDENTIFICADOR DE MARCA (p. 9): se usa
-   «solo para eventos en los que sea necesario distinguir la sede o
-   seccional». Aquí sí lo es: el sistema es de Medellín. */
-.usb-logo .usb-seccional {
-  font-weight: 400;
-  font-size: .72rem;
-  letter-spacing: .12em;
-  color: var(--usb-naranja);
+.usb-logo {
+  display: block;
+  height: 46px;                          /* > 28,3 px: el mínimo del manual */
+  min-width: var(--usb-logo-min-ancho);
+  width: auto;
+  /* El área de reserva, como regla y no como número suelto */
+  margin: calc(var(--usb-area-reserva) * 0.4) 0;
 }

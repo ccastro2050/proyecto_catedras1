@@ -117,7 +117,7 @@ Varias historias piden que la pantalla cumpla el **Manual de Identidad Visual Co
 
 El manual es explícito: **«por ningún motivo se deben cambiar los colores corporativos»**. En el ejemplo de referencia esos valores están en un archivo aparte —`front_flask/static/marca.css`— precisamente para que sean una restricción y no una preferencia de quien programa.
 
-**El archivo del logosímbolo no está en el repositorio**, y es a propósito: en el manual es un dibujo vectorial, y recortarlo de una página produciría exactamente lo que su sección de *usos incorrectos* prohíbe. El archivo oficial lo entrega Comunicaciones de la Universidad; mientras llega, la pantalla reserva su sitio respetando el tamaño mínimo y el área de reserva.
+**El logosímbolo es el archivo oficial** del sitio de la Universidad ([usbmed.edu.co](https://usbmed.edu.co/)), en 400 × 100 con transparencia, y va sobre una **banda blanca**: es la versión positiva del manual, y sobre la barra oscura de la aplicación desaparecería. Está en `front_flask/static/logo-usb.png`.
 
 ---
 

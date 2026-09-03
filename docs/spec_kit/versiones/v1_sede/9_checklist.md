@@ -113,11 +113,28 @@
 - [ ] Está dicho, en algún documento, que **una versión no está cerrada si la
       API responde y la pantalla no**.
 
+## I.0 Propia de este proyecto: la pantalla habla el lenguaje del usuario
+
+> Porque el front de esta versión **es para el director del CIDEH**, no para
+> quien lo programó ([D-v1-9](4_research.md)).
+
+- [ ] Ningún texto de la interfaz nombra un **verbo HTTP** (PUT, PATCH, GET…).
+- [ ] Ningún texto de la interfaz nombra un **código de estado** (422, 500…).
+- [ ] Ningún texto de la interfaz nombra el **stack** (Flask, C#, PostgreSQL).
+- [ ] Los botones dicen **qué hace el sistema**, no cómo lo hace.
+- [ ] El mecanismo —los verbos, los códigos, la arquitectura— **sí está**, pero
+      en el spec kit y en el README, que es donde lo lee quien construye.
+
 ## I. Propia de este proyecto: la identidad visual
 
 - [ ] Los valores del manual están en un archivo **aparte** de los estilos
       propios, para que sean una restricción y no una preferencia.
-- [ ] Está dicho **por qué no hay archivo de logosímbolo** en el repositorio.
+- [ ] El logosímbolo es el **archivo oficial**, no uno recreado ni recortado
+      de un render.
+- [ ] Va sobre el **fondo que su versión exige** (la positiva, sobre blanco), y
+      está dicho por qué.
+- [ ] El **tamaño mínimo** y el **área de reserva** están como variables en
+      `marca.css`, no como números sueltos en un margen cualquiera.
 - [ ] Está dicho **en qué versión se evalúa** la imagen corporativa completa,
       y por qué no es esta.
 

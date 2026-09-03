@@ -156,13 +156,22 @@ archivo **aparte** de `estilos.css`. La separación no es capricho: ahí van los
 deben cambiar»*— y en `estilos.css` va cómo se usan. El día que la Universidad
 actualice su manual, se cambia un archivo.
 
-**El archivo del logosímbolo no está en el repositorio, y es a propósito.** En
-el manual es un dibujo vectorial: recortarlo de una página produciría un logo
-con proporciones aproximadas y márgenes arbitrarios, que es exactamente lo que
-su sección de *usos incorrectos* prohíbe. El archivo oficial lo entrega
-Comunicaciones; mientras llega, la cabecera reserva su sitio respetando el
-**tamaño mínimo** (93,2 × 28,3 px) y el **área de reserva** que el manual
-exige.
+**El logosímbolo es el archivo oficial** del sitio de la Universidad
+([usbmed.edu.co](https://usbmed.edu.co/)): 400 × 100 px con transparencia, con
+el logosímbolo horizontal y el sello de Acreditación Institucional. Está en
+[`front_flask/static/logo-usb.png`](front_flask/static/logo-usb.png).
+
+**Va sobre una banda blanca, y eso no es estético: es la norma.** El
+logosímbolo del manual es la versión **positiva** —logotipo en tinta oscura—,
+así que sobre la barra negra de la aplicación desaparecería. Usar la versión
+positiva sobre su fondo correcto es cumplir la norma, no rodearla.
+
+> **La primera versión de este README decía que no había archivo de logo**,
+> porque solo se podían extraer «fotos de campus» del PDF. Era falso: el
+> logosímbolo estaba entre las 17 imágenes del manual, y hay una versión mejor
+> en el sitio oficial. El error quedó documentado en
+> [`D-v1-7`](docs/spec_kit/versiones/v1_sede/4_research.md) con lo que enseña — porque *«no se puede»* es
+> una conclusión que hay que ganarse.
 
 ## 5. Las especificaciones
 

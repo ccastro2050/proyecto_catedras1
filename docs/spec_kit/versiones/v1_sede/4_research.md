@@ -133,7 +133,7 @@ un 409 con una frase amable. Se acepta en la v1, y queda anotado: traducir ese
 error a un 409 es posible **leyendo el código `23505` de Npgsql**, y será una
 decisión de una versión posterior — no algo que se metió antes por si acaso.
 
-## D-v1-7 — La marca va en un archivo aparte, y el logo NO va
+## D-v1-7 — La marca va en un archivo aparte, y el logo es el OFICIAL
 
 **Alternativas para los colores y las fuentes:** elegirlos por criterio propio
 («un azul institucional se ve bien») · ponerlos entre los demás estilos ·
@@ -149,22 +149,49 @@ Aislados en `marca.css` la distinción es visible en la estructura: **ahí van
 los valores que fija el manual, y en `estilos.css` va cómo se usan**. El día
 que la Universidad actualice su manual, se cambia un archivo.
 
-**Y el logosímbolo:** se consideró extraerlo del PDF y se descartó.
+### El logosímbolo: la primera versión de esta decisión estaba MAL
 
-| Se intentó | Qué salió |
-|---|---|
-| Buscar el logo como imagen dentro del PDF | Las 17 imágenes del manual son **fotos de campus**. El logosímbolo está dibujado en vectores, no incrustado |
-| Rasterizar la página y recortarlo | Daría un logo con **proporciones aproximadas, márgenes arbitrarios y calidad indeterminada** — que es exactamente lo que la sección de *usos incorrectos* del propio manual prohíbe |
+> **Se deja el error escrito, porque la lección está en cómo se descubrió y no
+> en la conclusión.**
 
-**Así que no hay archivo de logo, y eso está dicho** en lugar de disimulado. La
-cabecera **reserva su sitio** respetando el tamaño mínimo en pantalla (93,2 ×
-28,3 px) y el área de reserva que el manual exige, y el archivo oficial lo
-entrega Comunicaciones.
+**Lo que se decidió primero:** que no habría archivo de logo. El razonamiento
+fue que el logosímbolo es vectorial dentro del PDF, que las imágenes que trae
+el manual son *«fotos de campus»*, y que rasterizar un recorte de la página
+daría proporciones aproximadas — lo que la sección de **usos incorrectos**
+prohíbe. La cabecera quedó con un marcador de texto.
 
-> **La decisión de fondo:** ante una regla que no se puede cumplir del todo,
-> **cumplir la parte que sí y declarar la que no** es mejor que aproximarla.
-> Un logo casi bien es un incumplimiento que nadie va a revisar; un sitio
-> reservado con una nota es una tarea pendiente que se ve.
+**Por qué estaba mal:** no había mirado todas las imágenes. De las 17 que
+incrusta el PDF, tres son fotos de campus —las que abrí— y **una es el
+logosímbolo horizontal completo**, en 279 × 91 px: el blasón naranja y el
+logotipo en versalitas, tal cual. Estaba ahí desde el principio.
+
+**Y hay una fuente mejor.** El sitio oficial —[usbmed.edu.co](https://usbmed.edu.co/)—
+publica el logosímbolo en **400 × 100 con transparencia**, junto con el sello
+de Acreditación Institucional. Es el que se usa: mayor resolución, y sin el
+fondo blanco que traía el del PDF.
+
+| | Del PDF del manual | **Del sitio oficial** |
+|---|---|---|
+| Tamaño | 279 × 91 | **400 × 100** |
+| Transparencia | no, fondo blanco | **sí** |
+| Contenido | el logosímbolo | el logosímbolo **y el sello de acreditación** |
+
+**Dónde va, y eso sí fue una decisión.** El logosímbolo del manual es la
+versión **positiva** —logotipo en tinta oscura—, así que **sobre la barra
+negra desaparecería**. El manual tiene versión negativa (p. 6) pero no la
+tenemos como archivo. Se resolvió poniendo una **banda blanca** encima de la
+barra de la aplicación: usar la versión positiva sobre su fondo correcto es
+**cumplir la norma, no rodearla**.
+
+Las dos reglas del manual quedaron como variables en `marca.css`, no como
+números sueltos: el **tamaño mínimo** (93,2 × 28,3 px, y el logo va a 46 px de
+alto) y el **área de reserva**.
+
+> **Qué se aprende de haberse equivocado:** *«no se puede»* es una conclusión
+> que hay que ganarse. La primera versión de esta decisión estaba
+> argumentada, citaba el manual y sonaba razonable — y era falsa, porque
+> descansaba en no haber abierto cuatro archivos. **Antes de documentar una
+> imposibilidad, agotar la búsqueda.**
 
 ## D-v1-8 — El opcional en blanco se envía nulo
 
@@ -173,3 +200,52 @@ entrega Comunicaciones.
 **Se descartó** porque `''` y `NULL` no son lo mismo, y la diferencia se ve:
 una sede virtual con dirección `''` parece tener una dirección que nadie
 escribió. Es comprobable (criterio 4).
+
+
+## D-v1-9 — La pantalla habla el lenguaje del USUARIO, no del protocolo
+
+**Cómo estaba primero:** los botones se llamaban *«Reemplazar (PUT)»* y
+*«Actualizar lo diligenciado (PATCH)»*, los textos de ayuda decían *«responde
+422»* y *«la respuesta es 500»*, la cabecera anunciaba *«front Flask → API C#
+→ PostgreSQL»* y el pie explicaba que los dos procesos están en lenguajes
+distintos.
+
+**Por qué estaba mal.** Quien usa esta pantalla es el director del CIDEH, para
+registrar sedes. **No sabe qué es un PUT, ni un 422, ni le importa en qué
+lenguaje está la API** — y no tiene por qué. Cada una de esas palabras es
+ruido entre él y su tarea, y además le hace creer que necesita saber algo para
+usar el sistema.
+
+Era **la implementación filtrándose en la interfaz**, con el agravante de que
+lo hacía con buena intención: explicar.
+
+**Alternativas que se consideraron:**
+
+| | Por qué no |
+|---|---|
+| Dejarlo así, «porque es un ejemplo didáctico» | El ejemplo enseña **también** con lo que hace bien. Una pantalla que le habla al usuario en jerga es un antipatrón, y mostrarlo sin marcarlo es enseñarlo |
+| Un «modo didáctico» que se pueda encender | Dos versiones de cada pantalla que hay que mantener, para un problema que se resuelve moviendo el texto de sitio |
+| **Lenguaje de usuario en la pantalla, el mecanismo en la documentación** | ✅ |
+
+**Cómo quedó:**
+
+| Antes | Ahora |
+|---|---|
+| «Reemplazar (PUT)» | **«Guardar la ficha completa»** |
+| «Actualizar lo diligenciado (PATCH)» | **«Guardar solo lo que cambié»** |
+| «un nombre en blanco responde 422» | «si dejó un campo vacío, el sistema no guarda y le dice qué falta» |
+| «la respuesta es 500» | «no puede repetirse: si ya existe otra sede con este nombre, el sistema no lo guarda y se lo avisa» |
+| «front Flask → API C# → PostgreSQL» | *(nada: eso va en el README)* |
+| El pie explicando la arquitectura | **CIDEH — Universidad de San Buenaventura** |
+
+**Y la lección de la versión no se pierde: se ve mejor.** Lo que enseña la
+pareja de botones **no es que se llamen PUT y PATCH**: es que **el mismo
+formulario a medio llenar sea rechazado por uno y aceptado por el otro**. Eso
+se sigue viendo — y ahora se ve como lo vería un usuario, que es la prueba de
+verdad. El mecanismo, con sus verbos y sus códigos, está en
+[6_contracts.md](6_contracts.md), que es donde lo lee quien estudia el
+ejemplo.
+
+> **La regla que queda:** la pantalla es para quien la usa; la documentación es
+> para quien la construye. Cuando un texto de interfaz explica **cómo**
+> funciona algo en vez de **qué** hace, está en el archivo equivocado.
