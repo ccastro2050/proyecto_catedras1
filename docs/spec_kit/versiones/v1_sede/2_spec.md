@@ -143,12 +143,6 @@ botones**, y `/sedes/<codigo>/eliminar` por POST.
 9. **Prueba de capas.** El proyecto `pruebas/` ejecuta el servicio con un
    repositorio de mentiras y **sin referenciar Npgsql ni Dapper**, y pasa con
    la base apagada.
-10. **La imagen corporativa se cumple.** Los colores y las fuentes del front
-    son los del **Manual de Identidad Visual Corporativa** (Resolución 404 de
-    2024): naranja `#EF7D00`, negro `#1D1D1B`, y Montserrat o Raleway. Están
-    en `front_flask/static/marca.css`, **separados** de `estilos.css`, y el
-    sitio del logosímbolo respeta su tamaño mínimo y su área de reserva.
-    Comprobable: `curl http://localhost:8038/static/marca.css` los muestra.
 
 ## 6. Clarificaciones
 
@@ -168,9 +162,34 @@ botones**, y `/sedes/<codigo>/eliminar` por POST.
 | C9 | Nombre repetido, ¿lo valida la API? | **No: lo defiende la base** con `uq_sede_nombre`, y responde 500. Duplicar esa comprobación en la API le daría dos dueños a la misma regla | RF3 · criterio 6 |
 | C10 | La dirección vacía en el formulario, ¿se envía como `""`? | **No: se envía nulo.** Vacío y "no lo tiene" no son lo mismo, y la base los guarda distinto | RF8 · criterio 4 |
 
+## 6.1 Una nota sobre la imagen corporativa
+
+El front de esta versión **ya usa** los colores y las fuentes del Manual de
+Identidad Visual Corporativa: están en
+[`front_flask/static/marca.css`](../../../../front_flask/static/marca.css).
+
+**Pero eso no es un criterio de aceptación de la v1**, y conviene decir por
+qué, porque hubo que corregirlo:
+
+1. **El curso pone la imagen corporativa en la v4**
+   (`0_METODOLOGIA.md` §2), junto con el dashboard y la publicación. Ahí es
+   donde se evalúa que esté completa.
+2. **La v1 se cerró sin ese criterio.** Agregárselo después habría sido
+   reescribir una versión ya etiquetada — justo lo que el Artículo 1 prohíbe.
+
+Así que el trabajo de la marca **queda hecho** —era una mejora, y las mejoras
+no esperan— pero se **evalúa donde corresponde**: en la v4.
+
+> **Esto pasó de verdad, y se deja escrito.** Al aplicar el manual de marca se
+> le agregó a esta spec un décimo criterio, cuando el tag `v1` ya estaba
+> puesto. Durante un rato el documento prometió algo que lo etiquetado no
+> contenía. **Es el mismo defecto contra el que sirve todo este método**, y la
+> lección es simple: **una vez que hay tag, lo que llega después es de la
+> versión siguiente.**
+
 ## 7. Definición de TERMINADA
 
-1. Los **10 criterios** pasan, verificados **por una persona** con
+1. Los **9 criterios** pasan, verificados **por una persona** con
    [7_quickstart.md](7_quickstart.md).
 2. [9_checklist.md](9_checklist.md) está en verde y **firmada**.
 3. No queda ningún `[NECESITA ACLARACIÓN: …]`.
