@@ -4,12 +4,32 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block titulo %}Cátedras Abiertas{% endblock %}</title>
+  {# Las fuentes que autoriza el manual (Montserrat y Raleway). Si no hay
+     internet no pasa nada: marca.css declara una pila de respaldo del
+     sistema, y la aplicación sigue siendo usable. #}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Raleway:wght@400;600&display=swap">
+
+  {# marca.css va PRIMERO: define los valores del manual, y estilos.css los
+     consume. Si se invierte el orden, las variables no existen todavía. #}
+  <link rel="stylesheet" href="{{ url_for('static', filename='marca.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='estilos.css') }}">
 </head>
 <body>
 
   <header>
     <div class="contenedor barra">
+      {# EL LOGOSÍMBOLO va aquí. Hoy es un marcador que respeta el tamaño
+         mínimo y el área de reserva del manual (ver marca.css): el archivo
+         oficial lo entrega Comunicaciones. Cuando llegue, se cambia el
+         `background` de .usb-logo y este bloque no se toca. #}
+      <a class="usb-logo" href="{{ url_for('listar') }}">
+        <span>Universidad de<br>San Buenaventura</span>
+        <span class="usb-seccional">Medellín</span>
+      </a>
+
       <a class="marca" href="{{ url_for('listar') }}">Cátedras Abiertas</a>
       <span class="version">front Flask &rarr; API C# &rarr; PostgreSQL</span>
     </div>

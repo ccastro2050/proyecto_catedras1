@@ -137,10 +137,39 @@ proyecto_catedras1/
 └── material_dado/               el modelo y el script originales
 ```
 
+## 4.1 La identidad visual
+
+Los colores y las fuentes del front **no los eligió quien programó**: salen del
+**Manual de Identidad Visual Corporativa** de la Universidad (Resolución de
+Rectoría General N.º 404 del 14 de mayo de 2024), que está en la raíz del
+repositorio.
+
+| Qué | Valor |
+|---|---|
+| Naranja institucional | `#EF7D00` |
+| Negro institucional | `#1D1D1B` |
+| Fuentes autorizadas | **Montserrat** y **Raleway** |
+
+Están en [`front_flask/static/marca.css`](front_flask/static/marca.css), en un
+archivo **aparte** de `estilos.css`. La separación no es capricho: ahí van los
+**valores que fija el manual** —y que el manual dice que *«por ningún motivo se
+deben cambiar»*— y en `estilos.css` va cómo se usan. El día que la Universidad
+actualice su manual, se cambia un archivo.
+
+**El archivo del logosímbolo no está en el repositorio, y es a propósito.** En
+el manual es un dibujo vectorial: recortarlo de una página produciría un logo
+con proporciones aproximadas y márgenes arbitrarios, que es exactamente lo que
+su sección de *usos incorrectos* prohíbe. El archivo oficial lo entrega
+Comunicaciones; mientras llega, la cabecera reserva su sitio respetando el
+**tamaño mínimo** (93,2 × 28,3 px) y el **área de reserva** que el manual
+exige.
+
 ## 5. Las especificaciones
 
 | Documento | Contenido |
 |---|---|
+| [HISTORIAS_DE_USUARIO.md](HISTORIAS_DE_USUARIO.md) | **Las ocho historias de usuario** del sistema, con sus criterios de aceptación. También en [.docx](HISTORIAS_DE_USUARIO.docx) |
+| [Manual-de-Marca.pdf](Manual-de-Marca.pdf) | El Manual de Identidad Visual Corporativa (Resolución 404 de 2024). Sus valores están aplicados en [`marca.css`](front_flask/static/marca.css) |
 | [PLAN_V1.md](PLAN_V1.md) | **El plan con el que se construyó esta versión**: los hallazgos, las decisiones y los pasos |
 | [1_constitution.md](docs/spec_kit/1_constitution.md) | Las 12 reglas permanentes — **incluido el Artículo 8, sobre datos personales** |
 | [0_mapa_versiones.md](docs/spec_kit/versiones/0_mapa_versiones.md) | La ruta v1 → v4 y qué tablas entran en cada versión |

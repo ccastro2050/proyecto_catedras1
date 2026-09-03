@@ -3,12 +3,22 @@
    Son 50 líneas de CSS: así no hay una dependencia que explicar antes de
    explicar lo que importa, que es la separación entre el front y la API. */
 
+/* Los colores y las fuentes de la marca están en marca.css, que sale del
+   Manual de Identidad Visual Corporativa. Aquí NO se define ninguno: se
+   consumen. Si algún día se necesita otro tono, se discute con el manual en
+   la mano — no se agrega una variable aquí. */
+
 :root {
-  --tinta: #1c2430;
-  --suave: #5d6b7a;
-  --borde: #d8dee6;
-  --fondo: #f5f7fa;
-  --acento: #1f5f8b;
+  /* --- De la marca (no se cambian) --- */
+  --tinta:  var(--usb-negro);
+  --acento: var(--usb-naranja);
+
+  /* --- Derivados, para la interfaz --- */
+  --suave: #6b6b68;   /* el negro institucional aclarado, para texto de apoyo */
+  --borde: #dcdcd8;
+  --fondo: #f6f5f3;   /* un gris cálido, no azulado: acompaña al naranja */
+
+  /* --- Estados. NO son colores de marca: son señales --- */
   --error: #a4262c;
   --exito: #1d6f42;
 }
@@ -17,18 +27,25 @@
 
 body {
   margin: 0;
-  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font: 16px/1.55 var(--usb-fuente-texto);
   color: var(--tinta);
   background: var(--fondo);
 }
 
+/* Los títulos van en la otra fuente autorizada por el manual */
+h1, h2, h3, th, .boton, .marca { font-family: var(--usb-fuente-titulos); }
+
 .contenedor { max-width: 900px; margin: 0 auto; padding: 0 20px; }
 
-header { background: var(--tinta); color: #fff; }
+/* La cabecera va en el negro institucional, con el naranja como filete
+   inferior: es el uso del acento que el manual permite sin tocar el logo. */
+header { background: var(--usb-negro); color: #fff;
+         border-bottom: 3px solid var(--usb-naranja); }
 .barra { display: flex; align-items: baseline; gap: 16px; padding: 14px 20px;
          flex-wrap: wrap; }
-.marca { color: #fff; font-weight: 700; font-size: 1.15rem; text-decoration: none; }
-.version { color: #9fb0c0; font-size: .85rem; }
+.marca { color: #fff; font-weight: 700; font-size: 1.1rem;
+         letter-spacing: .01em; text-decoration: none; }
+.version { color: #b9b9b4; font-size: .82rem; }
 
 main { padding: 28px 20px 40px; }
 
@@ -47,15 +64,15 @@ h1 { font-size: 1.5rem; margin: 0 0 4px; }
 table { width: 100%; border-collapse: collapse; background: #fff; margin-top: 18px;
         border: 1px solid var(--borde); border-radius: 8px; overflow: hidden; }
 th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--borde); }
-th { background: #eef2f6; font-size: .85rem; text-transform: uppercase;
+th { background: #efedea; font-size: .85rem; text-transform: uppercase;
      letter-spacing: .03em; }
 tr:last-child td { border-bottom: none; }
-code { background: #eef2f6; padding: 1px 6px; border-radius: 4px; }
+code { background: #efedea; padding: 1px 6px; border-radius: 4px; }
 
 .etiqueta { display: inline-block; padding: 2px 9px; border-radius: 999px;
             font-size: .78rem; }
-.etiqueta.virtual { background: #e8eef7; color: var(--acento); }
-.etiqueta.fisica  { background: #eef2f6; color: var(--suave); }
+.etiqueta.virtual { background: #fdf0e2; color: #a85700; }
+.etiqueta.fisica  { background: #efedea; color: var(--suave); }
 
 .acciones { display: flex; gap: 8px; align-items: center; }
 .acciones form { margin: 0; }
@@ -64,7 +81,7 @@ code { background: #eef2f6; padding: 1px 6px; border-radius: 4px; }
 .boton { display: inline-block; padding: 7px 14px; border-radius: 6px; cursor: pointer;
          border: 1px solid var(--borde); background: #fff; color: var(--tinta);
          font: inherit; font-size: .9rem; text-decoration: none; }
-.boton:hover { background: #eef2f6; }
+.boton:hover { background: #efedea; }
 .boton.primario { background: var(--acento); border-color: var(--acento); color: #fff; }
 .boton.primario:hover { filter: brightness(1.1); }
 .boton.peligro { color: var(--error); border-color: #e8c3c5; }
@@ -78,7 +95,7 @@ input[type=text], input:not([type]) { display: block; width: 100%; margin-top: 5
         padding: 8px 10px; font: inherit; font-weight: 400;
         border: 1px solid var(--borde); border-radius: 6px; }
 input:focus { outline: 2px solid var(--acento); outline-offset: 1px; }
-input[readonly] { background: #eef2f6; color: var(--suave); }
+input[readonly] { background: #efedea; color: var(--suave); }
 .casilla { display: flex; align-items: center; gap: 8px; font-weight: 600; }
 .casilla input { margin: 0; }
 .pareja { display: flex; gap: 10px; flex-wrap: wrap; }

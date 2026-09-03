@@ -1,0 +1,126 @@
+/* ==========================================================================
+   marca.css — La identidad visual, en un solo archivo.
+
+   Sale del MANUAL DE IDENTIDAD VISUAL CORPORATIVA de la Universidad de San
+   Buenaventura (Resolución de Rectoría General N.º 404 del 14 de mayo de
+   2024), que está en la raíz del repositorio: Manual-de-Marca.pdf
+
+   ¿Por qué en un archivo aparte de estilos.css? Porque son dos cosas
+   distintas: aquí van los VALORES que fija el manual —y que no se pueden
+   cambiar— y allá va cómo se usan. El día que la universidad actualice su
+   manual, se cambia este archivo y nada más.
+   ========================================================================== */
+
+:root {
+
+  /* --- PALETA DE COLORES INSTITUCIONALES (manual, p. 5) ------------------
+     El manual es explícito, y con mayúsculas:
+
+        «Por ningún motivo se deben cambiar los colores corporativos.»
+
+     Así que estos dos valores NO son una preferencia de diseño: son una
+     restricción, y quien los cambie está fuera de norma.                  */
+
+  --usb-naranja:  #EF7D00;   /* C:0  M:60 Y:100 K:0   · R:239 G:125 B:0   */
+  --usb-negro:    #1D1D1B;   /* C:0  M:0  Y:0   K:100 · R:29  G:29  B:27  */
+
+  /* --- ESCALA DE GRISES (manual, p. 6) ---------------------------------
+     «La tinta naranja se reemplaza por una trama de la tinta negra al 30 %,
+     conservando los demás parámetros indicados.»
+
+     Es decir: la versión en un solo color NO es "el naranja en gris", es el
+     NEGRO al 30 %. Se deja calculado para no volver a equivocarse.        */
+
+  --usb-naranja-una-tinta: color-mix(in srgb, var(--usb-negro) 30%, white);
+
+  /* --- MARCA DE AGUA / BLASÓN (manual, p. 5) ----------------------------
+     «La marca de agua podrá tener una opacidad entre 30 % máx. y 10 % como
+     mínimo.» Los dos extremos, para no inventarse un valor intermedio.    */
+
+  --usb-marca-agua-max: 0.30;
+  --usb-marca-agua-min: 0.10;
+
+  /* --- TIPOGRAFÍA (manual, p. 6) ---------------------------------------
+     El logotipo usa Times New Roman Bold en versalitas, y ESO NO SE TOCA:
+     es parte del logosímbolo, no una fuente de la interfaz.
+
+     Las FUENTES SECUNDARIAS que el manual autoriza son Montserrat y
+     Raleway. Son las que puede usar una pantalla.
+
+     Van con una pila de respaldo del sistema a propósito: este front corre
+     en un contenedor y puede no tener internet. Si Montserrat no está,
+     cae en la del sistema y la aplicación sigue siendo usable — que es más
+     importante que verse exacta.                                          */
+
+  --usb-fuente-titulos: Montserrat, "Segoe UI", system-ui, -apple-system, sans-serif;
+  --usb-fuente-texto:   Raleway, "Segoe UI", system-ui, -apple-system, sans-serif;
+
+  /* --- ÁREA DE RESERVA (manual, p. 7) ----------------------------------
+     «La distancia mínima entre el logosímbolo y cualquier otro elemento
+     gráfico debe ser la altura del texto del mismo.»
+
+     Traducido a una pantalla: el logo lleva alrededor un espacio igual a su
+     propia altura de texto. Se deja como variable para que sea una regla y
+     no un número suelto en cualquier margen.                              */
+
+  --usb-area-reserva: 1em;
+
+  /* --- TAMAÑO MÍNIMO EN PANTALLA (manual, p. 7) -------------------------
+     Vertical:   48.7 x 40.6 px      Horizontal:  93.2 x 28.3 px
+     Se redondea hacia ARRIBA: quedarse corto sí incumple, pasarse no.     */
+
+  --usb-logo-min-ancho: 94px;
+  --usb-logo-min-alto:  29px;
+}
+
+/* --------------------------------------------------------------------------
+   EL LOGOSÍMBOLO
+
+   Aquí NO hay un archivo de imagen, y es una decisión, no un olvido.
+
+   El logosímbolo del manual es VECTORIAL: dentro del PDF no existe como
+   imagen que se pueda extraer, solo como dibujo. Se podría rasterizar un
+   recorte de la página, y sería exactamente lo que el propio manual prohíbe
+   en su sección de USOS INCORRECTOS: un logo con proporciones aproximadas,
+   márgenes arbitrarios y calidad indeterminada.
+
+   Así que este bloque reserva el sitio del logo RESPETANDO sus reglas —el
+   tamaño mínimo y el área de reserva— y deja dicho qué falta:
+
+       el archivo oficial (SVG o PNG con transparencia) lo entrega
+       Comunicaciones de la Universidad.
+
+   Cuando llegue, se guarda en static/ y se cambia el `background` de abajo.
+   Nada más hay que tocar.
+   -------------------------------------------------------------------------- */
+
+.usb-logo {
+  display: inline-flex;
+  align-items: center;
+  min-width: var(--usb-logo-min-ancho);
+  min-height: var(--usb-logo-min-alto);
+  margin: var(--usb-area-reserva);
+  font-family: var(--usb-fuente-titulos);
+  font-weight: 700;
+  font-size: .8rem;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #fff;
+  text-decoration: none;
+  /* El acento naranja del manual, como filete: NO pretende ser el logo. */
+  border-left: 3px solid var(--usb-naranja);
+  padding-left: 10px;
+  line-height: 1.15;
+}
+
+.usb-logo span { display: block; }
+
+/* La seccional, que el manual llama IDENTIFICADOR DE MARCA (p. 9): se usa
+   «solo para eventos en los que sea necesario distinguir la sede o
+   seccional». Aquí sí lo es: el sistema es de Medellín. */
+.usb-logo .usb-seccional {
+  font-weight: 400;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  color: var(--usb-naranja);
+}

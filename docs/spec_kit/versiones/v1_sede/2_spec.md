@@ -14,6 +14,9 @@
 > | [8_tasks.md](8_tasks.md) | El orden de construcción por fases |
 > | [9_checklist.md](9_checklist.md) | La compuerta 3: se firma ANTES de programar |
 > | [GUIA_IA1.md](GUIA_IA1.md) | Construirla con ayuda de una IA |
+>
+> Las **historias de usuario** que originan estos requisitos están en
+> [`HISTORIAS_DE_USUARIO.md`](../../../../HISTORIAS_DE_USUARIO.md).
 
 ---
 
@@ -140,6 +143,12 @@ botones**, y `/sedes/<codigo>/eliminar` por POST.
 9. **Prueba de capas.** El proyecto `pruebas/` ejecuta el servicio con un
    repositorio de mentiras y **sin referenciar Npgsql ni Dapper**, y pasa con
    la base apagada.
+10. **La imagen corporativa se cumple.** Los colores y las fuentes del front
+    son los del **Manual de Identidad Visual Corporativa** (Resolución 404 de
+    2024): naranja `#EF7D00`, negro `#1D1D1B`, y Montserrat o Raleway. Están
+    en `front_flask/static/marca.css`, **separados** de `estilos.css`, y el
+    sitio del logosímbolo respeta su tamaño mínimo y su área de reserva.
+    Comprobable: `curl http://localhost:8038/static/marca.css` los muestra.
 
 ## 6. Clarificaciones
 
@@ -161,7 +170,7 @@ botones**, y `/sedes/<codigo>/eliminar` por POST.
 
 ## 7. Definición de TERMINADA
 
-1. Los **9 criterios** pasan, verificados **por una persona** con
+1. Los **10 criterios** pasan, verificados **por una persona** con
    [7_quickstart.md](7_quickstart.md).
 2. [9_checklist.md](9_checklist.md) está en verde y **firmada**.
 3. No queda ningún `[NECESITA ACLARACIÓN: …]`.
