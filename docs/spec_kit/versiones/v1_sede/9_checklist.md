@@ -92,7 +92,7 @@
 - [ ] La cabecera de `db/init.sql` dice **qué se quitó, cuánto era y por qué**.
 - [ ] Está dicho que se quitaron **los datos, no el mecanismo**.
 - [ ] Está dicho por qué **"anonimizar" no era una opción** (ver
-      [D3](4_research.md)).
+      [D-v1-3](4_research.md)).
 - [ ] Los datos hipotéticos son **evidentemente inventados**: nombres de
       ejemplo, códigos en rangos reservados.
 - [ ] Alguien **buscó en el repositorio** —no solo en la base— que no queden

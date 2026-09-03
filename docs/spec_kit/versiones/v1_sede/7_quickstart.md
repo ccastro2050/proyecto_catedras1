@@ -124,7 +124,7 @@ curl -X POST http://localhost:8037/api/sede -H $H `
 ```
 
 **Los dos últimos son 500 por motivos distintos**, y los dos los defiende la
-base. Ver [D6](4_research.md).
+base. Ver [D-v1-6](4_research.md).
 
 ### 7 — El borrado es LÓGICO
 
@@ -169,6 +169,22 @@ Todas las comprobaciones en `[OK]`. Y lo que hace que esta prueba valga: su
 ni Dapper**. Si hiciera falta el paquete del motor para probar el negocio, la
 separación de capas no sería real.
 
+### La marca, de paso
+
+No es criterio de esta versión —se evalúa en la v4, ver
+[2_spec §6.1](2_spec.md)— pero ya está aplicada, y comprobarlo toma un
+segundo:
+
+```powershell
+curl http://localhost:8038/static/marca.css | Select-String "usb-naranja|usb-negro|usb-fuente"
+#  → #EF7D00, #1D1D1B, Montserrat, Raleway
+```
+
+En el navegador se ve en la cabecera: **negro institucional con el filete
+naranja abajo**. Y lo que **no** se ve es el logosímbolo: su sitio está
+reservado con el texto de la Universidad, porque el archivo oficial lo entrega
+Comunicaciones ([D-v1-7](4_research.md)).
+
 ## 3. Regresión
 
 Primera versión: no hay nada anterior que probar. **Desde la v2**, esta sección
@@ -185,3 +201,5 @@ conserva los smokes de las versiones cerradas.
 | Guardar un `.cs` no recompila | Falta `DOTNET_USE_POLLING_FILE_WATCHER=1` |
 | `cannot drop the currently open database` al reconstruir | Volvió a entrar el `DROP DATABASE` del script original (C3) |
 | El front muestra datos con la API apagada | **Imposible por diseño.** Si pasa, alguien le dio acceso a la base |
+| Los colores no son los institucionales | Se editó `estilos.css` en vez de consumir `marca.css`, o se cargó en el orden equivocado: **`marca.css` va primero**, porque define las variables |
+| Las fuentes se ven del sistema y no Montserrat | No hay internet en el contenedor. **Es el comportamiento previsto**: `marca.css` declara una pila de respaldo para que la aplicación siga usable |

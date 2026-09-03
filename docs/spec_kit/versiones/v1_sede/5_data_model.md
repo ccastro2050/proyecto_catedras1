@@ -61,7 +61,7 @@ curso:**
    desde el principio.**
 2. **El `UNIQUE` sobre el nombre** da un 500 por un motivo distinto al de la
    llave primaria. Son **dos defensas**, y las dos son de la base (ver
-   [D6](4_research.md)).
+   [D-v1-6](4_research.md)).
 
 ## 3. Los datos: los que trae el script
 

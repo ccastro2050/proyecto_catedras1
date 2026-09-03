@@ -15,9 +15,21 @@
 > | [9_checklist.md](9_checklist.md) | La compuerta 3: se firma ANTES de programar |
 > | [GUIA_IA1.md](GUIA_IA1.md) | Construirla con ayuda de una IA |
 
+> **Ojo con la numeración, que hay dos series.** Las decisiones de ESTE
+> documento son las **del proyecto** y se numeran `D-v1-1` a `D-v1-8`. Las que
+> aparecen en
+> [`0_historias_de_usuario.md`](../../0_historias_de_usuario.md) como `[D1]` a
+> `[D17]` son otras: son **las decisiones de la reunión de levantamiento**, y
+> viven en
+> [`material_dado/PLAN-BD-CATEDRAS-ABIERTAS.md`](../../../../material_dado/PLAN-BD-CATEDRAS-ABIERTAS.md).
+>
+> Se distinguen a propósito. Las de la reunión **las dijo el usuario** y no son
+> nuestras para renumerar; las de aquí **las tomamos nosotros** al construir.
+> Confundirlas sería atribuirle al director decisiones técnicas que no tomó.
+
 ---
 
-## D1 — El front en OTRO lenguaje que la API
+## D-v1-1 — El front en OTRO lenguaje que la API
 
 **Alternativas:** el front en C# también (Razor Pages o Blazor) · el front en
 Python con Flask.
@@ -39,7 +51,7 @@ tercero no es un costo: es la garantía.
 front carga y no tiene datos. Si algún día mostrara datos con la API caída,
 sería porque encontró otro camino — y ese camino no debería existir.
 
-## D2 — Dapper con Npgsql, no un ORM
+## D-v1-2 — Dapper con Npgsql, no un ORM
 
 **Alternativas:** Entity Framework Core · Dapper · ADO.NET a pelo.
 
@@ -51,7 +63,7 @@ columna a mano, que es ruido sin lección.
 **Lo que se pierde:** migraciones automáticas y mapeo de relaciones. **No hace
 falta**: la base viene dada (Artículo 5).
 
-## D3 — Los datos reales NO se publican
+## D-v1-3 — Los datos reales NO se publican
 
 **Alternativas:** publicar el bloque de carga tal cual · publicarlo con los
 nombres cambiados · quitarlo y poner datos inventados.
@@ -72,7 +84,7 @@ ejercitar con datos propios.
 > decisión que aparece de verdad al montar un ejemplo sobre un sistema real, y
 > por eso está escrita aquí y no en la cabeza de nadie.
 
-## D4 — Pocos datos hipotéticos, no muchos
+## D-v1-4 — Pocos datos hipotéticos, no muchos
 
 **Alternativa:** generar 15.000 filas sintéticas para que la base "se sienta
 real".
@@ -85,7 +97,7 @@ Cinco asistentes, dos cátedras y cuatro sesiones alcanzan para que el sistema
 tenga algo que mostrar y para que las versiones siguientes tengan sobre qué
 trabajar.
 
-## D5 — `sede` como tabla de la v1
+## D-v1-5 — `sede` como tabla de la v1
 
 **Alternativas:** `registro_asistencia`, que es la más grande · `encuesta`,
 la más rica en tipos · `sede`.
@@ -105,7 +117,7 @@ la base y un `UNIQUE` compuesto, que son buenos temas — pero para después.
 Y encima **viene con tres filas sembradas** por el script dado, así que el
 listado no arranca vacío y el front tiene qué mostrar desde el primer arranque.
 
-## D6 — El nombre repetido lo defiende la BASE, no la API
+## D-v1-6 — El nombre repetido lo defiende la BASE, no la API
 
 **Alternativa:** comprobar en el servicio si el nombre ya existe, y responder
 un 409 amable.
@@ -121,7 +133,40 @@ un 409 con una frase amable. Se acepta en la v1, y queda anotado: traducir ese
 error a un 409 es posible **leyendo el código `23505` de Npgsql**, y será una
 decisión de una versión posterior — no algo que se metió antes por si acaso.
 
-## D7 — El opcional en blanco se envía nulo
+## D-v1-7 — La marca va en un archivo aparte, y el logo NO va
+
+**Alternativas para los colores y las fuentes:** elegirlos por criterio propio
+(«un azul institucional se ve bien») · ponerlos entre los demás estilos ·
+sacarlos del Manual de Identidad Visual Corporativa y **aislarlos**.
+
+**Se eligió la tercera.** La primera está descartada de entrada: el manual dice
+*«por ningún motivo se deben cambiar los colores corporativos»*, así que no hay
+nada que elegir. La segunda —dejarlos junto a los demás estilos— es la que se
+descartó con argumento: **mezclados, un valor de marca parece una preferencia
+de diseño**, y el que venga después los va a «mejorar» de buena fe.
+
+Aislados en `marca.css` la distinción es visible en la estructura: **ahí van
+los valores que fija el manual, y en `estilos.css` va cómo se usan**. El día
+que la Universidad actualice su manual, se cambia un archivo.
+
+**Y el logosímbolo:** se consideró extraerlo del PDF y se descartó.
+
+| Se intentó | Qué salió |
+|---|---|
+| Buscar el logo como imagen dentro del PDF | Las 17 imágenes del manual son **fotos de campus**. El logosímbolo está dibujado en vectores, no incrustado |
+| Rasterizar la página y recortarlo | Daría un logo con **proporciones aproximadas, márgenes arbitrarios y calidad indeterminada** — que es exactamente lo que la sección de *usos incorrectos* del propio manual prohíbe |
+
+**Así que no hay archivo de logo, y eso está dicho** en lugar de disimulado. La
+cabecera **reserva su sitio** respetando el tamaño mínimo en pantalla (93,2 ×
+28,3 px) y el área de reserva que el manual exige, y el archivo oficial lo
+entrega Comunicaciones.
+
+> **La decisión de fondo:** ante una regla que no se puede cumplir del todo,
+> **cumplir la parte que sí y declarar la que no** es mejor que aproximarla.
+> Un logo casi bien es un incumplimiento que nadie va a revisar; un sitio
+> reservado con una nota es una tarea pendiente que se ve.
+
+## D-v1-8 — El opcional en blanco se envía nulo
 
 **Alternativa:** enviar la cadena vacía y que la base la guarde así.
 

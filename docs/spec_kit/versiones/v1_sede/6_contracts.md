@@ -124,7 +124,7 @@ body con un nombre que ya existe        ← uq_sede_nombre
 
 **Los dos 500 son la lección de este endpoint.** Vienen del mismo `catch`, pero
 por restricciones distintas: uno por el código, otro por el nombre. Y los dos
-los defiende **la base**, no la API — ver [D6](4_research.md).
+los defiende **la base**, no la API — ver [D-v1-6](4_research.md).
 
 ### A.5 `PUT /api/sede/{idSede}` — Reemplazo COMPLETO
 

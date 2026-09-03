@@ -97,6 +97,29 @@ EN EL FRONT:
 - Eliminar va por POST con confirmación, nunca por un enlace GET.
 - TODO en español: rutas, plantillas, avisos, comentarios y nombres.
 
+LA IMAGEN CORPORATIVA NO SE INVENTA. Los colores y las fuentes salen del
+Manual de Identidad Visual Corporativa de la Universidad (Resolución de
+Rectoría General 404 de 2024), y el manual dice textualmente que por ningún
+motivo se deben cambiar los colores corporativos:
+    naranja  #EF7D00
+    negro    #1D1D1B
+    fuentes  Montserrat (títulos) y Raleway (texto)
+Van en un archivo APARTE, static/marca.css, y estilos.css los consume. NO los
+pongas mezclados con los demás estilos: mezclados, un valor de marca parece
+una preferencia de diseño y el que venga después los va a "mejorar".
+Carga marca.css ANTES de estilos.css, o las variables no existen todavía.
+Y a las fuentes ponles una pila de respaldo del sistema: el contenedor puede
+no tener internet, y es más importante que la aplicación siga usable que que
+se vea exacta.
+
+NO INVENTES UN LOGO, y no lo saques del PDF. En el manual es un dibujo
+vectorial: las imágenes que trae son fotos de campus, y recortar un render de
+la página daría un logo con proporciones aproximadas y márgenes arbitrarios,
+que es lo que la sección de usos incorrectos del propio manual prohíbe.
+Reserva su sitio respetando el tamaño mínimo en pantalla (93,2 x 28,3 px) y el
+área de reserva, y deja dicho que el archivo oficial lo entrega
+Comunicaciones.
+
 CRITERIO QUE DEBE PODER CUMPLIRSE: al apagar la API con
 `docker compose stop api-catedras`, la pantalla /sedes debe seguir CARGANDO
 —con su cabecera y sus estilos— y mostrar el aviso "el servicio no está
@@ -117,7 +140,7 @@ verificarla. No pases a la siguiente sin que yo confirme.
 | ¿Usó Entity Framework? | El Artículo 2 lo prohíbe: el SQL se ve |
 | ¿`SqlConnection` o `TOP`? | Se equivocó de motor: aquí es PostgreSQL |
 | ¿`activo = 1`? | Calcó otro dialecto: aquí es `TRUE` |
-| ¿Escribió el front en C#? | Se saltó la decisión central (ver [D1](4_research.md)) |
+| ¿Escribió el front en C#? | Se saltó la decisión central (ver [D-v1-1](4_research.md)) |
 | ¿Dejó el 422 por defecto? | Va a responder 400 con ProblemDetails |
 | ¿Validó el nombre único en la API? | Le dio dos dueños a la misma regla, y no funciona |
 | ¿`pruebas/` referencia Npgsql? | Entonces la prueba no prueba nada |
@@ -125,6 +148,9 @@ verificarla. No pases a la siguiente sin que yo confirme.
 | ¿Envía `direccion: ""`? | Vacío y ausente no son lo mismo |
 | ¿Alguna vista usa `requests`? | Se saltó `cliente_api` |
 | **¿Cargó los CSV del material original?** | **Datos personales: el Artículo 8** |
+| ¿Eligió colores por su cuenta? | La marca no es una preferencia: es una restricción (Artículo 9.1) |
+| ¿Puso los colores de marca dentro de `estilos.css`? | Mezclados parecen preferencia. Van aparte, en `marca.css` |
+| ¿Se inventó un logo, o lo recortó del PDF? | Los dos casos incumplen los *usos incorrectos* del manual |
 
 ## 4. Los tres destinos de un error
 

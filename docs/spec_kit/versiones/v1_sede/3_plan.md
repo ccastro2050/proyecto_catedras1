@@ -24,7 +24,7 @@
 | API | **C# / ASP.NET Core .NET 10** | El del curso |
 | Acceso a datos | **Dapper** + **Npgsql** | Un ejecutor, no un ORM: el SQL se ve |
 | Motor | **PostgreSQL 16** | El del modelo entregado |
-| **Front** | **Python / Flask + Jinja2** | Ver [D1](4_research.md): la mezcla es la lección |
+| **Front** | **Python / Flask + Jinja2** | Ver [D-v1-1](4_research.md): la mezcla es la lección |
 | Documentación | **`/swagger`** | Swashbuckle |
 | Todo junto | **`docker compose`** | Un solo comando (Artículo 4) |
 
