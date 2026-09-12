@@ -72,6 +72,13 @@ borra el `Revisar`, el programa sigue corriendo, sigue sin dar error… y ya
 no está probando nada. Vuelva a esta idea en la Parte 2, porque es el origen
 de todo lo que viene.
 
+> **Y un fallo tiene que notarse.** Aquí `Revisar` no detiene el programa: anota
+> que algo falló, deja correr las demás comprobaciones —así se ven todas de
+> una vez y no solo la primera— y al final `Main` termina devolviendo **1** en
+> vez de **0**. Ese número es el que mira quien ejecuta la prueba: 0 significa
+> «pasó», cualquier otra cosa significa «falló». Sin ese número, la prueba
+> cuenta el problema por pantalla y nadie se entera.
+
 ### Probar que algo FALLA también es probar
 
 Media aplicación es rechazar lo que no debe entrar. Eso se prueba al revés:
