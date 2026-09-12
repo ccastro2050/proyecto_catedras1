@@ -43,23 +43,32 @@ Esto es de la prueba de capas de **este** repositorio, en
 `api_catedras/pruebas/Programa.cs`:
 
 ```csharp
-// PREPARAR: el servicio, armado con un repositorio falso en memoria
-var servicio = new ServicioProducto(new RepositorioFalsoEnMemoria());
+// PREPARAR (Arrange): el servicio, armado con un repositorio falso en memoria
+IServicioSede servicio = new ServicioSede(new RepositorioDeMentiras());
 
-// EJECUTAR: la operación que se quiere probar
-await servicio.CrearAsync(new Producto { Codigo = "T1", Nombre = "Test", Stock = 5, Valorunitario = 100m });
+// EJECUTAR (Act): la operación que se quiere probar
+await servicio.Crear(new Sede
+{
+    IdSede = "PRUEBA",
+    Nombre = "Campus de prueba",
+    Direccion = null,
+    EsVirtual = true
+});
+var lista = (await servicio.ObtenerTodos(1000)).ToList();
 
-// COMPROBAR: la línea que PUEDE FALLAR — esta línea ES la prueba
-Verificar((await servicio.ListarAsync(10))[0].Codigo == "T1", "crear + listar");
+// COMPROBAR (Assert): la línea que PUEDE FALLAR — esta línea ES la prueba
+Revisar(lista.Count == 1 && lista[0].IdSede == "PRUEBA",
+        $"Sede creada y listada: {lista[0].Nombre}",
+        "La creación no se reflejó en el listado.");
 ```
 
-> **Los tres comentarios en mayúscula no están en el archivo:** los agregué
-> aquí para señalar las partes. El código sí es el de su repositorio, línea
-> por línea — vaya y compárelo.
+> **Los comentarios en mayúscula no están en el archivo:** los agregué
+> aquí para señalar las partes. El código sí es el de su repositorio,
+> línea por línea — vaya y compárelo.
 
 
 **La tercera parte es la prueba.** Las dos primeras solo montan la escena. Si
-borra el `Verificar`, el programa sigue corriendo, sigue sin dar error… y ya
+borra el `Revisar`, el programa sigue corriendo, sigue sin dar error… y ya
 no está probando nada. Vuelva a esta idea en la Parte 2, porque es el origen
 de todo lo que viene.
 
@@ -72,7 +81,7 @@ se provoca el error y se comprueba que **sí ocurrió**.
 try
 {
     await servicio.ObtenerAsync("NOEXISTE");
-    Verificar(false, "debió lanzar NoEncontradoExcepcion");   // si llega aquí, NO falló: mal
+    Revisar(false, "", "debió lanzar NoEncontradoExcepcion");   // si llega aquí, NO falló: mal
 }
 catch (NoEncontradoExcepcion)
 {
@@ -80,7 +89,7 @@ catch (NoEncontradoExcepcion)
 }
 ```
 
-Fíjese en el `Verificar(false, …)`: está puesto **después** de la llamada
+Fíjese en el `Revisar(false, …)`: está puesto **después** de la llamada
 para el caso en que la excepción no ocurra. Sin esa línea, una prueba que
 debía fallar y no falló pasaría en silencio.
 
@@ -96,7 +105,7 @@ tiene la suya:
 | Python (pytest) | la palabra reservada `assert` |
 | C# (xUnit) | `Assert.Equal(esperado, obtenido)` |
 | PHP (PHPUnit) | `$this->assertSame(...)` |
-| **Este curso** | `Verificar(condición, "descripción")` |
+| **Este curso** | `Revisar(condición, "si pasa", "si falla")` |
 
 **Es lo mismo.** En este proyecto está escrito a mano:
 
@@ -105,7 +114,7 @@ tiene la suya:
 Assert.Equal("T1", (await servicio.ListarAsync(10))[0].Codigo);
 
 // En este curso, sin framework:
-Verificar((await servicio.ListarAsync(10))[0].Codigo == "T1", "crear + listar");
+Revisar((await servicio.ListarAsync(10))[0].Codigo == "T1", "crear + listar", "no pasó: crear + listar");
 ```
 
 ### ¿Por qué a mano, y no con xUnit?
@@ -123,11 +132,11 @@ proyecto, sin configurarlo y sin que haya que aprenderlo en la versión 1.
 | Preparación compartida (*fixtures*) | No | **Sí** |
 
 **No estamos haciendo otra cosa: estamos haciendo lo mismo sin la
-herramienta.** Cuando el proyecto crezca, xUnit entra y `Verificar` se retira — y para
+herramienta.** Cuando el proyecto crezca, xUnit entra y `Revisar` se retira — y para
 entonces usted ya sabrá qué es lo que hace, porque lo escribió.
 
 > **Lo esencial no cambia nunca:** una prueba es una línea que **puede
-> fallar**. Se llame `assert`, `Assert.Equal` o `Verificar`.
+> fallar**. Se llame `assert`, `Assert.Equal` o `Revisar`.
 
 ---
 
@@ -221,7 +230,7 @@ Usted escribió veinte pruebas. Todas pasan. **¿Eso qué garantiza?**
 Menos de lo que parece. Una prueba puede:
 
 - ejecutar el código **sin comprobar nada**;
-- comprobar algo que siempre es cierto (`Verificar(true, …)`);
+- comprobar algo que siempre es cierto (`Revisar(true, …)`);
 - probar el caso fácil y no el que de verdad falla.
 
 Y en los tres casos **el reporte se ve igual de verde**.
@@ -233,15 +242,16 @@ Esta ejecuta el método y no verifica nada:
 ```csharp
 // PRUEBA HUECA: corre el código… y no comprueba NADA
 await servicio.CrearAsync(peticion);
-// (sin Verificar: si CrearAsync guarda mal, esto "pasa")
+// (sin Revisar: si CrearAsync guarda mal, esto "pasa")
 ```
 
 La que sí protege lleva **una línea que puede fallar**:
 
 ```csharp
 await servicio.CrearAsync(peticion);
-Verificar((await servicio.ObtenerAsync(peticion.Codigo)).Nombre == peticion.Nombre,
-          "el nombre quedó guardado");
+Revisar((await servicio.ObtenerAsync(peticion.Codigo)).Nombre == peticion.Nombre,
+          "el nombre quedó guardado",
+          "no pasó: el nombre quedó guardado");
 ```
 
 **Las dos ejecutan exactamente las mismas líneas del código.** Para cualquier
@@ -341,7 +351,7 @@ en cada una**. Cada copia es un **mutante**:
 Suponga que su única prueba del listado es esta:
 
 ```csharp
-Verificar((await servicio.ListarAsync(10)).Count >= 0, "listar funciona");
+Revisar((await servicio.ListarAsync(10)).Count >= 0, "listar funciona", "no pasó: listar funciona");
 ```
 
 Pasa. Da cobertura. Y contra el **mutante 1** (`limite < 0`) **también pasa**,
@@ -351,7 +361,7 @@ descubrir que **la regla del límite no la vigila nadie**.
 La prueba que lo mata es la que provoca el caso:
 
 ```csharp
-try { await servicio.ListarAsync(0); Verificar(false, "debió rechazar límite 0"); }
+try { await servicio.ListarAsync(0); Revisar(false, "", "debió rechazar límite 0"); }
 catch (ArgumentException) { /* esperado */ }
 ```
 
@@ -373,7 +383,7 @@ pruebas que pasean por el código sin mirarlo.
 ### Por qué esto importa ahora
 
 Un agente de IA genera con gusto pruebas que **parecen** serias: nombres
-largos, estructura impecable, y ni un `Verificar` que pueda fallar. La
+largos, estructura impecable, y ni un `Revisar` que pueda fallar. La
 mutación no se deja convencer por la apariencia: **o el test mata al mutante
 o no lo mata**.
 
