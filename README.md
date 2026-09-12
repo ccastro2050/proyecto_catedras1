@@ -178,7 +178,8 @@ positiva sobre su fondo correcto es cumplir la norma, no rodearla.
 | Documento | Contenido |
 |---|---|
 | [0_historias_de_usuario.md](docs/spec_kit/0_historias_de_usuario.md) | **Las ocho historias de usuario** del sistema, con sus criterios de aceptación. También en [.docx](HISTORIAS_DE_USUARIO.docx) |
-| [Manual-de-Marca.pdf](Manual-de-Marca.pdf) | El Manual de Identidad Visual Corporativa (Resolución 404 de 2024). Sus valores están aplicados en [`marca.css`](front_flask/static/marca.css) |
+| [Manual-de-Marca.pdf](Manual-de-Marca.pdf) | El Manual de Identidad Visual Corporativa (Resolución 404 de 2024), **el documento oficial**. Sus valores están aplicados en [`marca.css`](front_flask/static/marca.css) |
+| [MANUAL_DE_MARCA.md](MANUAL_DE_MARCA.md) | **El mismo manual, en texto.** Se hizo porque un PDF no se puede citar por línea, ni buscar con `grep`, ni comparar en un `diff` — y una IA no lo lee. Conserva el número de página de cada regla para poder verificarla en el original |
 | [PLAN_V1.md](PLAN_V1.md) | **El plan con el que se construyó esta versión**: los hallazgos, las decisiones y los pasos |
 | [1_constitution.md](docs/spec_kit/1_constitution.md) | Las 12 reglas permanentes — **incluido el Artículo 8, sobre datos personales** |
 | [0_mapa_versiones.md](docs/spec_kit/versiones/0_mapa_versiones.md) | La ruta v1 → v4 y qué tablas entran en cada versión |
