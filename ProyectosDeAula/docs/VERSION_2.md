@@ -10,10 +10,17 @@
 > El método, el calendario y la rúbrica están en
 > [0_METODOLOGIA.md](0_METODOLOGIA.md). Esto es **el detalle de la v2**.
 >
+> **Proyecto de aula de la Universidad de San Buenaventura**, en el curso de
+> Construcción de Software.
+>
 > **Su stack:** la API en **C# / ASP.NET Core** sobre **PostgreSQL**.
 > **El front es a libre elección del equipo** — Blazor, Flask, React, lo que
 > decidan y sepan sostener. Lo que no es libre es que haya uno: una versión
 > no está cerrada si la API responde y la interfaz no.
+>
+> **Los ejemplos de este documento son los del curso**: `bdfacturas`, con su
+> factura y sus renglones. Están en el repositorio de Construcción de Software,
+> funcionando — no son pseudocódigo.
 
 ---
 
@@ -56,31 +63,33 @@ puente** —clave primaria compuesta, dos claves foráneas—.
 
 ## 3. Las relaciones MAESTRO-DETALLE
 
-Las que cada módulo ya tiene en su esquema. **Busque las del suyo.**
+### El ejemplo del curso: la factura y sus renglones
 
-| Módulo | Maestro | Su detalle |
-|---|---|---|
-| Gestión Profesoral | **`docente`** | estudios_realizados · evaluacion_docente · experiecia · reconocimiento |
-|  | **`estudios_realizados`** | apoyo_profesoral · beca |
-| Innovación Curricular | **`programa`** | acreditacion · activ_academica · pasantia · premio · registro_calificado |
-|  | **`universidad`** | facultad |
-|  | **`facultad`** | programa |
-| Investigación | **`universidad`** | grupo_investigacion |
-|  | **`grupo_investigacion`** | semillero |
-|  | **`linea_investigacion`** | docente |
-| Mapa de Conocimiento | **`proyecto`** | producto |
-|  | **`tipo_producto`** | producto |
-|  | **`linea_investigacion`** | docente |
-| Cátedras | **`asistente`** | ponencia · documento_asistente · consentimiento_datos · clave_acceso |
-|  | **`encuesta`** | pregunta · respuesta_encuesta · sesion |
-|  | **`sesion`** | ponencia · enlace_registro |
+En `bdfacturas` —la base del curso— el maestro-detalle es:
 
-> **Qué significa que algo sea detalle.** Un `estudios_realizados` **no existe
-> sin su `docente`**. No se crea suelto y después se le busca padre.
+| Maestro | Su detalle |
+|---|---|
+| **`factura`** | `productosporfactura` |
 
-**Lo que se espera en la interfaz —sea cual sea la que elijan—:** al abrir un maestro, ver **su detalle ahí
-mismo** y poder agregarle renglones sin salir de la pantalla. No un menú aparte
-donde haya que volver a elegir de qué maestro se trata.
+Un renglón **no existe sin su factura**: no se crea suelto y después se le
+busca factura. Y de ahí salen las tres cosas que esta versión pide, todas
+sobre el mismo caso.
+
+### Las de su módulo
+
+Estas son las que el esquema de Cátedras ya tiene. **Busque las que le tocan.**
+
+| Maestro | Su detalle |
+|---|---|
+| **`asistente`** | `ponencia` · `documento_asistente` · `consentimiento_datos` · `clave_acceso` |
+| **`encuesta`** | `pregunta` · `respuesta_encuesta` · `sesion` |
+| **`sesion`** | `ponencia` · `enlace_registro` |
+| **`facultad`** | `programa_academico` |
+
+> **Lo que se espera en la interfaz —sea cual sea la que elijan—:** al abrir un
+> maestro, ver **su detalle ahí mismo** y poder agregarle renglones sin salir
+> de la pantalla. No un menú aparte donde haya que volver a elegir de qué
+> maestro se trata.
 
 > **Y cuando se registran varios renglones de una, van en UN SOLO ENVÍO.** Tres
 > renglones no son cuatro peticiones: si la tercera fallara quedaría medio
@@ -103,29 +112,52 @@ tablas, pasan por un procedimiento almacenado.**
 > script de la base. Y los parámetros viajan como parámetros: una consulta
 > armada pegando texto es por donde entra una inyección de SQL.
 
+### El ejemplo del curso: seis procedimientos para la factura
+
+En `bdfacturas` **todo el maestro-detalle pasa por procedimientos**, y sus
+nombres dicen qué hacen:
+
+```
+sp_listar_facturas_y_productosporfactura
+sp_consultar_factura_y_productosporfactura
+sp_insertar_factura_y_productosporfactura
+sp_actualizar_factura_y_productosporfactura
+sp_borrar_factura_y_productosporfactura
+sp_anular_factura
+```
+
+> **Fíjese en el de insertar.** Recibe la factura **y sus renglones juntos**, y
+> los mete **en una sola transacción**. Si el tercer renglón fallara, no queda
+> media factura: no queda ninguna. Eso es lo que un maestro-detalle significa,
+> y es lo que no se puede hacer con tres llamadas desde el front.
+
+> **Y fíjese en `sp_anular_factura`.** No hay `sp_eliminar_factura`: una
+> factura emitida es un documento que ocurrió. Se **anula** —cambia de estado—
+> y el procedimiento **devuelve el stock** de cada renglón.
+
 ### Listar
 
 ```sql
-CREATE OR REPLACE FUNCTION sp_listar_docente()
-RETURNS SETOF docente
+CREATE OR REPLACE FUNCTION sp_listar_catedra()
+RETURNS SETOF catedra
 LANGUAGE sql
 AS $$
     -- si la tabla tiene `activo`, EL LISTADO LO FILTRA
-    SELECT * FROM docente WHERE activo ORDER BY cedula;
+    SELECT * FROM catedra WHERE activo ORDER BY id;
 $$;
 ```
 
 ### Crear — devolviendo la fila nueva
 
 ```sql
-CREATE OR REPLACE FUNCTION sp_crear_docente(
-    p_cedula INT, p_nombres VARCHAR, p_apellidos VARCHAR)
-RETURNS docente
+CREATE OR REPLACE FUNCTION sp_crear_catedra(
+    p_id INT, p_nombre VARCHAR, p_descripcion VARCHAR)
+RETURNS catedra
 LANGUAGE sql
 AS $$
     -- RETURNING devuelve la fila COMO QUEDO GUARDADA
-    INSERT INTO docente (cedula, nombres, apellidos)
-    VALUES (p_cedula, p_nombres, p_apellidos)
+    INSERT INTO catedra (id, nombre, descripcion)
+    VALUES (p_id, p_nombre, p_descripcion)
     RETURNING *;
 $$;
 ```
@@ -158,39 +190,75 @@ al menos una**, o proponga la suya si su módulo pide otra cosa.
 
 | | Propuesta | Qué resuelve |
 |---|---|---|
-| **A** | **Contador en el maestro**: `docente.total_estudios` se mantiene solo | Saber cuántos hijos tiene sin contar en cada consulta |
+| **A** | **Totales y stock, como el del curso**: el detalle calcula el subtotal, actualiza el total del maestro y mueve el inventario | Que nadie pueda olvidarse de hacerlo, ni mandar un total distinto |
 | **B** | **Sello de modificación**: `fecha_modificacion` se pone sola en cada `UPDATE` | Nadie se puede olvidar de actualizarla |
 | **C** | **Bitácora**: lo que se retira queda copiado en una tabla `bitacora` | Saber qué se retiró y cuándo |
 | **D** | **Validación que un `CHECK` no puede hacer**: que la fecha del detalle caiga dentro del rango del maestro | Un `CHECK` solo ve su propia fila; esto mira otra tabla |
 | **E** | **Estado derivado**: marcar el maestro como «con producción» al recibir su primer detalle | Un dato que se calcula, no que alguien recuerde marcar |
 
-### La propuesta A, completa
+### El disparador del curso, que hace TRES cosas
+
+Este es el de `bdfacturas`, y es el mejor ejemplo de por qué un disparador vale
+la pena: hace tres cosas que **nadie puede olvidarse de hacer**, porque no las
+hace nadie — las hace la base.
 
 ```sql
-ALTER TABLE docente ADD COLUMN total_estudios INT DEFAULT 0;
-
-CREATE OR REPLACE FUNCTION fn_contar_estudios() RETURNS TRIGGER AS $$
+CREATE OR REPLACE FUNCTION actualizar_totales_y_stock()
+RETURNS TRIGGER
+LANGUAGE plpgsql
+AS $$
 BEGIN
-    UPDATE docente SET total_estudios = (
-        SELECT COUNT(*) FROM estudios_realizados
-        WHERE docente = COALESCE(NEW.docente, OLD.docente) AND activo
-    )
-    WHERE cedula = COALESCE(NEW.docente, OLD.docente);
-    RETURN NULL;
-END;
-$$ LANGUAGE plpgsql;
+    IF TG_OP = 'INSERT' THEN
+        -- 1. VALIDA que haya stock, y si no, revienta la operación entera
+        IF (SELECT stock FROM producto WHERE codigo = NEW.fkcodproducto) < NEW.cantidad THEN
+            RAISE EXCEPTION 'Stock insuficiente para producto %. Stock disponible: %, cantidad solicitada: %',
+                NEW.fkcodproducto,
+                (SELECT stock FROM producto WHERE codigo = NEW.fkcodproducto),
+                NEW.cantidad;
+        END IF;
 
-CREATE TRIGGER trg_contar_estudios
-AFTER INSERT OR UPDATE OR DELETE ON estudios_realizados
-FOR EACH ROW EXECUTE FUNCTION fn_contar_estudios();
+        -- 2. CALCULA el subtotal del renglón y el total de la factura
+        NEW.subtotal := NEW.cantidad *
+            (SELECT valorunitario FROM producto WHERE codigo = NEW.fkcodproducto);
+
+        -- 3. DESCUENTA el inventario
+        UPDATE producto SET stock = stock - NEW.cantidad
+        WHERE codigo = NEW.fkcodproducto;
+
+        UPDATE factura SET total = (
+            SELECT COALESCE(SUM(subtotal), 0) FROM productosporfactura
+            WHERE fknumfactura = NEW.fknumfactura
+        ) + NEW.subtotal
+        WHERE numero = NEW.fknumfactura;
+
+        RETURN NEW;
+    END IF;
+
+    -- ... y lo mismo para UPDATE y para DELETE, devolviendo el stock
+END;
+$$;
+
+CREATE TRIGGER trg_actualizar_totales_y_stock
+    BEFORE INSERT OR UPDATE OR DELETE ON productosporfactura
+    FOR EACH ROW
+    EXECUTE FUNCTION actualizar_totales_y_stock();
 ```
 
-> **Fíjese en que escucha el `INSERT`, el `UPDATE` **y** el `DELETE`.** Si su
-> borrado es lógico, retirar un hijo es un `UPDATE` — y un disparador que solo
-> oiga el `INSERT` y el `DELETE` **no se entera**. El contador queda mal justo
-> cuando alguien retira algo, que es el caso que nadie prueba.
+> **Tres cosas que vale la pena mirar:**
+>
+> 1. **Es `BEFORE`, no `AFTER`.** Tiene que serlo: modifica `NEW.subtotal`
+>    antes de que la fila se guarde. Un `AFTER` no puede cambiar lo que ya se
+>    guardó.
+>
+> 2. **Escucha `INSERT`, `UPDATE` **y** `DELETE`.** Las tres mueven el stock, y
+>    un disparador que solo oiga el `INSERT` deja el inventario mal el día que
+>    alguien corrige o retira un renglón — que es el caso que nadie prueba.
+>
+> 3. **El total NO lo manda el front.** Lo calcula aquí. Si el front lo
+>    enviara habría dos fuentes de verdad, y el día que no coincidan gana la
+>    que nadie revisó.
 
-**Cómo se comprueba:** se hace la operación **por la interfaz** y se mira que
+**Cómo se comprueba:**  se hace la operación **por la interfaz** y se mira que
 el dato cambió **sin que la API lo haya enviado**. Si su código manda el total,
 el disparador no está demostrando nada.
 
@@ -205,42 +273,48 @@ la API**, que **muestra el nombre** y **manda la clave**.
 > existen. Escribe uno que no está, el servidor responde un error, y **no hay
 > forma de saber cuál era el bueno**.
 
-### El ejemplo
+### El ejemplo del curso
 
-Al crear un **`estudios_realizados`** hay que decir de qué **`docente`** es.
+Al emitir una **`factura`** hay que decir **a quién** y **quién vende**. Son
+dos claves foráneas, y ninguna se escribe.
 
-| | |
-|---|---|
-| **Lo que la persona VE** | `nombres` y `apellidos` del docente |
-| **Lo que se MANDA** | `cedula`, la clave |
-| **De dónde salen las opciones** | De la API: `GET /api/docente` |
+| | Lo que la persona VE | Lo que se MANDA | De dónde salen |
+|---|---|---|---|
+| **Cliente** | el nombre de la persona | `fkidcliente` | `GET /api/cliente` |
+| **Vendedor** | el nombre y su carné | `fkidvendedor` | `GET /api/vendedor` |
 
 ```html
 <!-- el desplegable: muestra el nombre, manda la clave -->
-<select name="docente">
-  <option value="">— seleccione —</option>
-  <!-- una opción por cada fila que devolvió GET /api/docente:
+<select name="fkidcliente">
+  <option value="">— elija un cliente —</option>
+  <!-- una opción por cada fila que devolvió GET /api/cliente:
        el TEXTO es lo que la persona lee, el value es lo que viaja -->
-  <option value="1017245">Ana Torres Gómez</option>
-  <option value="1098332">Carlos Pérez Mejía</option>
+  <option value="1">Ana Torres (cliente 1)</option>
+  <option value="2">María Gómez (cliente 2)</option>
 </select>
 ```
 
-Si la persona elige **Ana Torres Gómez**, lo que viaja es su clave:
+Si la persona elige **Ana Torres**, lo que viaja es su clave:
 
 ```json
 {
-  "docente": 1017245
+  "fkidcliente": 1,
+  "fkidvendedor": 3,
+  "productos": [
+    { "codigo": "PR001", "cantidad": 2 }
+  ]
 }
 ```
 
-> **Eso es lo que hay que ver:** en la pantalla se lee «Ana Torres Gómez»; en
-> la petición viaja `1017245`. La persona reconoce nombres; la base necesita
-> claves.
+> **Eso es lo que hay que ver:** en la pantalla se lee «Ana Torres»; en la
+> petición viaja `1`. La persona reconoce nombres; la base necesita claves.
 >
-> **Y si su borrado es lógico, el desplegable solo ofrece los ACTIVOS**, porque
-> el listado del que sale ya los filtra. Ofrecer un padre retirado es ofrecer
-> una opción que la base va a rechazar.
+> **Y fíjese en lo que NO viaja:** ni el subtotal, ni el total. Los calcula el
+> disparador. El front manda **quién** y **qué**; los números los pone la base.
+
+> **Si su borrado es lógico, el desplegable solo ofrece los ACTIVOS**, porque el
+> listado del que sale ya los filtra. Ofrecer un padre retirado es ofrecer una
+> opción que la base va a rechazar.
 
 **Si la clave foránea es opcional**, el desplegable lleva una opción
 **«(ninguna)»** que manda `null` — que **no** es lo mismo que cadena vacía. Una
