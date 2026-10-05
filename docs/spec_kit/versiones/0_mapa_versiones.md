@@ -41,7 +41,7 @@ no es una decisión obvia.
 ## Las cuatro versiones
 
 Alineadas con las cuatro que el curso evalúa
-(`ProyectosDeAula` → `0_METODOLOGIA.md` §2), porque son las que el equipo
+(la metodología del curso, §2), porque son las que el equipo
 entrega y sustenta.
 
 | Versión | Carpeta | Qué EXISTE al terminarla — **API y front** | Historias | Qué concepto nuevo enseña |

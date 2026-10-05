@@ -224,7 +224,7 @@ norma, no rodearla**.
 **En qué versión se evalúa.** El manual se aplica **desde la v1** —era una
 mejora, y las mejoras no esperan— pero *«la imagen corporativa completa»* es
 criterio de la **v4**, porque ahí la pone el curso
-(`ProyectosDeAula` → `0_METODOLOGIA.md` §2), junto con el tablero y la
+(la metodología del curso, §2), junto con el tablero y la
 publicación. Ver la nota de
 [`versiones/v1_sede/2_spec.md` §6.1](versiones/v1_sede/2_spec.md).
 
